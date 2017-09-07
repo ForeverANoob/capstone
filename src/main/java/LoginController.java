@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Controller
 public class LoginController {
 
-    private static final String PATH = "login";
-
     @RequestMapping("/login")
     public String loginHandler(
             Model model,

@@ -20,8 +20,6 @@ public class HomeController {
             Model model,
             HttpServletResponse servletRes
     ){
-        model.addAttribute("courseCode", courseCode);
-        model.addAttribute("year", year);
         return "home";
     }
 }
