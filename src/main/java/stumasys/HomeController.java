@@ -20,6 +20,8 @@ public class HomeController {
             Model model,
             HttpServletResponse servletRes
     ){
+        // TODO: return different (non-student/student) homepages depending on authorisation level
+        // TODO: retrieve the list of "relevant" courses (for both non-students/students)
         return "home";
     }
 }

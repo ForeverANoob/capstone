@@ -27,7 +27,7 @@ public class CourseController {
 
     /* 
     @RequestRestMapping(value = "/api/get_search_results") // TODO: search REST api function that actually searches and gives results, that will be fetched by JS on the /search webpage
-    public String yieldSearchResults() {
+    public String yieldSearchResults() { // should return a String encoding of a Javascript object.
     }
     */
 }

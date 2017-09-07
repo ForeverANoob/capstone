@@ -27,6 +27,9 @@ public class IndexController {
         } else {
             model.addAttribute("x", cookie);
         }*/
+
+        // TODO: remove this class or the LoginController? (not sure if necessary)
+
         return "login";
     }
     /*

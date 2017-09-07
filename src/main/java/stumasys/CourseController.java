@@ -15,8 +15,6 @@ import org.springframework.boot.autoconfigure.web.ErrorController;
 @Controller
 public class CourseController {
 
-    //private static final String PATH = "/error";
-
     @RequestMapping(value = "/course/{year}/{courseCode}")
     public String courseHandler(
             @PathVariable String year,
@@ -26,6 +24,9 @@ public class CourseController {
     ){
         model.addAttribute("courseCode", courseCode);
         model.addAttribute("year", year);
+
+        // TODO: load more actual content into the Model (requires simultaneous work on the HTML template)
+
         return "course";
     }
 }
