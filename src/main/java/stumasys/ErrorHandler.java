@@ -9,25 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.boot.autoconfigure.web.ErrorController;
 
 @Controller
-public class LoginController {
+public class ErrorHandler implements ErrorController{
 
-    private static final String PATH = "login";
+    private static final String PATH = "/error";
 
-    @RequestMapping("/login")
-    public String loginHandler(
-            Model model,
-            HttpServletResponse servletRes
-    ){
-        return "login";
+    @RequestMapping(value = PATH)
+    public String error(){
+        return "An error has occured, v2";
     }
-
-    @RequestMapping("/login/final")
-    public String Authorized(
-        Model model,
-        HttpServletResponse servletRes
-    ){
-        return "index";
+    @Override
+    public String getErrorPath(){
+        return PATH;
     }
 }
