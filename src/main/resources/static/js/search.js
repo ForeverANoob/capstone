@@ -14,5 +14,14 @@ $(document).ready(function() {
   });
 
   /* TODO: load search results via the REST api */
+  $.ajax({
+    type: 'POST',
+    url: window.location.origin + '/api/get_search_results',
+    data: {searchTerm: $("#searchBar").val()},
+    success: function(data) {
+      console.log("The REST request worked! The data it got was this:")
+      console.log(data)
+    }
+  });
 
 });

@@ -31,10 +31,18 @@ public class SearchController {
         return "search";
     }
 
-    /*
     @RequestRestMapping(value = "/api/get_search_results") // TODO: search REST api function that actually searches and gives results, that will be fetched by JS on the /search webpage
-    public String yieldSearchResults() { // should return a String encoding of a Javascript object.
+    public String yieldSearchResults(
+
+    ){
+        // TODO: get the search results for this search term from the DB class
+        // It must return a String-formatted JSON object 
+        // the JSON object must be a map, with each year mapped to a set
+        // of course codes.
+        //
+        // we'll then later write Javascript that converts that information
+        // into a whole bunch of DIVs inside the search page, when you click
+        // on them they redirect you to /course/YEAR/COURSE_CODE
     }
-    */
 
 }
