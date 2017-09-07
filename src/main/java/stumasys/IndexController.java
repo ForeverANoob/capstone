@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 
 @Controller
-public class IndexController{
+public class IndexController {
 
     //private static final String PATH = "/error";
 
     @RequestMapping(value = "/")
     public String indexHandler(
-            @CookieValue(value = "authCookie", defaultValue = "") String cookie,
             Model model,
             HttpServletResponse servletRes
     ){
