@@ -15,20 +15,24 @@ import org.springframework.boot.autoconfigure.web.ErrorController;
 @Controller
 public class SearchController {
 
-    //private static final String PATH = "/error";
-
     @RequestMapping(value = "/search/**")
     public String courseHandler(
             HttpServletRequest servletReq,
             Model model
     ){
+        String reqURI = servletReq.getRequestURI();
+        if (reqURI.length() > 8) {
+            String searchTerm = reqURI.substring(8); 
+            //model.addAttribute("searchTerm", java.net.URLDecoder.decode(searchTerm));
+            model.addAttribute("searchTerm", (searchTerm));
+        } else {
+            model.addAttribute("searchTerm", "");
+        }
         return "search";
     }
 
-    /*
     @RequestRestMapping(value = "/api/get_search_results") // TODO: search REST api function that actually searches and gives results, that will be fetched by JS on the /search webpage
     public String yieldSearchResults() { // should return a String encoding of a Javascript object.
     }
-    */
 
 }

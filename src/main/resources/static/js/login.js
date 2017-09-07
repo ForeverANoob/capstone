@@ -1,3 +1,8 @@
+
+function goToHome() {
+  window.location.href = window.location.origin + "/home";
+}
+
 $( document ).ready(function() {
     // DOM ready
 

@@ -23,6 +23,7 @@ public class WebSecurityCfg extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests() 
+                /*
                 .antMatchers("/login_/*").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/final").permitAll()
@@ -31,6 +32,7 @@ public class WebSecurityCfg extends WebSecurityConfigurerAdapter {
                 .antMatchers("/course/**").permitAll()
                 //.antMatchers("/admin/**").hasRole("ADMIN_STAFF")
                 //.anyRequest().authenticated()
+                */
                 .anyRequest().permitAll() // TODO: stage 4: correct the permissions to not allow arbitrary people to access effectively everything
                 .and()
             .formLogin()
