@@ -21,15 +21,6 @@ public class IndexController {
             Model model,
             HttpServletResponse servletRes
     ){
-        /*if (cookie.equals("")) {
-            model.addAttribute("x", "FiftyNineRedHorses");
-            servletRes.addCookie(new Cookie("authCookie", "SixtySixRedHorses"));
-        } else {
-            model.addAttribute("x", cookie);
-        }*/
-
-        // TODO: remove this class or the LoginController? (not sure if necessary)
-
         return "login";
     }
     /*
