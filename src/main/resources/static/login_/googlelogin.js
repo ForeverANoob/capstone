@@ -84,7 +84,7 @@ function validateStudentNumber(){
   var x = document.getElementById("inputID");
   for (i = 0; i < 6; i++){
     if(x.substring(i, i+1).equals()){
-
+        
     }
   }
 }
