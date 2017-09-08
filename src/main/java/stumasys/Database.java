@@ -1,5 +1,5 @@
-
-
+package stumasys;
+//import org.springframework.batch.item.ItemReader;
 import java.util.ArrayList;
 
 /**
@@ -8,10 +8,13 @@ import java.util.ArrayList;
 **/
 
 
-public class Database{
+public class Database/* implements ItemReader<Courses> */{
 
     private ArrayList<Courses> courses = new ArrayList<Courses>();
     private ArrayList<User> users = new ArrayList<User>(); // not sure about this
+    private ArrayList<String> names = new ArrayList<String>();
+
+
 
     public Database(){  // hardcose, for prototype
         ArrayList<Courses> course = new ArrayList<Courses>();
@@ -37,6 +40,19 @@ public class Database{
         users.add(admin);
         users.add(stu);
 
+
+        initialize();
+    }
+
+    public ArrayList<Courses> getlist(){
+        return this.courses;
+    }
+
+    public void initialize(){
+
+    }
+    public Courses read(){
+        return courses.get(0);
     }
 
     public String getRequest(String request){   // this gets the request from spring (in the future)?

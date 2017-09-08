@@ -1,5 +1,5 @@
 
-
+package stumasys;
 
 
 public class User{
