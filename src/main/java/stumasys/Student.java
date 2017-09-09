@@ -14,6 +14,8 @@ public class Student extends User{
 
     }
 
-
+    public ArrayList<Courses> getCourses(){
+        return this.courses;    // will have to make a copy of courses to be safe
+    }
 
 }

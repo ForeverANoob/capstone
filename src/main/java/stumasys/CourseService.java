@@ -28,7 +28,7 @@ public class CourseService{
     */
     private Hashtable<String, Courses> courses = new Hashtable<String, Courses>();
 
-    /*
+    
     public CourseService(){             // used as an alpha test
         Courses c1 = new Courses("gender studies", "2013");
         Courses c2 = new Courses("Something", "2017");
@@ -37,14 +37,14 @@ public class CourseService{
         courses.put("1", c1);
         courses.put("2", c2);
         courses.put("3", c3);
-    }*/
+    }/*
     public CourseService(){             // beta test
         Database bb = new Database();   // have to initialize or is it done for us
         ArrayList<Courses> c = bb.getlist();
         for (int i = 0; i < c.size(); i++){
             courses.put(Integer.toString(i+1), c.get(i));     // f.y.i. i am really digging atom
         }
-    }
+    }*/
 
     /* these are the different functionalities that will be provided */
     public Courses getCourse(String id){
