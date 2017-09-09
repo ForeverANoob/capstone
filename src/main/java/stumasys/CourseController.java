@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 
 @RestController         // response functionality
-@RequestMapping("/search")
+@RequestMapping("/course/**")
 public class CourseController {
 
     @Autowired      // links this with the CourseService
