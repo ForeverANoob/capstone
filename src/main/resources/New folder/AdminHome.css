@@ -1,0 +1,47 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+#logoutButton {
+    position: absolute;
+    right: 1em; 
+    top: 1em;
+    padding: 0.25em;
+    background-color: #ff1111;
+    margin: 0;
+    border-radius: 0.25rem;
+}
+#createCourseButton {
+    position: absolute;
+    left: 1em; 
+    top: 1em;
+    padding: 0.25em;
+    background-color: #ff1111;
+    margin: 0;
+    border-radius: 0.25rem;
+}
+#contentWrapper {
+    width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 1em;
+    /*background-color: #001146;*/
+    padding: 2rem;
+}
+
+#searchWrapper {
+    width: 35rem;
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+}
+
+.courseButton {
+    text-align: center;
+    font-size: 1rem;
+    background-color: #add8e6;
+    margin: 0.5rem;
+}

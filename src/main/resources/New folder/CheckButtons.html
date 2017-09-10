@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Admin home</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="CheckButtons.css"/>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <script src = "CheckButtons.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+    	<form action="index.php" id="frm-test" method="post" name="test" class="form-horizontal">
+    		<fieldset>
+    			<input type="hidden" name="form" value="test" id="frm-test-elm-0" />
+                <div class="row">
+    				<div class="col-sm-4">
+                        <legend>Radio buttons</legend>
+
+                        <div class="form-group row">
+    						<label class="control-label col-sm-2" for="frm-test-elm-100">Radio:</label>
+    						<div class="col-sm-10">
+                                <div class="col">
+    								<input type="checkbox" name="checkboxes[100-0]" id="frm-test-elm-100-0" autocomplete="off" checked />
+    								<div class="btn-group">
+    										<label for="frm-test-elm-100-0" class="btn btn-default">
+    												<span class="fa fa-check-square-o fa-lg"></span>
+    												<span class="fa fa-square-o fa-lg"></span>
+    												<span class="content">Lorem ipsum dolor sit amet.</span>
+    										</label>
+    								</div>
+    							</div>
+                                <div class="col">
+    								<input type="checkbox" name="checkboxes[100-1]" id="frm-test-elm-100-1" autocomplete="off" />
+    								<div class="btn-group">
+    										<label for="frm-test-elm-100-1" class="btn btn-default">
+    												<span class="fa fa-check-square-o fa-lg"></span>
+    												<span class="fa fa-square-o fa-lg"></span>
+    												<span class="content">Lorem ipsum dolor sit amet.</span>
+    										</label>
+    								</div>
+    							</div>
+                                <div class="col">
+    								<input type="checkbox" name="checkboxes[100-2]" id="frm-test-elm-100-2" autocomplete="off" />
+    								<div class="btn-group">
+    										<label for="frm-test-elm-100-2" class="btn btn-default">
+    												<span class="fa fa-check-square-o fa-lg"></span>
+    												<span class="fa fa-square-o fa-lg"></span>
+    												<span class="content">Lorem ipsum dolor sit amet.</span>
+    										</label>
+    								</div>
+    							</div>
+                            </div>
+    				    </div>
+                    </div>
+                	<div class="col-sm-4">
+
+                		<legend>Checkboxes</legend>
+
+                		<div class="form-group row">
+    						<div class="col-sm-12">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-110" autocomplete="off" checked />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-110" class="btn btn-default">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					                <span class="content">Lorem ipsum dolor sit amet.</span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                		<div class="form-group row">
+    						<div class="col-sm-12">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-110-1" autocomplete="off" />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-110-1" class="btn btn-primary">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					                <span class="content">Lorem ipsum dolor sit amet.</span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                        <div class="form-group row">
+    						<div class="col-sm-12">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-110-2" autocomplete="off" checked />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-110-2" class="btn btn-success">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					                <span class="content">Lorem ipsum dolor sit amet.</span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                		<div class="form-group row">
+    						<div class="col-sm-12">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-110-3" autocomplete="off" />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-110-3" class="btn btn-info">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					                <span class="content">Lorem ipsum dolor sit amet.</span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                		<div class="form-group row">
+    						<div class="col-sm-12">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-110-4" autocomplete="off" checked />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-110-4" class="btn btn-warning">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					                <span class="content">Lorem ipsum dolor sit amet.</span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                		<div class="form-group row">
+    						<div class="col-sm-12">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-110-5" autocomplete="off" />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-110-5" class="btn btn-danger">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					                <span class="content">Lorem ipsum dolor sit amet.</span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                		<div class="form-group row">
+    						<div class="col-sm-12">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-110-6" autocomplete="off" checked />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-110-6" class="btn btn-link">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					                <span class="content">Lorem ipsum dolor sit amet.</span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                	</div>
+    				<div class="col-sm-4">
+
+                		<legend>Checkboxes</legend>
+
+                		<div class="form-group row">
+    						<label class="control-label col-sm-4" for="frm-test-elm-120">Checkboxes:</label>
+    						<div class="col-sm-8">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-120" autocomplete="off" checked />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-120" class="btn btn-default">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                		<div class="form-group row">
+    						<label class="control-label col-sm-4" for="frm-test-elm-120-1">Checkboxes:</label>
+    						<div class="col-sm-8">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-120-1" autocomplete="off" />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-120-1" class="btn btn-primary">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                		<div class="form-group row">
+    						<label class="control-label col-sm-4" for="frm-test-elm-120-2">Checkboxes:</label>
+    						<div class="col-sm-8">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-120-2" autocomplete="off" checked />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-120-2" class="btn btn-success">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                		<div class="form-group row">
+    						<label class="control-label col-sm-4" for="frm-test-elm-120-3">Checkboxes:</label>
+    						<div class="col-sm-8">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-120-3" autocomplete="off" />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-120-3" class="btn btn-info">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                		<div class="form-group row">
+    						<label class="control-label col-sm-4" for="frm-test-elm-120-4">Checkboxes:</label>
+    						<div class="col-sm-8">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-120-4" autocomplete="off" checked />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-120-4" class="btn btn-warning">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                		<div class="form-group row">
+    						<label class="control-label col-sm-4" for="frm-test-elm-120-5">Checkboxes:</label>
+    						<div class="col-sm-8">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-120-5" autocomplete="off" />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-120-5" class="btn btn-danger">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                		<div class="form-group row">
+    						<label class="control-label col-sm-4" for="frm-test-elm-120-6">Checkboxes:</label>
+    						<div class="col-sm-8">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-120-6" autocomplete="off" checked />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-120-6" class="btn btn-link">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					            </label>
+    					        </div>
+    						</div>
+                		</div>
+
+                	</div>
+    			</div>
+
+            </fieldset>
+    	</form>
+    </div>
+
+
+    <div class="container"> <!-- container -->
+    	<form action="index.php" id="frm-test" method="post" name="test" class="form-horizontal">
+    		<fieldset>
+    			<input type="hidden" name="form" value="test" id="frm-test-elm-0" />
+
+                <div class="row">
+            		<div class="col-sm-6">
+
+                        <legend>Radio buttons</legend>
+
+                        <div class="form-group row">
+        					<label class="control-label col-sm-2" for="frm-test-elm-130">Radio:</label>
+    						<div class="col-sm-10">
+
+                                <div class="col">
+    								<input type="checkbox" name="checkboxes[130-0]" id="frm-test-elm-130-0" autocomplete="off" checked />
+    								<div class="btn-group">
+    										<label for="frm-test-elm-130-0" class="btn btn-default">
+    												<span class="fa fa-check-square-o fa-lg"></span>
+    												<span class="fa fa-square-o fa-lg"></span>
+    												<span class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+    										</label>
+    								</div>
+    							</div>
+
+                                <div class="col">
+    								<input type="checkbox" name="checkboxes[130-1]" id="frm-test-elm-130-1" autocomplete="off" />
+    								<div class="btn-group">
+    										<label for="frm-test-elm-130-1" class="btn btn-default">
+    												<span class="fa fa-check-square-o fa-lg"></span>
+    												<span class="fa fa-square-o fa-lg"></span>
+    												<span class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+    										</label>
+    								</div>
+    							</div>
+
+                                <div class="col">
+    								<input type="checkbox" name="checkboxes[130-2]" id="frm-test-elm-130-2" autocomplete="off" />
+    								<div class="btn-group">
+    										<label for="frm-test-elm-130-2" class="btn btn-default">
+    												<span class="fa fa-check-square-o fa-lg"></span>
+    												<span class="fa fa-square-o fa-lg"></span>
+    												<span class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+    										</label>
+    								</div>
+    							</div>
+
+                            </div>
+    					</div>
+
+                	</div>
+    				<div class="col-sm-6">
+
+                		<legend>Checkboxes</legend>
+
+                		<div class="form-group row">
+    						<div class="col-sm-12">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-140" autocomplete="off" checked />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-140" class="btn btn-default">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					                <span class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                		<div class="form-group row">
+    						<div class="col-sm-12">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-140-1" autocomplete="off" />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-140-1" class="btn btn-primary">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					                <span class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                		<div class="form-group row">
+    						<div class="col-sm-12">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-140-2" autocomplete="off" checked />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-140-2" class="btn btn-success">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					                <span class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                		<div class="form-group row">
+    						<div class="col-sm-12">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-140-3" autocomplete="off" />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-140-3" class="btn btn-info">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					                <span class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                		<div class="form-group row">
+    						<div class="col-sm-12">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-140-4" autocomplete="off" checked />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-140-4" class="btn btn-warning">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					                <span class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                		<div class="form-group row">
+    						<div class="col-sm-12">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-140-5" autocomplete="off" />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-140-5" class="btn btn-danger">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					                <span class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                		<div class="form-group row">
+    						<div class="col-sm-12">
+    							<input type="checkbox" name="checkboxes[249]" id="frm-test-elm-140-6" autocomplete="off" checked />
+    					        <div class="btn-group">
+    					            <label for="frm-test-elm-140-6" class="btn btn-link">
+    					                <span class="fa fa-check-square-o fa-lg"></span>
+    					                <span class="fa fa-square-o fa-lg"></span>
+    					                <span class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+    					            </label>
+    					        </div>
+    						</div>
+    					</div>
+
+                	</div>
+    			</div>
+
+            </fieldset>
+    	</form>
+    </div>
+
+</body>
+</html>

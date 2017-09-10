@@ -18,6 +18,11 @@ public class Student extends User {
         return Collections.unmodifiableList(involvedIn);
     }
 
+//<<<<<<< HEAD
+    public ArrayList<Courses> getCourses(){
+        return this.courses;    // will have to make a copy of courses to be safe
+//=======
+}
     public boolean addCourse(Course c) { // returns a success status
         involvedIn.add(c);
         return true;
@@ -25,6 +30,7 @@ public class Student extends User {
 
     public boolean removeCourse(Course c) { // returns success status
         return involvedIn.remove(c);
+//>>>>>>> e7ddbc83812f92db5ee2d292b304943d5b63e23e
     }
 
     // TODO: stage 4: track additions/removals from courses to update the DB correctly
