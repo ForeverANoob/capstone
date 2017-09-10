@@ -7,14 +7,183 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <script src="popper.js"></script>
     <link rel="stylesheet" href="StudentMarks.css"/>
+    <link rel="stylesheet" href="CheckButtons.css"/>
 
 </head>
-    
+
 <body>
+
+    <!--drop down menu-->
+    <div class="navbar-wrapper">
+        <div class="container-fluid">
+            <nav class="navbar navbar-fixed-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">Logo</a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="#" class="">Home</a></li>
+                            <li class=" dropdown">
+                                <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Departments <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li class=" dropdown">
+                                        <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">View Departments</a>
+                                    </li>
+                                    <li><a href="#">Add New</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Add New</a></li>
+                            <li class=" dropdown"><a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Managers <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">View Managers</a></li>
+                                    <li><a href="#">Add New</a></li>
+                                </ul>
+                            </li>
+                            <li class=" dropdown"><a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Staff <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">View Staff</a></li>
+                                    <li><a href="#">Add New</a></li>
+                                    <li><a href="#">Bulk Upload</a></li>
+                                </ul>
+                            </li>
+                            <li class=" down"><a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">HR <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Change Time Entry</a></li>
+                                    <li><a href="#">Report</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav pull-right">
+                            <li class=" dropdown"><a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Signed in as  <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Change Password</a></li>
+                                    <li><a href="#">My Profile</a></li>
+                                </ul>
+                            </li>
+                            <li class=""><a href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <!-- check boxes -->
+    <legend>Checkboxes</legend>
+
+    <div class="form-group row">
+        <label class="control-label col-sm-4" for="frm-test-elm-120">Checkboxes:</label>
+        <div class="col-sm-8">
+            <input type="checkbox" name="checkboxes[249]" id="frm-test-elm-120" autocomplete="off" checked />
+            <div class="btn-group">
+                <label for="frm-test-elm-120" class="btn btn-default">
+                    <span class="fa fa-check-square-o fa-lg"></span>
+                    <span class="fa fa-square-o fa-lg"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="control-label col-sm-4" for="frm-test-elm-120-1">Checkboxes:</label>
+        <div class="col-sm-8">
+            <input type="checkbox" name="checkboxes[249]" id="frm-test-elm-120-1" autocomplete="off" />
+            <div class="btn-group">
+                <label for="frm-test-elm-120-1" class="btn btn-primary">
+                    <span class="fa fa-check-square-o fa-lg"></span>
+                    <span class="fa fa-square-o fa-lg"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="control-label col-sm-4" for="frm-test-elm-120-2">Checkboxes:</label>
+        <div class="col-sm-8">
+            <input type="checkbox" name="checkboxes[249]" id="frm-test-elm-120-2" autocomplete="off" checked />
+            <div class="btn-group">
+                <label for="frm-test-elm-120-2" class="btn btn-success">
+                    <span class="fa fa-check-square-o fa-lg"></span>
+                    <span class="fa fa-square-o fa-lg"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="control-label col-sm-4" for="frm-test-elm-120-3">Checkboxes:</label>
+        <div class="col-sm-8">
+            <input type="checkbox" name="checkboxes[249]" id="frm-test-elm-120-3" autocomplete="off" />
+            <div class="btn-group">
+                <label for="frm-test-elm-120-3" class="btn btn-info">
+                    <span class="fa fa-check-square-o fa-lg"></span>
+                    <span class="fa fa-square-o fa-lg"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="control-label col-sm-4" for="frm-test-elm-120-4">Checkboxes:</label>
+        <div class="col-sm-8">
+            <input type="checkbox" name="checkboxes[249]" id="frm-test-elm-120-4" autocomplete="off" checked />
+            <div class="btn-group">
+                <label for="frm-test-elm-120-4" class="btn btn-warning">
+                    <span class="fa fa-check-square-o fa-lg"></span>
+                    <span class="fa fa-square-o fa-lg"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="control-label col-sm-4" for="frm-test-elm-120-5">Checkboxes:</label>
+        <div class="col-sm-8">
+            <input type="checkbox" name="checkboxes[249]" id="frm-test-elm-120-5" autocomplete="off" />
+            <div class="btn-group">
+                <label for="frm-test-elm-120-5" class="btn btn-danger">
+                    <span class="fa fa-check-square-o fa-lg"></span>
+                    <span class="fa fa-square-o fa-lg"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="control-label col-sm-4" for="frm-test-elm-120-6">Checkboxes:</label>
+        <div class="col-sm-8">
+            <input type="checkbox" name="checkboxes[249]" id="frm-test-elm-120-6" autocomplete="off" checked />
+            <div class="btn-group">
+                <label for="frm-test-elm-120-6" class="btn btn-link">
+                    <span class="fa fa-check-square-o fa-lg"></span>
+                    <span class="fa fa-square-o fa-lg"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 
 </body>
 </html>
