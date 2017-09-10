@@ -49,4 +49,8 @@ $(document).ready(function(){
     console.log(colId);
     $('.' + colId).hide();
   });
+  
+  $("#showMarkModal").click(function() {
+    //$("markColModal").modal({ show: true });
+  });
 });
