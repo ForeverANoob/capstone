@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head xmlns:th="http://www.thymeleaf.org">
+
+    <title>Create course</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous" />
+    <link rel="stylesheet" href="CreateCourse.css"/>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+    <div class = "container">
+        <div class="card card-container">
+            <form class="form-signin">
+
+                <input type="CourseCode" id="CourseCode" class="form-control" style="margin-top: 0.4rem; margin-bottom: 0.4rem" placeholder="E.g. CSC2002F"></input>
+                <input type="Year" id="Year" class="form-control" style="margin-top: 0.4rem; margin-bottom: 0.4rem" placeholder="e.g. 2017"></input>
+
+                <input type="file" name="increase" style="margin-top: 0.2rem; margin-bottom: 0.2rem" value="Import file" onclick="importFile()">Import Participants</input>
+
+                <input type="Course coordinator" id="CourseCood" class="form-control" style="margin-top: 0.4rem; margin-bottom: 0.4rem" placeholder="Assign course coordinator"></input>
+                <input type="add TA" id="TA" class="form-control" style="margin-top: 0.4rem; margin-bottom: 0.4rem" placeholder="add teaching assistant"></input>
+
+                <input class="btn btn-lg btn-primary btn-block btn-signin" type="button" onclick="makeCourse" value="Add user"></input>
+
+            </form>
+        </div>
+    </div>
+</html>

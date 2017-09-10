@@ -2,81 +2,130 @@
 <html>
 <head xmlns:th="http://www.thymeleaf.org">
 
-    <title>Admin home</title>
+    <title>Student home</title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous" />
-    <link rel="stylesheet" href="DropdownMenu.css"/>
+    <link rel="stylesheet" href="FilterTable.css"/>
 
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <script src="bootstrap.js"></script>
+    <script src="FilterTable.js"></script>
 
 
 </head>
 <body>
 
-    <div class="navbar-wrapper">
-        <div class="container-fluid">
-            <nav class="navbar navbar-fixed-top">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="#">Logo</a>
-                    </div>
-                    <div id="navbar" class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav">
-                            <li class="active"><a href="#" class="">Home</a></li>
-                            <li class=" dropdown">
-                                <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Departments <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li class=" dropdown">
-                                        <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">View Departments</a>
-                                    </li>
-                                    <li><a href="#">Add New</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Add New</a></li>
-                            <li class=" dropdown"><a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Managers <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">View Managers</a></li>
-                                    <li><a href="#">Add New</a></li>
-                                </ul>
-                            </li>
-                            <li class=" dropdown"><a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Staff <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">View Staff</a></li>
-                                    <li><a href="#">Add New</a></li>
-                                    <li><a href="#">Bulk Upload</a></li>
-                                </ul>
-                            </li>
-                            <li class=" down"><a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">HR <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Change Time Entry</a></li>
-                                    <li><a href="#">Report</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <ul class="nav navbar-nav pull-right">
-                            <li class=" dropdown"><a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Signed in as  <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Change Password</a></li>
-                                    <li><a href="#">My Profile</a></li>
-                                </ul>
-                            </li>
-                            <li class=""><a href="#">Logout</a></li>
-                        </ul>
+    <div class="container">
+        <h3>CSC1015F test 1 results</h3>
+
+        <div class="row">
+            <div class="panel panel-primary filterable">
+                <div class="panel-heading">
+                    <h3 class="panel-title"></h3>
+                    <div class="pull-right">
+                        <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
                     </div>
                 </div>
-            </nav>
+                <table class="table">
+                    <thead>
+                        <tr class="filters">
+                            <th><input type="text" class="form-control" placeholder="Student number" disabled></input></th>
+                            <th><input type="text" class="form-control" placeholder="Assignment 1" disabled></input></th>
+                            <th><input type="text" class="form-control" placeholder="Assignment 2" disabled></input></th>
+                            <th><input type="text" class="form-control" placeholder="Test 1" disabled></input></th>
+                            <th><input type="text" class="form-control" placeholder="Test 2" disabled></input></th>
+                            <th><input type="text" class="form-control" placeholder="DP" disabled></input></th>
+                            <th><input type="text" class="form-control" placeholder="Final mark" disabled></input></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>OTTMAR001</td>
+                            <td>78</td>
+                            <td>43</td>
+                            <td>76</td>
+                            <td>54</td>
+                            <td>87</td>
+                            <td>23</td>
+                            <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+
+                        </tr>
+                        <tr>
+                            <td>THOJAC001</td>
+                            <td>67</td>
+                            <td>43</td>
+                            <td>76</td>
+                            <td>54</td>
+                            <td>87</td>
+                            <td>67</td>
+                            <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+
+                        </tr>
+                        <tr>
+                            <td>TBILAR001</td>
+                            <td>43</td>
+                            <td>76</td>
+                            <td>54</td>
+                            <td>46</td>
+                            <td>87</td>
+                            <td>34</td>
+                            <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+
+                        </tr>
+                        <tr>
+                            <td>TBILAR001</td>
+                            <td>56</td>
+                            <td>43</td>
+                            <td>76</td>
+                            <td>54</td>
+                            <td>87</td>
+                            <td>56</td>
+                            <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+
+                        </tr>
+                        <tr>
+                            <td>TBILAR001</td>
+                            <td>76</td>
+                            <td>43</td>
+                            <td>76</td>
+                            <td>54</td>
+                            <td>87</td>
+                            <td>45</td>
+                            <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+
+                        </tr>
+                        <tr>
+                            <td>TBILAR001</td>
+                            <td>98</td>
+                            <td>43</td>
+                            <td>76</td>
+                            <td>54</td>
+                            <td>87</td>
+                            <td>65</td>
+                            <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+
+                        </tr>
+                        <tr>
+                            <td>TBILAR001</td>
+                            <td>21</td>
+                            <td>43</td>
+                            <td>76</td>
+                            <td>54</td>
+                            <td>87</td>
+                            <td>68</td>
+                            <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+
 
 </body>
 </html>

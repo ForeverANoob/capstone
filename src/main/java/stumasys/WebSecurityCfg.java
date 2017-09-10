@@ -43,6 +43,7 @@ public class WebSecurityCfg extends WebSecurityConfigurerAdapter {
             //    .and()
             .logout()     // auto logout ?
                 .permitAll();
+        http.csrf().disable(); // TODO: stage 4: re-enable this, it's a security feature that helps stop XSS attacks. causing issues right now, so it's getting disable til we've got time.
     }
 
 
