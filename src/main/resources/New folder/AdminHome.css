@@ -12,6 +12,15 @@ html, body {
     margin: 0;
     border-radius: 0.25rem;
 }
+#createCourseButton {
+    position: absolute;
+    left: 1em; 
+    top: 1em;
+    padding: 0.25em;
+    background-color: #ff1111;
+    margin: 0;
+    border-radius: 0.25rem;
+}
 #contentWrapper {
     width: 80rem;
     margin-left: auto;
