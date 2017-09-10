@@ -14,23 +14,32 @@
 
 </head>
 <body>
+ <a href = "login.html">
   <div id="logoutButton">
-    <b>Logout</b>
+      <input class="btn btn-lg btn-primary btn-block btn-signin" type="button" onclick="logout()" value="logout"></input>
   </div>
+ </a>
 
+  <a href = "StudentHome.html">
   <div id="searchWrapper" style="width: 35rem;">
     <input type="text" class="form-control" id="searchBar" placeholder="Type search query here"></input>
     <!-- <input type="button" class="btn-default" id="searchButton" text="Search"></input> -->
   </div>
+  </a>
+
   <div id="contentWrapper">
     <center><h3>Recently viewed pages:</h3></center>
     <div class="card-deck mx-auto" id="recentlyViewed" style="display: flex; margin-left: auto; margin-right: auto;">
       <div class="card courseButton " style="flex: 0 0 12rem;">
         <span class="card-body">MAM1000W, 2017</span>
       </div>
+
+      <a href = "StudentMarksv2.html">
       <div class="card courseButton "style="flex: 0 0 12rem;">
         <span class="card-body">CSC1015F, 2017</span>
       </div>
+      </a>
+
       <div class="card courseButton " style="flex: 0 0 12rem;">
         <span class="card-body">PHY1031F, 2017</span>
       </div>
@@ -61,6 +70,7 @@
       <div class="card courseButton " style="flex: 0 0 12rem;">
         <span class="card-body">PHY1031F, 2017</span>
       </div>
+
     </div>
   </div>
 
