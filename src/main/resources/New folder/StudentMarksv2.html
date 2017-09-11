@@ -21,46 +21,49 @@
     <div class="container">
         <h3>CSC1015F test 1 results</h3>
 
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                          Launch demo modal
-                        </button>
-                    <!-- Modal -->
-                    <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                          </div>
-                          <div class="modal-body">
-                            ...
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
         <div class="row">
             <div class="panel panel-primary filterable">
               <div class="panel-heading">
                   <h3 class="panel-title"></h3>
                       <div style="align: center;">
-                        <button class="btn btn-default btn-xs">New assessment</button>
+                        <button class="btn btn-default btn-xs" data-toggle="modal" data-target="#newAssessModal">New assessment</button>
                         <a href="AddingUser.html"><button class="btn btn-default btn-xs" >Add student</button></a>
                         <!--<button id="markcol-1" class="btn btn-default btn-xs" >Hide first column</button>-->
-                        <button id="showMarkModal" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#markColModal">Visible mark columns</button>
+                        <button id="showMarkModal" class="btn btn-default btn-xs" data-toggle="modal" data-target="#markColModal">Hidden mark columns</button>
 
                     </div>
                     <div id="markColModal" class="modal fade" role="dialog">
                       <div class="modal-dialog">
                         <div class="modal-content">
+                          <div class="modal-title">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Choose which mark columns are visible</h4>
+                          </div>
                           <div class="modal-body">
                             <form>
-                              <input type="checkbox" placeholder="hello world"></input>
+                              <input id="markcol-1" class="colselector" type="checkbox">Assignment 1</input>
+                              <input id="markcol-2" class="colselector" type="checkbox">Assignment 2</input>
+                              <input id="markcol-3" class="colselector" type="checkbox">Test 1</input>
+                              <input id="markcol-4" class="colselector" type="checkbox">Test 2</input>
+                              <input id="markcol-5" class="colselector" type="checkbox">DP</input>
+                              <input id="markcol-6" class="colselector" type="checkbox">Final Mark</input>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="newAssessModal" class="modal fade" role="dialog">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-title">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Create new assessment</h4>
+                          </div>
+                          <div class="modal-body">
+                            <form class="form-control">
+                              <input type="text" placeholder="Assessment name"></input>
+                              <input type="file"></input>
+                              <button>Create</button>
                             </form>
                           </div>
                         </div>
@@ -73,7 +76,7 @@
                             <th><input type="text" class="form-control" placeholder="Student number" enabled></input></th>
                             <th class="markcol-1">Assignment 1</th>
                             <th class="markcol-2">Assignment 2</th>
-                            <th class="markcol-3">Test 1</th>
+                            <th class="markcol-3"><a href="Layer2.html">Test 1</a></th>
                             <th class="markcol-4">Test 2</th>
                             <th class="markcol-5">DP</th>
                             <th class="markcol-6">Final mark</th>
