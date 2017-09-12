@@ -33,7 +33,7 @@ public class CourseController {
         return cs.getCourse(key);
     }
     */
-    @RequestMapping(value = "/course/{year}/{courseCode}") // sorry for commenting out all of your code
+    @RequestMapping(value = "{year}/{courseCode}") // sorry for commenting out all of your code
     public String courseHandler(
             @PathVariable String year,
             @PathVariable String courseCode,
