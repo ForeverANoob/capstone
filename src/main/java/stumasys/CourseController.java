@@ -16,7 +16,7 @@ import java.util.Hashtable;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 
-@RestController         // response functionality
+@Controller         // response functionality
 @RequestMapping("/course/**")
 public class CourseController {
     /*
@@ -45,6 +45,6 @@ public class CourseController {
 
         // TODO: load more actual content into the Model (requires simultaneous work on the HTML template)
 
-        return "course";
+        return "StudentMarksv2"; // opens the StudentMarksv2.html in template
     }
 }

@@ -9,19 +9,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 
 @Controller
-public class HomeController {
+public class AddingUserController {
 
-    @RequestMapping(value = "/home")
-    public String homeHandler(
+    //private static final String PATH = "/error";
+
+    @RequestMapping(value = "/course/{year}/{courseCode}/AddingUser")
+    public String indexHandler(
             Model model,
             HttpServletResponse servletRes
     ){
-        // TODO: return different (non-student/student) homepages depending on authorisation level
-        // TODO: retrieve the list of "relevant" courses (for both non-students/students)
-        return "home";
+        return "AddingUser";
     }
+    /*
+    @RequestMapping(value = "/login/final")
+    public String re(
+        Model model,
+        HttpServletResponse servletRes
+    ){
+        return "final";
+    }
+    */
 }

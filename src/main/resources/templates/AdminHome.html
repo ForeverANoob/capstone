@@ -3,9 +3,7 @@
 <head>
   <title>Admin home</title>
 
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" ></meta>
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"/>
   <link rel="stylesheet" href="/css/AdminHome.css"/>
 
   <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
@@ -14,19 +12,19 @@
 
 </head>
 <body>
- <a href = "login.html">
+ <a href = "/">
   <div id="logoutButton">
       <input class="btn btn-lg btn-primary btn-block btn-signin" type="button" onclick="logout()" value="logout"></input>
   </div>
  </a>
 
- <a href = "CreateCourse.html">
+ <a href = "CreateCourse">
   <div id="createCourseButton">
       <input class="btn btn-lg btn-primary btn-block btn-signin" type="button" onclick="logout()" value="Create new course"></input>
   </div>
  </a>
 
-  <a href = "StudentHome.html">
+  <a href = "StudentHome">
   <div id="searchWrapper" style="width: 35rem;">
     <input type="text" class="form-control" id="searchBar" placeholder="Type search query here"></input>
     <!-- <input type="button" class="btn-default" id="searchButton" text="Search"></input> -->
@@ -40,8 +38,8 @@
         <span class="card-body">MAM1000W, 2017</span>
       </div>
 
-      <a href = "StudentMarksv2.html">
-      <div class="card courseButton "style="flex: 0 0 12rem;">
+      <a href = "course/{year}/{courseCode}">
+      <div class="card courseButton " style="flex: 0 0 12rem;">
         <span class="card-body">CSC1015F, 2017</span>
       </div>
       </a>
@@ -52,33 +50,33 @@
       <div class="card courseButton " style="flex: 0 0 12rem;">
         <span class="card-body">MAM1000W, 2017</span>
       </div>
-      <div class="card courseButton "style="flex: 0 0 12rem;">
+      <div class="card courseButton " style="flex: 0 0 12rem;">
         <span class="card-body">CSC1015F, 2017</span>
-      </div>
+    </div>
       <div class="card courseButton " style="flex: 0 0 12rem;">
         <span class="card-body">PHY1031F, 2017</span>
       </div>
       <div class="card courseButton " style="flex: 0 0 12rem;">
         <span class="card-body">MAM1000W, 2017</span>
       </div>
-      <div class="card courseButton "style="flex: 0 0 12rem;">
+      <div class="card courseButton " style="flex: 0 0 12rem;">
         <span class="card-body">CSC1015F, 2017</span>
-      </div>
+    </div>
       <div class="card courseButton " style="flex: 0 0 12rem;">
         <span class="card-body">PHY1031F, 2017</span>
       </div>
       <div class="card courseButton " style="flex: 0 0 12rem;">
         <span class="card-body">MAM1000W, 2017</span>
       </div>
-      <div class="card courseButton "style="flex: 0 0 12rem;">
+      <div class="card courseButton " style="flex: 0 0 12rem;">
         <span class="card-body">CSC1015F, 2017</span>
-      </div>
+    </div>
       <div class="card courseButton " style="flex: 0 0 12rem;">
         <span class="card-body">PHY1031F, 2017</span>
       </div>
 
     </div>
-  </div>
+</div>
 
 </body>
 </html>
