@@ -1,6 +1,7 @@
 
 function goToHome() {
-  window.location.href = window.location.origin + "/AdminHome";
+  window.location.href = window.location.origin + "/StudentHome";
+  //window.location.href = window.location.origin + "/AdminHome"
 }
 
 $( document ).ready(function() {
