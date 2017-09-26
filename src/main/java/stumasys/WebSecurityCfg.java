@@ -9,41 +9,44 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import javax.sql.DataSource;
+
 /*
 import org.springframework.context.annotation.*;
 import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.web.configuration.*;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 */
-
-@Configuration
+//@Configuration
 @EnableWebSecurity
 public class WebSecurityCfg extends WebSecurityConfigurerAdapter {
+
+/*
+    @Autowired
+    private DataSource dataSource;
+
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication().dataSource(dataSource);
+    }
+*/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http
-            .authorizeRequests() 
-                /*
-                .antMatchers("/login_/*").permitAll()
-                .antMatchers("/").permitAll()
-                .antMatchers("/final").permitAll()
-                .antMatchers("/greeting").permitAll() // auto login
-                .antMatchers("/login#").permitAll()
-                .antMatchers("/course/**").permitAll()
-                //.antMatchers("/admin/**").hasRole("ADMIN_STAFF")
-                //.anyRequest().authenticated()
-                */
+            .authorizeRequests()
+                .antMatchers("/AdminHome").hasRole("ADMIN_STAFF")
+                .antMatchers("/StudentHome").hasRole("STUDENT")
                 .anyRequest().permitAll() // TODO: stage 4: correct the permissions to not allow arbitrary people to access effectively everything
                 .and()
             .formLogin()
-                .loginPage("/login")
-                .permitAll()
+                //.loginPage("/")
+                //.permitAll()
                 .and()
-            //.httpBasic()    // http page
-            //    .and()
-            .logout()     // auto logout ?
-                .permitAll();
-        http.csrf().disable(); // TODO: stage 4: re-enable this, it's a security feature that helps stop XSS attacks. causing issues right now, so it's getting disable til we've got time.
+            .logout();    // auto logout ?
+                //.permitAll();
+        //http.csrf().disable(); // TODO: stage 4: re-enable this, it's a security feature that helps stop XSS attacks. causing issues right now, so it's getting disable til we've got time.
+
     }
 
 
@@ -51,9 +54,9 @@ public class WebSecurityCfg extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
             .inMemoryAuthentication()
-                .withUser("as123").password("123qwe").roles("ADMIN_STAFF"); // TODO: stage 4: replace with real, database-powered user system, with more than one user type */
-
-
+                .withUser("as123").password("123qwe").roles("ADMIN_STAFF") // TODO: stage 4: replace with real, database-powered user system, with more than one user type */
+                .and()
+                .withUser("qwe").password("qwe").roles("STUDENT");
     }
     /*
     @Bean
