@@ -66,9 +66,9 @@ public class StudentHomeController {
             return "that student does not exist";
         }
 
-        ArrayList<Course> c = stu.getInvolvedCourses();  //all the courses
+        List<Course> c = stu.getInvolvedCourses();  //all the courses
 
         // TODO: Get a map working for the json messages
-
+        return "";
     }
 }

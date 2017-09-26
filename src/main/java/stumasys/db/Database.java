@@ -19,11 +19,12 @@ public class Database {
 
     public Database() {     // this sht has so much hardcoding in it
 
-        Course c = new Course("CSC3002S", "2017");  // has no assessments in it
-        courses.put("csc3002s_2017", c);
-
         courses = new HashMap<String,Course>();
         ArrayList user = new ArrayList<Assessment>();
+        rawAssessments = new HashMap<String, Assessment>();
+
+        Course c = new Course("CSC3002S", "2017");  // has no assessments in it
+        courses.put("csc3002s_2017", c);
         user.add(new Student("BRRAND016", new ArrayList<Course>(), new byte[20] , new byte[12]));
         user.add(new Student("BRRAND017", new ArrayList<Course>(), new byte[20] , new byte[12]));
 
@@ -60,17 +61,17 @@ public class Database {
     }
 
     protected int getRawAssessmentMark(String aId, String uId) {  // TODO: Have to fix this
-        return rawAssessments.get(aId).getStudentMark(uId);        // wrong?
+        return (rawAssessments.get(aId)).getStudentMark(uId);        // wrong?
     }
 
     protected void setRawAssessmentMark(String aId, String uId, int mark) { // going through the student vs. the course // TODO:
         //User tmp = users.get(uId);
         //return tmp.setRawAssessmentMark(cId, aId, mark);
-        rawAssessments.get(aId).setStudentMark(uId, mark); // should we return a boolean value
+        ((RawAssessment)rawAssessments.get(aId)).setStudentMark(uId, mark); // should we return a boolean value
     }
 
     protected void setRawAssessmentMarkCap(String aId, int mc) {  // TODO:
-        rawAssessments.get(aId).setMarkCap(mc);     // done?
+        ((RawAssessment)rawAssessments.get(aId)).setMarkCap(mc);     // done?
     }
 
 }
