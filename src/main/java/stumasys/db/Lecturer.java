@@ -11,7 +11,8 @@ public class Lecturer extends User {
             byte[] pwDHash, byte[] pwHashSalt
     ){
         super(id, pwDHash, pwHashSalt);
-        involvedIn = courses;
+        this.involvedIn = courses;
+        this.department = department;
     }
 
     public String getDepartment() {
@@ -25,5 +26,9 @@ public class Lecturer extends User {
 
     public boolean removeCourse(Course c) { // returns success status
         return involvedIn.remove(c);
+    }
+
+    public List<Course> getCourses(){
+        return this.involvedIn;
     }
 }

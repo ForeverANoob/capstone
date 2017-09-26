@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class RawAssessment implements Assessment {
-    private String id;
+    private String id;          // no id yet
     private int markCap;
     private Database db; // reference to the creator of this object so we can read marks from the database upon request
 
@@ -26,7 +26,7 @@ public class RawAssessment implements Assessment {
         return db.getRawAssessmentMark(this.id, stuId);
     }
 
-    public void setStudentMark(String stuId, int mark) {
+    public void setStudentMark(String stuId, int mark) { // what danny
         db.setRawAssessmentMark(this.id, stuId, mark);
     }
 
