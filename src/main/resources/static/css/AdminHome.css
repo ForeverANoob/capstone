@@ -5,24 +5,24 @@ html, body {
 
 #logoutButton {
     position: absolute;
-    right: 1em; 
+    right: 1em;
     top: 1em;
     padding: 0.25em;
-    background-color: #ff1111;
+    /*background-color: #ff1111;*/
     margin: 0;
     border-radius: 0.25rem;
 }
 #createCourseButton {
     position: absolute;
-    left: 1em; 
+    left: 1em;
     top: 1em;
     padding: 0.25em;
-    background-color: #ff1111;
+    /*background-color: #ff1111;*/
     margin: 0;
     border-radius: 0.25rem;
 }
 #contentWrapper {
-    width: 80rem;
+    width: 74rem;
     margin-left: auto;
     margin-right: auto;
     border-radius: 1em;
