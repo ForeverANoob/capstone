@@ -2,6 +2,8 @@ package stumasys.db;
 
 import java.util.List;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.HashMap;
 
 public class CalculatedAssessment implements Assessment {
     // TODO: stage 4: extend this class to allow arbitrary calculations 
@@ -70,6 +72,10 @@ public class CalculatedAssessment implements Assessment {
             }
         }
         return mark;
+    }
+
+    public Map<String, Integer> getWholeTable() { // TODO: actually implement this
+        return new HashMap<String,Integer>();
     }
 
 }

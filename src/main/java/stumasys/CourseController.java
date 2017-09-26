@@ -11,13 +11,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.boot.autoconfigure.web.ErrorController;
-import java.util.Hashtable;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Hashtable;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Iterator;
+
+import stumasys.db.Database;
+import stumasys.db.Course;
 
 @Controller         // response functionality
-@RequestMapping("/course/**")
 public class CourseController {
     /*
 
@@ -33,18 +39,72 @@ public class CourseController {
         return cs.getCourse(key);
     }
     */
-    @RequestMapping(value = "{year}/{courseCode}") // sorry for commenting out all of your code
+    private Database db;
+
+    @Autowired
+    public void setDatabase(Database db) {
+        this.db = db;
+    }
+    @RequestMapping(value = "/course/{year}/{courseCode}") // sorry for commenting out all of your code
     public String courseHandler(
             @PathVariable String year,
             @PathVariable String courseCode,
             Model model,
             HttpServletResponse servletRes
     ){
+
+        // TODO: load more actual content into the Model (requires simultaneous work on the HTML template)
+        /*
+         * 1. Check if this course exists with the DB:
+         *      if not, return error page. otherwise procede.
+         * 2. load the last-used visible columns info from last visit
+         * 3. put that vis-columns info into the JS and deliver the page
+         * 4. client page then requests columns via REST api calls in the JS
+         * */
+
+        Course c = db.getCourse(courseCode, Integer.parseInt(year));
+
+        if (c == null) {
+            return "nope";// TODO: respond with a proper error page when course doesnt exist
+        }
+
         model.addAttribute("courseCode", courseCode);
         model.addAttribute("year", year);
 
-        // TODO: load more actual content into the Model (requires simultaneous work on the HTML template)
+        return "course";
+    }
 
-        return "StudentMarksv2"; // opens the StudentMarksv2.html in template
+    @RequestMapping(value = "/api/get_assessment/{code}/{year}/{aId}", produces = "application/json")
+    @ResponseBody
+    public String getAssessmentMarks(
+            @PathVariable String code,
+            @PathVariable String year,
+            @PathVariable String aId
+    ){
+        Course c = db.getCourse(code, Integer.parseInt(year));
+        if (c == null) {
+            return "null";
+        }
+
+        Map<String,Integer> markTbl = c.getAssessment(Integer.parseInt(aId)).getWholeTable();
+
+        Iterator<Map.Entry<String,Integer>> entryItr = markTbl.entrySet().iterator();
+
+        if (!entryItr.hasNext()) {
+            return "[]";
+        }
+
+        // encoding the mark table into JSON and returning it
+        String ret = "[";
+            Map.Entry<String,Integer> entry = entryItr.next();
+            ret += "[\"" + entry.getKey() + "\",\"" + entry.getValue().toString() + "]";
+
+            while (entryItr.hasNext()) {
+                entry = entryItr.next();
+                ret += ",[\"" + entry.getKey() + "\",\"" + entry.getValue().toString() + "]";
+            }
+        ret += "]";
+
+        return ret;
     }
 }

@@ -3,6 +3,7 @@
 <head xmlns:th="http://www.thymeleaf.org">
 
     <title>Student home</title>
+    <title th:text="'StuMaSys - ' + ${courseCode} + ', ' + ${year}"></title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
@@ -19,7 +20,7 @@
 </head>
 <body>
     <div class="container">
-        <h3>CSC1015F</h3>
+      <h3 th:text="${courseCode}"></h3>
 
         <div class="row">
             <div class="panel panel-primary filterable">

@@ -1,6 +1,7 @@
 package stumasys.db;
 
 import java.util.Map;
+import java.util.HashMap;
 
 public class RawAssessment implements Assessment {
     private String id;
@@ -32,5 +33,9 @@ public class RawAssessment implements Assessment {
     public void setMarkCap(int mc) {
         markCap = mc;
         db.setRawAssessmentMarkCap(id, mc);
+    }
+
+    public Map<String, Integer> getWholeTable() { // TODO: actually implement this
+        return new HashMap<String,Integer>();
     }
 }

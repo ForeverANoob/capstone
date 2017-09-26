@@ -1,11 +1,14 @@
 package stumasys.db;
-import java.util.List;
 
-public class Course {       // check public, private and protected status for each method and class
+import java.util.List;
+import java.util.ArrayList;
+
+public class Course {
 
     private String name;
     private int year;
     private List<User> participants;
+    private List<Assessment> assessments;
 
     public Course(String name, int year, List<User> participants) {
         this.name = name;
@@ -15,10 +18,15 @@ public class Course {       // check public, private and protected status for ea
     public Course(String name, String year){
         this.name = name;
         this.year = Integer.parseInt(year);
+        assessments = new ArrayList<Assessment>();
+        participants = new ArrayList<User>();
+    }
+
+    public Assessment getAssessment(int id) {
+        return assessments.get(id);
     }
 
     
 
-    // TODO: stage 4: keep track of modifications to the course so we can commit
-    // them to the DB later.
+    // TODO: stage 4: reflect any changes directly to the DB
 }
