@@ -62,13 +62,13 @@ public class CourseController {
          * 4. client page then requests columns via REST api calls in the JS
          * */
 
-        Course c = db.getCourse(courseCode, Integer.parseInt(year));
+        Course c = db.getCourse(courseCode.toLowerCase(), Integer.parseInt(year));
 
         if (c == null) {
             return "nope";// TODO: respond with a proper error page when course doesnt exist
         }
 
-        model.addAttribute("courseCode", courseCode);
+        model.addAttribute("courseCode", courseCode.toUpperCase());
         model.addAttribute("year", year);
 
         return "course";
