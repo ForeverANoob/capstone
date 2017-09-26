@@ -45,6 +45,7 @@ public class CourseController {
     public void setDatabase(Database db) {
         this.db = db;
     }
+
     @RequestMapping(value = "/course/{year}/{courseCode}") // sorry for commenting out all of your code
     public String courseHandler(
             @PathVariable String year,

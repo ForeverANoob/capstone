@@ -12,8 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 
+import stumasys.db.Student;
+
 @Controller
 public class StudentHomeController {
+
+    private Database db;
+
+    @Autowired
+    public void setDatabase(Database db) {
+        this.db = db;
+    }
 
     @RequestMapping(value = "/StudentHome")
     public String homeHandler(
@@ -22,6 +31,7 @@ public class StudentHomeController {
     ){
         // TODO: return different (non-student/student) homepages depending on authorisation level
         // TODO: retrieve the list of "relevant" courses (for both non-students/students)
+        Student stu = db.get
         return "StudentHome";
     }
 }
