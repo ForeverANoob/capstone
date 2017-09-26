@@ -15,17 +15,17 @@
             <img class="profile-img-card" src="/img/UCTLogo.jpg" alt="" />
             <!-- <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" /> -->
             <p id="profile-name" class="profile-name-card"></p>
-            <form class="form-signin">
+            <form class="form-signin" action="/login" method="POST">
                 <span id="reauth-email" class="reauth-email"></span>
-                <input id="inputID" class="form-control" placeholder="User ID"></input>
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password"></input>
+                <input  type="username" id="username" class="form-control" placeholder="User ID"></input>
+                <input type="password" id="password" class="form-control" placeholder="Password"></input>
                 <div id="remember" class="checkbox">
                     <label>
                         <input type="checkbox" value="remember-me"> Remember me </input>
                     </label>
                 </div>
 
-                <input class="btn btn-lg btn-primary btn-block btn-signin" type="button" onclick="goToHome()" value="Sign in"></input>
+                <input class="btn btn-lg btn-primary btn-block btn-signin" type="submit" value="Sign in"></input>
                 <div id="incorrectLogin" style="display:none;">The details you have entered are incorrect.</div>
 
             </form><!-- /form -->

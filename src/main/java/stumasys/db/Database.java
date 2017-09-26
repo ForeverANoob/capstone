@@ -20,6 +20,9 @@ public class Database {
         courses = new HashMap<String,Course>();
         Course csc1015f_2017 = new Course("CSC1015F", "2017");
         courses.put("csc1015f_2017", csc1015f_2017);
+
+        Course csc1016s_2017 new ("CSC1015S", "2017");
+        courses.put("csc1016s_2017", csc1016s_2017);
     }
 
     public Course getCourse(String code, int year) {
@@ -36,14 +39,14 @@ public class Database {
      * actual DB present.
      */
 
-    protected void setPassword(String userId, byte[] pwHash) { // TODO: 
+    protected void setPassword(String userId, byte[] pwHash) { // TODO:
     }
 
     protected int getRawAssessmentMark(String aId, String uId) {
         return rawAssessments.get(aId).get(uId);
     }
 
-    protected void setRawAssessmentMark(String aId, String uId, int mark) { // TODO: 
+    protected void setRawAssessmentMark(String aId, String uId, int mark) { // TODO:
     }
 
     protected void setRawAssessmentMarkCap(String aId, int mc) {

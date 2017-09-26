@@ -1,0 +1,139 @@
+[1mdiff --git a/src/main/java/stumasys/IndexController.java b/src/main/java/stumasys/IndexController.java[m
+[1mindex faf0850..f4c073c 100644[m
+[1m--- a/src/main/java/stumasys/IndexController.java[m
+[1m+++ b/src/main/java/stumasys/IndexController.java[m
+[36m@@ -10,6 +10,9 @@[m [mimport org.springframework.web.bind.annotation.RequestParam;[m
+ import org.springframework.web.bind.annotation.CookieValue;[m
+ import org.springframework.web.bind.annotation.RestController;[m
+ import org.springframework.boot.autoconfigure.web.ErrorController;[m
+[32m+[m[32mimport org.springframework.web.bind.annotation.RequestMethod;[m
+[32m+[m[32mimport org.springframework.web.servlet.ModelAndView;[m
+[32m+[m
+ [m
+ import org.slf4j.Logger;[m
+ import org.slf4j.LoggerFactory;[m
+[36m@@ -25,15 +28,34 @@[m [mpublic class IndexController {[m
+             Model model,[m
+             HttpServletResponse servletRes[m
+     ){[m
+[32m+[m[32m        // TODO: show user appropriate home page for their user type and not the login page[m
+         return "login";[m
+     }[m
+ [m
+[31m-    @RequestMapping(value = "/login", method = RequestMethod.GET) // doe nothing[m
+[32m+[m[32m    @RequestMapping(value = "/login"/*, method = RequestMethod.GET*/) // doe nothing[m
+     public String re([m
+         Model model,[m
+         HttpServletResponse servletRes[m
+     ){[m
+[31m-        return "/AdminHome";[m
+[32m+[m[32m        return "AdminHome";[m
+     }[m
+[32m+[m[32m/*[m
+[32m+[m[32m    @RequestMapping(value = "/login", method = RequestMethod.GET)[m
+[32m+[m[32m    public ModelAndView login([m
+[32m+[m[32m            @RequestParam(value = "error", required = false) String error,[m
+[32m+[m[32m            @RequestParam(value = "logout", required = false) String logout) {[m
+[32m+[m
+[32m+[m[32m        ModelAndView model = new ModelAndView();[m
+[32m+[m[32m        if (error != null) {[m
+[32m+[m[32m            model.addObject("error", "Invalid username and password!");[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        if (logout != null) {[m
+[32m+[m[32m            model.addObject("msg", "You've been logged out successfully.");[m
+[32m+[m[32m        }[m
+[32m+[m[32m        model.setViewName("login");[m
+[32m+[m
+[32m+[m[32m        return model;[m
+ [m
+[32m+[m[32m    }*/[m
+ }[m
+[1mdiff --git a/src/main/java/stumasys/WebSecurityCfg.java b/src/main/java/stumasys/WebSecurityCfg.java[m
+[1mindex 6257815..a26212f 100644[m
+[1m--- a/src/main/java/stumasys/WebSecurityCfg.java[m
+[1m+++ b/src/main/java/stumasys/WebSecurityCfg.java[m
+[36m@@ -40,12 +40,12 @@[m [mpublic class WebSecurityCfg extends WebSecurityConfigurerAdapter {[m
+                 .anyRequest().permitAll() // TODO: stage 4: correct the permissions to not allow arbitrary people to access effectively everything[m
+                 .and()[m
+             .formLogin()[m
+[31m-                //.loginPage("/")[m
+[32m+[m[32m                .loginPage("/")[m
+                 //.permitAll()[m
+                 .and()[m
+             .logout();    // auto logout ?[m
+                 //.permitAll();[m
+[31m-        //http.csrf().disable(); // TODO: stage 4: re-enable this, it's a security feature that helps stop XSS attacks. causing issues right now, so it's getting disable til we've got time.[m
+[32m+[m[32m        http.csrf().disable(); // TODO: stage 4: re-enable this, it's a security feature that helps stop XSS attacks. causing issues right now, so it's getting disable til we've got time.[m
+ [m
+     }[m
+ [m
+[1mdiff --git a/src/main/java/stumasys/db/Database.java b/src/main/java/stumasys/db/Database.java[m
+[1mindex 94c112b..493060d 100644[m
+[1m--- a/src/main/java/stumasys/db/Database.java[m
+[1m+++ b/src/main/java/stumasys/db/Database.java[m
+[36m@@ -20,6 +20,9 @@[m [mpublic class Database {[m
+         courses = new HashMap<String,Course>();[m
+         Course csc1015f_2017 = new Course("CSC1015F", "2017");[m
+         courses.put("csc1015f_2017", csc1015f_2017);[m
+[32m+[m
+[32m+[m[32m        Course csc1016s_2017 new ("CSC1015S", "2017");[m
+[32m+[m[32m        courses.put("csc1016s_2017", csc1016s_2017);[m
+     }[m
+ [m
+     public Course getCourse(String code, int year) {[m
+[36m@@ -36,14 +39,14 @@[m [mpublic class Database {[m
+      * actual DB present.[m
+      */[m
+ [m
+[31m-    protected void setPassword(String userId, byte[] pwHash) { // TODO: [m
+[32m+[m[32m    protected void setPassword(String userId, byte[] pwHash) { // TODO:[m
+     }[m
+ [m
+     protected int getRawAssessmentMark(String aId, String uId) {[m
+         return rawAssessments.get(aId).get(uId);[m
+     }[m
+ [m
+[31m-    protected void setRawAssessmentMark(String aId, String uId, int mark) { // TODO: [m
+[32m+[m[32m    protected void setRawAssessmentMark(String aId, String uId, int mark) { // TODO:[m
+     }[m
+ [m
+     protected void setRawAssessmentMarkCap(String aId, int mc) {[m
+[1mdiff --git a/src/main/resources/static/js/login.js b/src/main/resources/static/js/login.js[m
+[1mindex 62dfcfe..8832da9 100644[m
+[1m--- a/src/main/resources/static/js/login.js[m
+[1m+++ b/src/main/resources/static/js/login.js[m
+[36m@@ -1,6 +1,6 @@[m
+ [m
+ function goToHome() {[m
+[31m-  window.location.href = window.location.origin + "/StudentHome";[m
+[32m+[m[32m  window.location.href = window.location.origin + "/AdminHome";[m
+   //window.location.href = window.location.origin + "/AdminHome"[m
+ }[m
+ [m
+[1mdiff --git a/src/main/resources/templates/login.html b/src/main/resources/templates/login.html[m
+[1mindex c0a45cc..4ab2c67 100644[m
+[1m--- a/src/main/resources/templates/login.html[m
+[1m+++ b/src/main/resources/templates/login.html[m
+[36m@@ -15,17 +15,17 @@[m
+             <img class="profile-img-card" src="/img/UCTLogo.jpg" alt="" />[m
+             <!-- <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" /> -->[m
+             <p id="profile-name" class="profile-name-card"></p>[m
+[31m-            <form class="form-signin">[m
+[32m+[m[32m            <form class="form-signin" action="/login" method="POST">[m[41m[m
+                 <span id="reauth-email" class="reauth-email"></span>[m
+[31m-                <input id="inputID" class="form-control" placeholder="User ID"></input>[m
+[31m-                <input type="password" id="inputPassword" class="form-control" placeholder="Password"></input>[m
+[32m+[m[32m                <input  type="username" id="username" class="form-control" placeholder="User ID"></input>[m[41m[m
+[32m+[m[32m                <input type="password" id="password" class="form-control" placeholder="Password"></input>[m[41m[m
+                 <div id="remember" class="checkbox">[m
+                     <label>[m
+                         <input type="checkbox" value="remember-me"> Remember me </input>[m
+                     </label>[m
+                 </div>[m
+ [m
+[31m-                <input class="btn btn-lg btn-primary btn-block btn-signin" type="button" onclick="goToHome()" value="Sign in"></input>[m
+[32m+[m[32m                <input class="btn btn-lg btn-primary btn-block btn-signin" type="submit" value="Sign in"></input>[m[41m[m
+                 <div id="incorrectLogin" style="display:none;">The details you have entered are incorrect.</div>[m
+ [m
+             </form><!-- /form -->[m

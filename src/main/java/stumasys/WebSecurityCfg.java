@@ -40,12 +40,12 @@ public class WebSecurityCfg extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll() // TODO: stage 4: correct the permissions to not allow arbitrary people to access effectively everything
                 .and()
             .formLogin()
-                //.loginPage("/")
+                .loginPage("/")
                 //.permitAll()
                 .and()
             .logout();    // auto logout ?
                 //.permitAll();
-        //http.csrf().disable(); // TODO: stage 4: re-enable this, it's a security feature that helps stop XSS attacks. causing issues right now, so it's getting disable til we've got time.
+        http.csrf().disable(); // TODO: stage 4: re-enable this, it's a security feature that helps stop XSS attacks. causing issues right now, so it's getting disable til we've got time.
 
     }
 
