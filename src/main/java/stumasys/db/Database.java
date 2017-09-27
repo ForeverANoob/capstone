@@ -15,7 +15,7 @@ public class Database {
 
     private Map<String, Course> courses;
     private Map<String, User> users =new HashMap<String, User>();        // remember to change this
-    private Map<String, Assessment> rawAssessments;
+    private Map<String, Assessment> rawAssessments;     // TODO: danny, keep this as only raw or assessments
 
     public Database() {     // this sht has so much hardcoding in it
 

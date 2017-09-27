@@ -51,7 +51,7 @@ public class StudentHomeController {
 
         model.addAttribute("StudentID", ID);    // will probably extand this to userId
 
-        return "StudentHome";
+        return "StudentHome";       // TODO: give proper html page
     }
 
     @RequestMapping(value = "/api/get_studenthomepage/{sId}", produces = "application/json")    // right directory?
@@ -60,7 +60,7 @@ public class StudentHomeController {
         @PathVariable String sId
     ){
 
-        Student stu = (Student)db.getUser(sId);     // assuming a student already
+        Student stu = (Student)db.getUser(sId);     // assuming a student already ....correct?
 
         if (stu == null){
             return "that student does not exist";
@@ -68,7 +68,16 @@ public class StudentHomeController {
 
         List<Course> c = stu.getInvolvedCourses();  //all the courses
 
-        // TODO: Get a map working for the json messages
-        return "";
+        if (!c.isEmpty()) {
+            return "[]";
+        }
+
+        String ret = "[";
+        for (int i = 0; i < c.size(); i++){
+            ret += ",[\"" + i + "\",\"" + c.get(i).getID() + "]";  // TODO: check if correct
+        }
+        ret += "]";
+
+        return ret;
     }
 }
