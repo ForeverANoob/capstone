@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 
 @Controller
-public class Layer2Controller {
+public class Layer2Controller {     // this class may be redundant since courseconstroller does this i think
 
     //private static final String PATH = "/error";
 

@@ -19,7 +19,8 @@ import stumasys.db.User;
 import stumasys.db.Database;
 import stumasys.db.Course;
 import stumasys.db.Student;
-import java.util.Hashtable;
+import stumasys.db.Assessment;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Iterator;
@@ -35,7 +36,7 @@ public class StudentHomeController {
         this.db = db;
     }
 
-    @RequestMapping(value = "/{ID}")    // originally was /StudentHome
+    @RequestMapping(value = "/StudentHome/{ID}")    // originally was /StudentHome
     public String homeHandler(
             @PathVariable String ID,
             Model model,
@@ -44,16 +45,32 @@ public class StudentHomeController {
         // TODO: return different (non-student/student) homepages depending on authorisation level
         // TODO: retrieve the list of "relevant" courses (for both non-students/students)
 
-        User stu = db.getUser(ID);      // this assumes we are getting a student
+        Student stu = (Student)db.getUser(ID);      // this assumes we are getting a student
         if (stu == null){
             return "Student does not exist";
         }
 
-        model.addAttribute("StudentID", ID);    // will probably extand this to userId
+        ArrayList<HashMap<String, Integer>> everthing = new ArrayList<HashMap<String, Integer>>();
+
+        ArrayList<Course> c = (ArrayList)stu.getInvolvedCourses();
+        if (c == null){
+            return "In no courses brah";
+        }
+        HashMap<String, Integer> ass = new HashMap<String, Integer>();
+        for (int i = 0; i < c.size(); i++){
+            ArrayList<Assessment> tmp = (ArrayList)c.get(i).getAssessments();
+            for(int j = 0; j < tmp.size(); j++){
+                ass.put(tmp.get(j).getid(), tmp.get(j).getStudentMark(ID));
+                everthing.add(ass);
+            }
+
+        }
+
+        model.addAttribute("subnmarks", everthing);    // will probably extand this to userId
 
         return "StudentHome";       // TODO: give proper html page
     }
-
+/*
     @RequestMapping(value = "/api/get_studenthomepage/{sId}", produces = "application/json")    // right directory?
     @ResponseBody
     public String getCoursePage(
@@ -73,11 +90,12 @@ public class StudentHomeController {
         }
 
         String ret = "[";
-        for (int i = 0; i < c.size(); i++){
+        ret += "[\"" + i + "\",\"" + c.get(i).getID() + "]";
+        for (int i = 1; i < c.size(); i++){
             ret += ",[\"" + i + "\",\"" + c.get(i).getID() + "]";  // TODO: check if correct
         }
         ret += "]";
 
         return ret;
-    }
+    }*/
 }

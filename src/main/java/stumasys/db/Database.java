@@ -15,13 +15,13 @@ public class Database {
 
     private Map<String, Course> courses;
     private Map<String, User> users =new HashMap<String, User>();        // remember to change this
-    private Map<String, Assessment> rawAssessments;     // TODO: danny, keep this as only raw or assessments
+    private Map<String, Assessment> assessments;     // TODO: danny, keep this as only raw or assessments
 
     public Database() {     // this sht has so much hardcoding in it
 
         courses = new HashMap<String,Course>();
         ArrayList<User> user = new ArrayList<User>();       // temparary
-        rawAssessments = new HashMap<String, Assessment>();
+        assessments = new HashMap<String, Assessment>();
 
         Course c = new Course("CSC3002S", "2017");  // has no assessments in it
         courses.put("csc3002s_2017", c);
@@ -61,21 +61,21 @@ public class Database {
     }
 
     protected int getRawAssessmentMark(String aId, String uId) {  // TODO: Have to fix this
-        return (rawAssessments.get(aId)).getStudentMark(uId);        // wrong?
+        return (assessments.get(aId)).getStudentMark(uId);        // wrong?
     }
 
     protected void setRawAssessmentMark(String aId, String uId, int mark) { // going through the student vs. the course // TODO:
         //User tmp = users.get(uId);
         //return tmp.setRawAssessmentMark(cId, aId, mark);
-        ((RawAssessment)rawAssessments.get(aId)).setStudentMark(uId, mark); // should we return a boolean value
+        ((RawAssessment)assessments.get(aId)).setStudentMark(uId, mark); // should we return a boolean value
     }
 
     protected void setRawAssessmentMarkCap(String aId, int mc) {  // TODO:
-        ((RawAssessment)rawAssessments.get(aId)).setMarkCap(mc);     // done?
+        ((RawAssessment)assessments.get(aId)).setMarkCap(mc);     // done?
     }
 
     protected Map<String, Assessment> getAssessments(){
-        return rawAssessments;                              // security leak?
+        return assessments;                              // security leak?
     }
 
 }

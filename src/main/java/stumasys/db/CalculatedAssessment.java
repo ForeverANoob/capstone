@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class CalculatedAssessment implements Assessment {
-    // TODO: stage 4: extend this class to allow arbitrary calculations 
+    // TODO: stage 4: extend this class to allow arbitrary calculations
     // including min/max, branching, etc, since weighted averages are not the
     // only computations commonly done.
 
@@ -18,6 +18,7 @@ public class CalculatedAssessment implements Assessment {
     private List<Boolean> useUncapped; // <--- if null, only uses capped marks
     private List<Integer> weight;
     private int markCap;
+    private final String id = "";   // TODO: An actually id
 
     public static int calculateAppropriateMarkCap(List<Assessment> src, List<Integer> weight) {
         Iterator<Integer> wIter = weight.iterator();
@@ -31,6 +32,7 @@ public class CalculatedAssessment implements Assessment {
     public CalculatedAssessment(List<Assessment> src, List<Integer> weight) {
         this(src, null, weight, calculateAppropriateMarkCap(src, weight));
         assert(src.size() == weight.size());
+
     }
 
     public CalculatedAssessment(
@@ -78,4 +80,7 @@ public class CalculatedAssessment implements Assessment {
         return new HashMap<String,Integer>();
     }
 
+    public String getid(){
+        return this.id;
+    }
 }

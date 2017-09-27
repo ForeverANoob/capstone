@@ -4,13 +4,18 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class RawAssessment implements Assessment {
-    private String id;          // no id yet
+    private final String id;          // no id yet
     private int markCap;
     private Database db; // reference to the creator of this object so we can read marks from the database upon request
 
-    public RawAssessment(int mc, Database db) {
+    public RawAssessment(int mc, Database db, String id) {
         markCap = mc;
         this.db = db;
+        this.id = id;
+    }
+
+    public String getid(){
+        return this.id;
     }
 
     public int getMarkCap() {
