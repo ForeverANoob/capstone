@@ -13,20 +13,39 @@ public class Course {
     public Course(String name, int year, List<User> participants) {
         this.name = name;
         this.year = year;
+        this.participants = participants;
+        this.assessments = new ArrayList<Assessment>(); // TODO: adding assessments now???
+
     }
 
     public Course(String name, String year){
         this.name = name;
         this.year = Integer.parseInt(year);
-        assessments = new ArrayList<Assessment>();
-        participants = new ArrayList<User>();
+        this.assessments = new ArrayList<Assessment>();
+        this.participants = new ArrayList<User>();
     }
 
     public Assessment getAssessment(int id) {
         return assessments.get(id);
     }
 
-    
+    public boolean addRawAssessment(int mc, Database db){
+        assessments.add(new RawAssessment(mc, db));
+        return true;
+    }
+
+    public String getID(){
+        return name+"_"+Integer.toString(year);
+    }
+
+
+    public List<User> getParticipates(){
+        return this.participants;           // security breach?
+    }
+
+    public List<Assessment> getAssessment(){
+        return this.assessments;
+    }
 
     // TODO: stage 4: reflect any changes directly to the DB
 }

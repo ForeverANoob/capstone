@@ -72,7 +72,7 @@ public class CourseController {
         model.addAttribute("courseCode", courseCode.toUpperCase());
         model.addAttribute("year", year);
 
-        return "course";
+        return "course";    // course?
     }
 
     @RequestMapping(value = "/api/get_assessment/{code}/{year}/{aId}", produces = "application/json")

@@ -50,5 +50,7 @@ public class User {
 
     protected void setPassword(byte[] pwHash) {
         //db.setPassword(id, pwHash);
+        pwSaltedDblHash = pwHash;
     }
+
 }
