@@ -3,6 +3,7 @@ package stumasys.db;
 import java.util.Map;
 
 public interface Assessment {
+    public String getid();
     public int getMarkCap();
     public int getStudentMark(String id);
     public int getUncappedStudentMark(String id);

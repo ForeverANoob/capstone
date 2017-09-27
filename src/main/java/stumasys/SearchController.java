@@ -48,6 +48,9 @@ public class SearchController {
         // we'll then later write Javascript that converts that information
         // into a whole bunch of DIVs inside the search page, when you click
         // on them they redirect you to /course/YEAR/COURSE_CODE
+
+
+
         return "final";
 
     }

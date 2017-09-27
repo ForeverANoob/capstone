@@ -30,7 +30,7 @@ public class Course {
     }
 
     public boolean addRawAssessment(int mc, Database db){
-        assessments.add(new RawAssessment(mc, db));
+        assessments.add(new RawAssessment(mc, db, "id"));
         return true;
     }
 
@@ -43,7 +43,7 @@ public class Course {
         return this.participants;           // security breach?
     }
 
-    public List<Assessment> getAssessment(){
+    public List<Assessment> getAssessments(){
         return this.assessments;
     }
 
