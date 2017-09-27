@@ -35,21 +35,22 @@ public class StudentHomeController {
         this.db = db;
     }
 
-    @RequestMapping(value = "/{ID}")    // originally was /StudentHome
+    @RequestMapping(value = "/StudentHome")    // originally was /StudentHome
     public String homeHandler(
-            @PathVariable String ID,
             Model model,
             HttpServletResponse servletRes
     ){
         // TODO: return different (non-student/student) homepages depending on authorisation level
         // TODO: retrieve the list of "relevant" courses (for both non-students/students)
 
+        /*
         User stu = db.getUser(ID);      // this assumes we are getting a student
         if (stu == null){
             return "Student does not exist";
         }
 
         model.addAttribute("StudentID", ID);    // will probably extand this to userId
+        */
 
         return "StudentHome";       // TODO: give proper html page
     }

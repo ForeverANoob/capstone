@@ -13,10 +13,6 @@ import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @Controller
 public class IndexController {
 
@@ -32,12 +28,12 @@ public class IndexController {
         return "login";
     }
 
-    @RequestMapping(value = "/login"/*, method = RequestMethod.GET*/) // doe nothing
+    @RequestMapping(value = "/login")
     public String re(
         Model model,
         HttpServletResponse servletRes
     ){
-        return "AdminHome";
+        return "login";
     }
 /*
     @RequestMapping(value = "/login", method = RequestMethod.GET)
