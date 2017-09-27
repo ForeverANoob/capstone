@@ -18,10 +18,16 @@ import java.util.Hashtable;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Iterator;
+import java.util.List;
+import java.util.ArrayList;
 
 import stumasys.db.Database;
 import stumasys.db.Course;
 import stumasys.db.User;
+import stumasys.db.Student;
+import stumasys.db.AdminStaff;
+import stumasys.db.Lecturer;
+
 
 
 @Controller
@@ -44,17 +50,103 @@ public class AdminHomeController {
         return "AdminHome";
     }
 
+
+    /**
+      *
+      * Querys to do with courses
+      *
+      */
     @RequestMapping(value = "/api/get_course/{year}/{courseCode}", produces = "application/json")
     @ResponseBody
     public String getCourse(        // TODO: Fill this out
-        @PathVariable String year,
+        @PathVariable int year,
         @PathVariable String courseCode
     ){
+/*
+        Course c = db.getCourse(courseCode, year);
 
+        if (c == null){
+            return "This course does not exist";
+        }
 
-        return "";
+        String ret = "[" + "["+year+"],["+courseCode+"]";
+
+        List<User> u = c.getParticipates();
+
+        if (u == null){
+            return ret+"]";     // has no users
+        }
+
+        for (int i = 0; i < u.size(); i++){
+
+            User user = u.get(i);
+            ret += ",[" +user.getID();           // opens the user bracket
+            if (user instanceof Student){
+                ret += ",[";        // opens courses bracket
+
+                Map<String,Integer> markTbl = c.getAssessment(Integer.parseInt(aId)).getWholeTable();
+
+                Iterator<Map.Entry<String,Integer>> entryItr = markTbl.entrySet().iterator();
+
+                if (!entryItr.hasNext()) {
+                    return "[]";
+                }
+
+                // encoding the mark table into JSON and returning it
+                String ret = "[";
+                    Map.Entry<String,Integer> entry = entryItr.next();
+                    ret += "[\"" + entry.getKey() + "\",\"" + entry.getValue().toString() + "]";
+
+                    while (entryItr.hasNext()) {
+                        entry = entryItr.next();
+                        ret += ",[\"" + entry.getKey() + "\",\"" + entry.getValue().toString() + "]";
+                    }
+                ret += "]";
+
+            }
+            if (user instanceof Lecturer){
+                ret += ","+ user.getDepartment();
+            }
+            ret += "]";                      // closes the user bracket
+        }
+
+        return ret;
+        */
+        Course c = db.getCourse(courseCode, year);  // TODO: check if this is fine
+        if (c == null) {
+            return "null";
+        }
+        String aId = "no"; // what?
+        Map<String,Integer> markTbl = c.getAssessment(Integer.parseInt(aId)).getWholeTable();
+
+        Iterator<Map.Entry<String,Integer>> entryItr = markTbl.entrySet().iterator();
+
+        if (!entryItr.hasNext()) {
+            return "[]";
+        }
+
+        // encoding the mark table into JSON and returning it
+        String ret = "[";
+            Map.Entry<String,Integer> entry = entryItr.next();
+            ret += "[\"" + entry.getKey() + "\",\"" + entry.getValue().toString() + "]";
+
+            while (entryItr.hasNext()) {
+                entry = entryItr.next();
+                ret += ",[\"" + entry.getKey() + "\",\"" + entry.getValue().toString() + "]";
+            }
+        ret += "]";
+
+        return ret;
     }
 
+
+
+
+    /**
+      *
+      * For querying about participants
+      *
+      */
     @RequestMapping(value = "/api/get_user/{uId}", produces = "application/json")
     @ResponseBody
     public String getUser(   // TODO: student or user
@@ -65,24 +157,58 @@ public class AdminHomeController {
         if (user == null){
             return "User does not exist";
         }
-
-        if (user instanceof Student)){
-            //
+        else if (user instanceof Student){
+            return this.stu((Student)user, uId);                 // TODO: i wonder if this is legit
         }
         else if (user instanceof AdminStaff){
-
+            return this.admin((AdminStaff)user, uId);
         }
         else{   // is a lecturer
+            return this.lect((Lecturer)user, uId);
+        }
+    }
 
+    /**
+      * Student json info
+      */
+    private String stu(Student stu, String id){
+        List<Course> c = stu.getInvolvedCourses();  //all the courses
+        String ret = "["+"["+id+"]";   // TODO: check if correct
+
+        if (!c.isEmpty()) { // returns user with no courses
+            return ret+"]";
         }
 
-        return "";
+        for (int i = 0; i < c.size(); i++){
+            ret += ",[\"" + i + "\",\"" + c.get(i).getID() + "]";
+        }
+        ret += "]";
+
+        return ret;
+    }
+    /**
+      * Admin json info
+      */
+    private String admin(AdminStaff adm, String id){
+        return "["+"["+id+"]"+",["+adm.getDepartment()+"]";
+    }
+    /**
+      * lecturer json info
+      */
+    private String lect(Lecturer lect, String id){
+        String ret = "[" +"["+ id +"]" + ",["+lect.getDepartment()+"]"; // if lecturers has no department?
+        List<Course> c = lect.getCourses();
+
+        if (c == null){
+            return ret+"]" ;
+        }
+
+        for (int i = 0; i < c.size(); i++){
+            ret += ",[\"" + i + "\",\"" + c.get(i).getID() + "]";
+        }
+        ret += "]";
+
+        return ret;
     }
 
-    private String lect(){
-        return "";
-    }
-    private String stu(){
-        return "";
-    }
 }

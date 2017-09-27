@@ -38,5 +38,14 @@ public class Course {
         return name+"_"+Integer.toString(year);
     }
 
+
+    public List<User> getParticipates(){
+        return this.participants;           // security breach?
+    }
+
+    public List<Assessment> getAssessment(){
+        return this.assessments;
+    }
+
     // TODO: stage 4: reflect any changes directly to the DB
 }

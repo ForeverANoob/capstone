@@ -20,7 +20,7 @@ public class Database {
     public Database() {     // this sht has so much hardcoding in it
 
         courses = new HashMap<String,Course>();
-        ArrayList user = new ArrayList<Assessment>();
+        ArrayList<User> user = new ArrayList<User>();       // temparary
         rawAssessments = new HashMap<String, Assessment>();
 
         Course c = new Course("CSC3002S", "2017");  // has no assessments in it
@@ -72,6 +72,10 @@ public class Database {
 
     protected void setRawAssessmentMarkCap(String aId, int mc) {  // TODO:
         ((RawAssessment)rawAssessments.get(aId)).setMarkCap(mc);     // done?
+    }
+
+    protected Map<String, Assessment> getAssessments(){
+        return rawAssessments;                              // security leak?
     }
 
 }
