@@ -41,6 +41,7 @@ public class WebSecurityCfg extends WebSecurityConfigurerAdapter {
                 .and()
             .formLogin()
                 .loginPage("/login")
+                .defaultSuccessUrl("/home")
                 .permitAll()
                 .and()
             .logout()    // auto logout ?
