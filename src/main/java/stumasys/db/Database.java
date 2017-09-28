@@ -15,29 +15,40 @@ public class Database {
 
     private Map<String, Course> courses;
     private Map<String, User> users =new HashMap<String, User>();        // remember to change this
-    private Map<String, Assessment> assessments;     // TODO: danny, keep this as only raw or assessments
+    private Map<String, Assessment> assessments;
 
     public Database() {     // this sht has so much hardcoding in it
 
         courses = new HashMap<String,Course>();
-        ArrayList<User> user = new ArrayList<User>();       // temparary
         assessments = new HashMap<String, Assessment>();
 
-        Course c = new Course("CSC3002S", "2017");  // has no assessments in it
-        courses.put("csc3002s_2017", c);
-        user.add(new Student("BRRAND016", new ArrayList<Course>(), new byte[20] , new byte[12]));
-        user.add(new Student("BRRAND017", new ArrayList<Course>(), new byte[20] , new byte[12]));
+        // creating sample users
+        User u1 = new Student("BRRAND016", new ArrayList<Course>(), new byte[20] , new byte[12]);
+        User u2 = new Student("BRRAND017", new ArrayList<Course>(), new byte[20] , new byte[12]);
+        User u3 = new Student("qwe", new ArrayList<Course>(), new byte[20] , new byte[12]);
 
-        Course csc1015f_2017 = new Course("CSC1015F", 2017, user);
+        // adding those users to our "users" map
+        users.put("BRRAND016", u1);
+        users.put("BRRAND017", u2);
+        users.put("qwe", u3);
+
+        // list of users, for adding to sample courses
+        ArrayList<User> userList = new ArrayList<User>();
+        userList.add(u1);
+        userList.add(u2);
+        userList.add(u3);
+
+        // creating sample courses; NB: none have any assessments inside!
+        Course csc1015f_2017 = new Course("CSC1015F", 2017, userList);
         courses.put("csc1015f_2017", csc1015f_2017);
 
-        Course csc1016s_2017 = new Course("CSC1015S", 2017, user);
+        Course csc1016s_2017 = new Course("CSC1015S", 2017, userList);
         courses.put("csc1016s_2017", csc1016s_2017);
 
-        Course csc1015f_2016 = new Course("CSC1015F", 2016, user);
+        Course csc1015f_2016 = new Course("CSC1015F", 2016, userList);
         courses.put("csc1015f_2016", csc1015f_2016);
 
-        Course csc1016s_2016 = new Course("CSC1015S", 2016, user);
+        Course csc1016s_2016 = new Course("CSC1015S", 2016, userList);
         courses.put("csc1016s_2016", csc1016s_2016);
     }
 

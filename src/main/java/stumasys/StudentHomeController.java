@@ -48,6 +48,7 @@ public class StudentHomeController {
         final String ID = p.getName();
         ArrayList<HashMap<String, Integer>> everthing = new ArrayList<HashMap<String, Integer>>();
 
+        System.out.println("Getting student with name: " + ID);
         Student stu = (Student)db.getUser(ID);
         if (stu == null){
             return "Student does not exist";
