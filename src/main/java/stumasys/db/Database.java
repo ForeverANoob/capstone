@@ -25,8 +25,9 @@ public class Database {
 
         Course c = new Course("CSC3002S", "2017");  // has no assessments in it
         courses.put("csc3002s_2017", c);
-        user.add(new Student("BRRAND016", new ArrayList<Course>(), new byte[20] , new byte[12]));
-        user.add(new Student("BRRAND017", new ArrayList<Course>(), new byte[20] , new byte[12]));
+        users.put("qwe", new Student("qwe", new ArrayList<Course>(), new byte[20] , new byte[12]));
+        users.put("BRRAND016", new Student("BRRAND016", new ArrayList<Course>(), new byte[20] , new byte[12]));
+        users.put("BRRAND017", new Student("BRRAND017", new ArrayList<Course>(), new byte[20] , new byte[12]));
 
         Course csc1015f_2017 = new Course("CSC1015F", 2017, user);
         courses.put("csc1015f_2017", csc1015f_2017);
@@ -39,6 +40,8 @@ public class Database {
 
         Course csc1016s_2016 = new Course("CSC1015S", 2016, user);
         courses.put("csc1016s_2016", csc1016s_2016);
+
+
     }
 
     public Course getCourse(String code, int year) {

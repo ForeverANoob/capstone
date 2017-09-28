@@ -58,7 +58,7 @@ public class AdminHomeController {
       */
     @RequestMapping(value = "/api/get_course/{year}/{courseCode}", produces = "application/json")
     @ResponseBody
-    public String getCourse(        // TODO: Fill this out
+    public String getCourse(      
         @PathVariable int year,
         @PathVariable String courseCode
     ){
@@ -138,8 +138,6 @@ public class AdminHomeController {
 
         return ret;
     }
-
-
 
 
     /**
