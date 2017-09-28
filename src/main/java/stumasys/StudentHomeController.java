@@ -72,7 +72,7 @@ public class StudentHomeController {
         model.addAttribute("username", ID);
         model.addAttribute("subnmarks", everthing);    // will probably extand this to userId
 
-        return "StudentHome"+ID;       // TODO: give proper html page
+        return "StudentHome";       // TODO: give proper html page
     }
 
 
