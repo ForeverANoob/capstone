@@ -35,8 +35,7 @@ public class WebSecurityCfg extends WebSecurityConfigurerAdapter {
 
         http
             .authorizeRequests()
-                .antMatchers("/AdminHome").hasRole("ADMIN_STAFF")
-                .antMatchers("/StudentHome").hasRole("STUDENT")
+                .antMatchers("/").authenticated()
                 .anyRequest().permitAll() // TODO: stage 4: correct the permissions to not allow arbitrary people to access effectively everything
                 .and()
             .formLogin()
