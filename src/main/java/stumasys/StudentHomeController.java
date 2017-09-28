@@ -54,25 +54,29 @@ public class StudentHomeController {
             return "Student does not exist";
         }
 
-        ArrayList<Course> c = (ArrayList)stu.getInvolvedCourses();
+        List<Course> c = stu.getInvolvedCourses();
         if (c == null){
             return "In no courses brah";
         }
         HashMap<String, Integer> ass = new HashMap<String, Integer>();
         for (int i = 0; i < c.size(); i++){
-            ArrayList<Assessment> tmp = (ArrayList)c.get(i).getAssessments();
+            List<Assessment> tmp = c.get(i).getAssessments();
             for(int j = 0; j < tmp.size(); j++){
                 ass.put(tmp.get(j).getid(), tmp.get(j).getStudentMark(ID));
             }
-            everthing.add(ass);
+            everthing.add(ass);     // This holds all the assessments of all of the courses, may have to be changed
             ass.clear();
 
         }
 
+        model.addAttribute("username", ID);
         model.addAttribute("subnmarks", everthing);    // will probably extand this to userId
 
-        return "StudentHome";       // TODO: give proper html page
+        return "StudentHome"+ID;       // TODO: give proper html page
     }
+
+
+
 /*
     @RequestMapping(value = "/api/get_studenthomepage/{sId}", produces = "application/json")    // right directory?
     @ResponseBody

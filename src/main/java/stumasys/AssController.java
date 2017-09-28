@@ -10,17 +10,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 @Controller
-public class Layer2Controller {     // this class may be redundant since courseconstroller does this i think
+public class AssController {     // this class may be redundant since courseconstroller does this i think
 
     //private static final String PATH = "/error";
 
-    @RequestMapping(value = "/course/{year}/{courseCode}/Layer2")
+    @RequestMapping(value = "/course/{year}/{courseCode}/Assignment/{aId}")
     public String indexHandler(
+            @PathVariable String year,
+            @PathVariable String courseCode,
+            @PathVariable String aId,
             Model model,
             HttpServletResponse servletRes
     ){
+
         return "Layer2";
     }
     /*

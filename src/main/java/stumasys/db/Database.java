@@ -39,6 +39,9 @@ public class Database {
         userList.add(u3);
 
         // creating sample courses; NB: none have any assessments inside!
+        Course c = new Course("CSC3002S", "2017");  // has no assessments in it
+        courses.put("csc3002s_2017", c);
+
         Course csc1015f_2017 = new Course("CSC1015F", 2017, userList);
         courses.put("csc1015f_2017", csc1015f_2017);
 
@@ -50,6 +53,8 @@ public class Database {
 
         Course csc1016s_2016 = new Course("CSC1015S", 2016, userList);
         courses.put("csc1016s_2016", csc1016s_2016);
+
+
     }
 
     public Course getCourse(String code, int year) {
