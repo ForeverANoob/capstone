@@ -2,6 +2,7 @@ package stumasys;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,15 +37,21 @@ public class StudentHomeController {
         this.db = db;
     }
 
-    @RequestMapping(value = "/StudentHome/{ID}")    // originally was /StudentHome
+    @RequestMapping(value = "/StudentHome")    // originally was /StudentHome
     public String homeHandler(
-            @PathVariable String ID,
+            Principal p,
             Model model,
             HttpServletResponse servletRes
     ){
         // TODO: return different (non-student/student) homepages depending on authorisation level
         // TODO: retrieve the list of "relevant" courses (for both non-students/students)
+        final String ID = p.getName();
         ArrayList<HashMap<String, Integer>> everthing = new ArrayList<HashMap<String, Integer>>();
+
+        Student stu = (Student)db.getUser(ID);
+        if (stu == null){
+            return "Student does not exist";
+        }
 
         ArrayList<Course> c = (ArrayList)stu.getInvolvedCourses();
         if (c == null){
@@ -55,8 +62,9 @@ public class StudentHomeController {
             ArrayList<Assessment> tmp = (ArrayList)c.get(i).getAssessments();
             for(int j = 0; j < tmp.size(); j++){
                 ass.put(tmp.get(j).getid(), tmp.get(j).getStudentMark(ID));
-                everthing.add(ass);
             }
+            everthing.add(ass);
+            ass.clear();
 
         }
 
