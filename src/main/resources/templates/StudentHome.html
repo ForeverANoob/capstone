@@ -28,6 +28,26 @@
     <center><hd>BRRAND016</hd></center>
     <center><h1>2017</h1></center>
 
+    <title th:text="${username}">mocking text</title>
+    <p th:text="${subnmarks}">Test</p>
+
+    <table>
+      <tr>
+        <th>courseCode</th>
+        <th>Assessment</th>
+        <th>Mark</th>
+      </tr>
+      <tr th:each="o : ${subnmarks}" >        <!-- <td th:foreach blablablabla>     XXXX    </td> -->
+        <td th:text="${everthing}"> Course Code</td>
+        <td th:text="${o}">ass</td>
+        <td th:text="${o}">mark</td>
+        <!--td>
+          <a href="details.html" th:href="@{/order/details(orderId=${o.id})}">view</a>
+      </td>-->
+      </tr>
+    </table>
+
+
 <div class="container">
     <div class="card-deck">
   <div class="card">

@@ -46,6 +46,7 @@ public class StudentHomeController {
         // TODO: return different (non-student/student) homepages depending on authorisation level
         // TODO: retrieve the list of "relevant" courses (for both non-students/students)
         final String ID = p.getName();
+
         ArrayList<HashMap<String, Integer>> everthing = new ArrayList<HashMap<String, Integer>>();
 
         System.out.println("Getting student with name: " + ID);
