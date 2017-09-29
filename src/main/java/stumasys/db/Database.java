@@ -63,8 +63,15 @@ public class Database {
 
     }
 
+    public List<Course> getLikeCourse(String name){
+        return null;            // TODO: implement SQL search query for courses with similar name
+    }
+    public List<Course> getLikeYear(String year){
+        return null;            // TODO: implement SQL search for courses in this year
+    }
+
     public Course getCourse(String code, int year) {
-        return courses.get(code.toLowerCase() +"_"+ Integer.toString(year));
+        return courses.get(code.toLowerCase() +"_"+ Integer.toString(year));    // TODO: WILL HAVE TO SWAP THIS
     }
 
     public User getUser(String id) {
