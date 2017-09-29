@@ -71,7 +71,7 @@ public class Database {
     }
 
     public Course getCourse(String code, int year) {
-        return courses.get(code.toLowerCase() +"_"+ Integer.toString(year));    // TODO: WILL HAVE TO SWAP THIS
+        return courses.get(Integer.toString(year) +"_"+ code.toLowerCase());   
     }
 
     public User getUser(String id) {
