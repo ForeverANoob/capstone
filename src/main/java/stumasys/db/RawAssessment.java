@@ -14,7 +14,7 @@ public class RawAssessment implements Assessment {
         this.id = id;
     }
 
-    public String getid(){
+    public String getId(){
         return this.id;
     }
 
@@ -28,7 +28,8 @@ public class RawAssessment implements Assessment {
     }
 
     public int getUncappedStudentMark(String stuId) {
-        return db.getRawAssessmentMark(this.id, stuId);
+        //return db.getRawAssessmentMark(this.id, stuId); // TODO: do this instead of hardcode
+        return 69;
     }
 
     public void setStudentMark(String stuId, int mark) { // what danny

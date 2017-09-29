@@ -20,8 +20,6 @@ public class CreateCourseController {
             Model model,
             HttpServletResponse servletRes
     ){
-        // TODO: return different (non-student/student) homepages depending on authorisation level  // what, student and non-students, really?
-        // TODO: retrieve the list of "relevant" courses (for both non-students/students)
 
 
 

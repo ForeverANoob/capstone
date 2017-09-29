@@ -15,7 +15,7 @@ public class Course {
         this.year = year;
         this.participants = participants;
         this.assessments = new ArrayList<Assessment>(); // TODO: adding assessments now???
-        this.assessments.add(new RawAssessment(21, db, "asdde"));
+        this.assessments.add(new RawAssessment(100, db, "asdde"));
 
     }
 
@@ -24,7 +24,7 @@ public class Course {
         this.year = Integer.parseInt(year);
         this.assessments = new ArrayList<Assessment>();
         this.participants = new ArrayList<User>();
-        this.assessments.add(new RawAssessment(21, db, "wqdde"));
+        this.assessments.add(new RawAssessment(100, db, "wqdde"));
 
     }
 

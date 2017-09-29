@@ -54,7 +54,6 @@ public class CourseController {
             HttpServletResponse servletRes
     ){
 
-        // TODO: load more actual content into the Model (requires simultaneous work on the HTML template)
         /*
          * 1. Check if this course exists with the DB:
          *      if not, return error page. otherwise procede.
@@ -115,6 +114,7 @@ public class CourseController {
             @PathVariable String code,
             @PathVariable String assId
     ){
+        /*
         Course c = db.getCourse(code, year);
         if (c == null) {
             return "You just got rekt, bro"; // in the spirit of andre's helpful error messages
@@ -124,6 +124,7 @@ public class CourseController {
         if (a == null) {
             return "I'm just a poor boy from a poor family";
         }
+        */
 
         return "assessment";
     }

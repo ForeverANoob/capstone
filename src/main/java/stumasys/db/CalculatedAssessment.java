@@ -80,7 +80,7 @@ public class CalculatedAssessment implements Assessment {
         return new HashMap<String,Integer>();
     }
 
-    public String getid(){
+    public String getId() {
         return this.id;
     }
 }

@@ -59,7 +59,7 @@ public class Database {
         u3.addCourse(csc1016s_2016);
         u3.addCourse(csc1015f_2016);
 
-        csc1015f_2017.addRawAssessment(32, this);
+        csc1015f_2017.addRawAssessment(100, this);
 
     }
 
