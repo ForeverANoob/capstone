@@ -109,5 +109,23 @@ public class CourseController {
         return ret;
     }
 
+    @RequestMapping(value ="/course/{year}/{code}/{assId}")
+    public String assessmentPageHandler(
+            @PathVariable String year,
+            @PathVariable String code,
+            @PathVariable String assId
+    ){
+        Course c = db.getCourse(code, year);
+        if (c == null) {
+            return "You just got rekt, bro"; // in the spirit of andre's helpful error messages
+        }
+
+        Assessment a = c.getAssessment(assId);
+        if (a == null) {
+            return "I'm just a poor boy from a poor family";
+        }
+
+        return "assessment";
+    }
     
 }
