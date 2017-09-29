@@ -25,7 +25,7 @@ public class Database {
         // creating sample users
         User u1 = new Student("BRRAND016", new ArrayList<Course>(), new byte[20] , new byte[12]);
         User u2 = new Student("BRRAND017", new ArrayList<Course>(), new byte[20] , new byte[12]);
-        User u3 = new Student("qwe", new ArrayList<Course>(), new byte[20] , new byte[12]);
+        Student u3 = new Student("qwe", new ArrayList<Course>(), new byte[20] , new byte[12]);
 
         // adding those users to our "users" map
         users.put("BRRAND016", u1);
@@ -39,21 +39,27 @@ public class Database {
         userList.add(u3);
 
         // creating sample courses; NB: none have any assessments inside!
-        Course c = new Course("CSC3002S", "2017");  // has no assessments in it
+        Course c = new Course("CSC3002S", "2017", this);  // has no assessments in it
         courses.put("csc3002s_2017", c);
 
-        Course csc1015f_2017 = new Course("CSC1015F", 2017, userList);
+        Course csc1015f_2017 = new Course("CSC1015F", 2017, userList, this);
         courses.put("csc1015f_2017", csc1015f_2017);
 
-        Course csc1016s_2017 = new Course("CSC1015S", 2017, userList);
+        Course csc1016s_2017 = new Course("CSC1015S", 2017, userList, this);
         courses.put("csc1016s_2017", csc1016s_2017);
 
-        Course csc1015f_2016 = new Course("CSC1015F", 2016, userList);
+        Course csc1015f_2016 = new Course("CSC1015F", 2016, userList, this);
         courses.put("csc1015f_2016", csc1015f_2016);
 
-        Course csc1016s_2016 = new Course("CSC1015S", 2016, userList);
+        Course csc1016s_2016 = new Course("CSC1015S", 2016, userList ,this);
         courses.put("csc1016s_2016", csc1016s_2016);
 
+        u3 = (Student)u3;
+        u3.addCourse(csc1015f_2017);
+        u3.addCourse(csc1016s_2016);
+        u3.addCourse(csc1015f_2016);
+
+        csc1015f_2017.addRawAssessment(32, this);
 
     }
 
@@ -65,6 +71,10 @@ public class Database {
         return users.get(id);
     }
 
+    public boolean isAuthorised(String saltpass){
+
+        return true;
+    }
     /* The following are an interface used by the objects returned by this class
      * to fetch additional data from, and synchronise changes with, the database
      * underlying the system. For now, we're hardcoding things without having an
@@ -77,6 +87,8 @@ public class Database {
     }
 
     protected int getRawAssessmentMark(String aId, String uId) {  // TODO: Have to fix this
+        Assessment a = assessments.get(aId);
+        if (a == null){return -1;}                                // if the assignment doesn't exist
         return (assessments.get(aId)).getStudentMark(uId);        // wrong?
     }
 

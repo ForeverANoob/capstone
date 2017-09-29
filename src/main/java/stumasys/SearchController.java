@@ -2,6 +2,7 @@ package stumasys;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.security.Principal;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +39,7 @@ public class SearchController {
 
     @RequestMapping(value = "/api/get_search_results") // TODO: search REST api function that actually searches and gives results, that will be fetched by JS on the /search webpage
     public String yieldSearchResults(
-
+        Principal p
     ){
         // TODO: get the search results for this search term from the DB class
         // It must return a String-formatted JSON object

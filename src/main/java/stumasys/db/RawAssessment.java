@@ -43,4 +43,8 @@ public class RawAssessment implements Assessment {
     public Map<String, Integer> getWholeTable() { // TODO: actually implement this
         return new HashMap<String,Integer>();
     }
+
+    public String toString(){
+        return ""+this.id+" "+23;
+    }
 }
