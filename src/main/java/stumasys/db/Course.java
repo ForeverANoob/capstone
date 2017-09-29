@@ -38,7 +38,7 @@ public class Course {
     }
 
     public String getID(){
-        return name+"_"+Integer.toString(year);
+        return Integer.toString(year)+"_"+name;
     }
 
 
