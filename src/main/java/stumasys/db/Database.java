@@ -88,7 +88,7 @@ public class Database {
 
     protected int getRawAssessmentMark(String aId, String uId) {  // TODO: Have to fix this
         Assessment a = assessments.get(aId);
-        if (a == null){return 24;}                                // if the assignment doesn't exist
+        if (a == null){return -1;}                                // if the assignment doesn't exist
         return (assessments.get(aId)).getStudentMark(uId);        // wrong?
     }
 

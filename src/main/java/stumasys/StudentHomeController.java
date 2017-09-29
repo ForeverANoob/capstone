@@ -47,7 +47,11 @@ public class StudentHomeController {
         // TODO: retrieve the list of "relevant" courses (for both non-students/students)
         final String ID = p.getName();
 
-        ArrayList<HashMap<String, Integer>> everthing = new ArrayList<HashMap<String, Integer>>();
+        //ArrayList<HashMap<String, Integer>> everthing = new ArrayList<HashMap<String, Integer>>();
+        //ArrayList<List<Integer>> everthing = new ArrayList<List<Integer>>();
+        //ArrayList<List<Assessment>> everthing = new ArrayList<List<Assessment>>();
+        //ArrayList<String> everthing = new ArrayList<String>();
+        HashMap<String, List<Assessment>> everthing = new HashMap<String, List<Assessment>>();
 
         System.out.println("Getting student with name: " + ID);
         Student stu = (Student)db.getUser(ID);
@@ -59,17 +63,14 @@ public class StudentHomeController {
         if (c == null){
             return "In no courses brah";
         }
-        HashMap<String, Integer> ass = new HashMap<String, Integer>();
+        //List<Integer> ma = new ArrayList<Integer>();
+        //HashMap<String, Integer> ass = new HashMap<String, Integer>();
         for (int i = 0; i < c.size(); i++){
             List<Assessment> tmp = c.get(i).getAssessments();
-            for(int j = 0; j < tmp.size(); j++){
-                ass.put(tmp.get(j).getid(), tmp.get(j).getStudentMark(ID));
-            }
-            everthing.add(ass);     // This holds all the assessments of all of the courses, may have to be changed
-            ass.clear();
+            
+            everthing.put(c.get(i).getID(), tmp);     // This holds all the assessments of all of the courses, may have to be changed
 
         }
-
         model.addAttribute("username", ID);
         model.addAttribute("subnmarks", everthing);    // will probably extand this to userId
 

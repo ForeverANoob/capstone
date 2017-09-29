@@ -29,24 +29,35 @@
     <center><h1>2017</h1></center>
 
     <title th:text="${username}">mocking text</title>
-    <p th:text="${subnmarks}">Test</p>
+    <p th:text="${username}">Test</p>
 
-    <table>
+    <!--1table>
       <tr>
         <th>courseCode</th>
         <th>Assessment</th>
         <th>Mark</th>
       </tr>
-      <tr th:each="o : ${subnmarks}" >        <!-- <td th:foreach blablablabla>     XXXX    </td> -->
-        <td th:text="${everthing}"> Course Code</td>
+      <tr th:each="o : ${subnmarks}" >        <!-- <td th:foreach blablablabla>     XXXX    </td> >
+
+        <td th:text="${o}"> Course Code</td>
         <td th:text="${o}">ass</td>
         <td th:text="${o}">mark</td>
         <!--td>
           <a href="details.html" th:href="@{/order/details(orderId=${o.id})}">view</a>
-      </td>-->
-      </tr>
-    </table>
+      </td>>
+  </tr>
+    </table-->
+    <table>
+        <tr th:each="element : ${subnmarks}">
+            <td th:text="${element.key}">keyvalue</td>
+            <table>
+                <tr th:each="anews : ${element.value}">
+                    <td th:text="${anews}">Some name</td>
 
+                </tr>
+            </table>
+        </tr>
+    </table>
 
 <div class="container">
     <div class="card-deck">
@@ -59,6 +70,7 @@
       <p class="card-text"><small class="text-muted">Reveal more</small></p>
     </div>
   </div>
+  
   <div class="card">
     <div class="card-block">
       <h4 class="card-title">CSC3002F</h4>
