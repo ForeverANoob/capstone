@@ -5,49 +5,44 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Course {
-
-    private String name;
+    private String code; // these two variables uniquely identify a given Course
     private int year;
-    //private List<User> participants;
-    private List<Assessment> assessments;
-    private List<Student> TA;
-    private List<Student> students;
+
+    private Lecturer coordinator;
     private List<Lecturer> lecturers;
-    private Lecturer courseConviner;
+    private List<Student> teachingAssistants;
+    private List<Student> students;
+    private Map<Student, Boolean> registrationStaus;
 
-    public Course(String name, int year, List<User> user) {
-        this.name = name;
+    private Map<String, Assessment> assessments;
+
+    public Course(
+            String code, int year,
+            Lecturer coordinator, List<Lecturer> lecturers,
+            List<Student> teachingAssistants, List<Students> students,
+            Map<Student, Boolean> registrationStaus
+    ){
+        this.code = code;
         this.year = year;
-        //this.participants = participants;
-        this.assessments = new ArrayList<Assessment>(); // TODO: adding assessments now???
-        //this.assessments.add(new RawAssessment(100, db, "asdde"));
-        this.TA = new ArrayList<Student>();
-        this.students = new ArrayList<Student>();
-        this.lecturers = new ArrayList<Lecturer>();
-        this.setParticipants(user);
-    }
 
-    public Course(String name, String year){
-        this.name = name;
-        this.year = Integer.parseInt(year);
-        this.assessments = new ArrayList<Assessment>();
-        this.TA = new ArrayList<Student>();
-        this.students = new ArrayList<Student>();
-        this.lecturers = new ArrayList<Lecturer>();
-        //this.participants = new ArrayList<User>();
-        //this.assessments.add(new RawAssessment(100, db, "wqdde"));
+        this.coordinator = coordinator;
+        this.lecturers = lecturers;
+
+        this.teachingAssistants = teachingAssistants;
+        this.students = students;
+        this.registrationStatus = registrationStatus;
     }
 
     public String getId(){
-        return Integer.toString(year)+"_"+name;
+        return Integer.toString(year)+"_"+code;
     }
 
     // assessments things
-    public Assessment getAssessment(int id) { // might need to be a hashmap
+    public Assessment getAssessment(String id) {
         return assessments.get(id);
     }
-    public void addAssessment(Assessment raw){
-        assessments.add(raw);   // all assessments are added like this
+    public void addAssessment(Assessment a){
+        assessments.add(a);
     }
     public void setAssessments(List<Assessment> all){
         assessments.addAll(all);
@@ -55,24 +50,16 @@ public class Course {
     public List<Assessment> getAssessments(){
         return Collections.unmodifiableList(this.assessments);
     }
-/*
-    public List<User> getParticipates(){
-        return this.participants;           // security breach?
-    }
-*/
-    // TODO: stage 4: reflect any changes directly to the DB
 
-    public boolean isRegistered(User user){ // TODO:    for all users or just student
-        if (students.contains(user) || lecturers.contains(user)){
-            return false;
-        }
-        return true;
+    public boolean isRegistered(Student stu){ // TODO:    for all users or just student
+        if (registrationStaus.get(stu)
+        return registrationStaus.
     }
     public void deregisterStudent(Student stu){ // TODO: unsure about this
         if (students.contains(stu)){
             for (int i = 0; i < students.size(); i++){
                 if(students.get(i).getId().equals(stu.getId())){
-                    students.get(i).deregister(year+"_"+name);
+                    students.get(i).deregister(year+"_"+code);
                     break;
                 }
             }
