@@ -1,6 +1,7 @@
 package stumasys.db;
 
 import java.util.List;
+import java.util.Collections;
 
 public class Lecturer extends User {
     private String department;
@@ -35,6 +36,6 @@ public class Lecturer extends User {
     }
 
     public List<Course> getCourses(){
-        return this.involvedIn;
+        return Collections.unmodifiableList(this.involvedIn);
     }
 }

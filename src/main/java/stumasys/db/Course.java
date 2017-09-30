@@ -2,6 +2,7 @@ package stumasys.db;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collecctions;
 
 public class Course {
 
@@ -52,7 +53,7 @@ public class Course {
         assessments.addAll(all);
     }
     public List<Assessment> getAssessments(){
-        return this.assessments;
+        return Collections.unmodifiableList(this.assessments);
     }
 /*
     public List<User> getParticipates(){
