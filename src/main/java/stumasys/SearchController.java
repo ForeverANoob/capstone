@@ -121,9 +121,9 @@ public class SearchController {
 
         for (int i = 0; i < cs.size(); i++){
             if(i == 0){
-                ret += "\"" + cs.get(0).getID() + "\"";
+                ret += "\"" + cs.get(0).getId() + "\"";
             }else{
-                ret += ",\"" + cs.get(i).getID() + "\"";
+                ret += ",\"" + cs.get(i).getId() + "\"";
             }
         }
         ret += "]";

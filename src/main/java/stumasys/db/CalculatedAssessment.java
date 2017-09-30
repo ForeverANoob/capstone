@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Collections;
 
 public class CalculatedAssessment implements Assessment {
     // TODO: stage 4: extend this class to allow arbitrary calculations
@@ -51,26 +52,26 @@ public class CalculatedAssessment implements Assessment {
         return markCap;
     }
 
-    public int getStudentMark(String id) {
-        int mark = getUncappedStudentMark(id);
+    public int getStudentMark(Student stu) {
+        int mark = getUncappedStudentMark(stu);
         return ((markCap < mark) ? markCap : mark);
     }
 
-    public int getUncappedStudentMark(String id) {
+    public int getUncappedStudentMark(Student stu) {
         int mark = 0;
         Iterator<Integer> wIter = weight.iterator();
         if (useUncapped == null) {
             for (Assessment a : src) {
-                mark += a.getStudentMark(id);
+                mark += a.getStudentMark(stu);
             }
         } else {
             Iterator<Boolean> uncapIter = useUncapped.iterator();
             for (Assessment a : src) {
                 int m;
                 if (uncapIter.next()) {
-                    m = a.getUncappedStudentMark(id);
+                    m = a.getUncappedStudentMark(stu);
                 } else {
-                    m = a.getStudentMark(id);
+                    m = a.getStudentMark(stu);
                 }
                 mark += wIter.next() * m;
             }
@@ -91,7 +92,6 @@ public class CalculatedAssessment implements Assessment {
     }
     public void publishMarks(){
         this.published = true;
-        return true;                /////  forgot why we have this
     }
 
     public boolean isAvailableFromStudentHome() {

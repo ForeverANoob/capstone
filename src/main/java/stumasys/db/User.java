@@ -18,7 +18,7 @@ public class User {
         //this.db = db;
     }
 
-    public String getID(){
+    public String getId(){
         return this.id;
     }
 /*

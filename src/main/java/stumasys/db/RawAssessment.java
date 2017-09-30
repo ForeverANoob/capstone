@@ -28,14 +28,14 @@ public class RawAssessment implements Assessment {
         return markCap;
     }
 
-    public int getStudentMark(String id) {
-        int rm = getUncappedStudentMark(id);
+    public int getStudentMark(Student s) {
+        int rm = getUncappedStudentMark(s);
         return ((markCap <= rm) ? markCap : rm);
     }
 
-    public int getUncappedStudentMark(Student stu) {
+    public int getUncappedStudentMark(Student s) {
         //return db.getRawAssessmentMark(this.id, stuId); // TODO: do this instead of hardcode
-        return stu.get(stu.getId());  // returns student's mark
+        return stu.get(s.getId());  // returns student's mark
     }
 
     public boolean setStudentMark(String stuId, int mark) {

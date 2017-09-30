@@ -84,35 +84,4 @@ public class Database {
 
         return true;
     }
-    /* The following are an interface used by the objects returned by this class
-     * to fetch additional data from, and synchronise changes with, the database
-     * underlying the system. For now, we're hardcoding things without having an
-     * actual DB present.
-     */
-/*
-    protected void setPassword(String userId, byte[] pwHash) { // TODO:
-        User tmp = users.get(userId);
-        tmp.setPassword(pwHash);
-    }
-*/
-    protected int getRawAssessmentMark(String aId, String uId) {  // TODO: Have to fix this
-        Assessment a = assessments.get(aId);
-        if (a == null){return -1;}                                // if the assignment doesn't exist
-        return (assessments.get(aId)).getStudentMark(uId);        // wrong?
-    }
-
-    protected void setRawAssessmentMark(String aId, String uId, int mark) { // going through the student vs. the course // TODO:
-        //User tmp = users.get(uId);
-        //return tmp.setRawAssessmentMark(cId, aId, mark);
-        ((RawAssessment)assessments.get(aId)).setStudentMark(uId, mark); // should we return a boolean value
-    }
-
-    protected void setRawAssessmentMarkCap(String aId, int mc) {  // TODO:
-        ((RawAssessment)assessments.get(aId)).setMarkCap(mc);     // done?
-    }
-
-    protected Map<String, Assessment> getAssessments(){
-        return assessments;                              // security leak?
-    }
-
 }

@@ -38,7 +38,7 @@ public class Course {
         //this.assessments.add(new RawAssessment(100, db, "wqdde"));
     }
 
-    public String getID(){
+    public String getId(){
         return Integer.toString(year)+"_"+name;
     }
 
@@ -71,7 +71,7 @@ public class Course {
     public void deregisterStudent(Student stu){ // TODO: unsure about this
         if (students.contains(stu)){
             for (int i = 0; i < students.size(); i++){
-                if(students.get(i).getID().equals(stu.getID())){
+                if(students.get(i).getId().equals(stu.getId())){
                     students.get(i).deregister(year+"_"+name);
                     break;
                 }

@@ -68,7 +68,7 @@ public class StudentHomeController {
         for (int i = 0; i < c.size(); i++){
             List<Assessment> tmp = c.get(i).getAssessments();
             
-            everthing.put(c.get(i).getID(), tmp);     // This holds all the assessments of all of the courses, may have to be changed
+            everthing.put(c.get(i).getId(), tmp);     // This holds all the assessments of all of the courses, may have to be changed
 
         }
         model.addAttribute("username", ID);

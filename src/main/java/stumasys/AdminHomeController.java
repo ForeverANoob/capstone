@@ -178,7 +178,7 @@ public class AdminHomeController {
         }
 
         for (int i = 0; i < c.size(); i++){
-            ret += ",[\"" + i + "\",\"" + c.get(i).getID() + "]";
+            ret += ",[\"" + i + "\",\"" + c.get(i).getId() + "]";
         }
         ret += "]";
 
@@ -202,7 +202,7 @@ public class AdminHomeController {
         }
 
         for (int i = 0; i < c.size(); i++){
-            ret += ",[\"" + i + "\",\"" + c.get(i).getID() + "]";
+            ret += ",[\"" + i + "\",\"" + c.get(i).getId() + "]";
         }
         ret += "]";
 
