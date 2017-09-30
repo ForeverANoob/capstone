@@ -1,17 +1,20 @@
 package stumasys.db;
 
 import java.util.List;
+import java.util.Collections;
 
 public class AdminStaff extends User {
     private String department;
-    private List<Course> recentCourse;      // sorted
+    private List<Course> recentCourses;      // sorted
 
     public AdminStaff(
             String id,
-            String department
+            String department,
+            List<Course> recentCourses
     ){
         super(id);
         this.department = department;
+        this.recentCourses = recentCourses;
     }
 
     public String getDepartment() {
@@ -19,15 +22,14 @@ public class AdminStaff extends User {
     }
 
     public void updateRecentlyVeiwedCourses(Course course){
-        if(recentCourse.contains(course)){
-            // sort, maybe
-
-            return;
+        recentCourses.remove(course);
+        recentCourses.add(0, course);
+        if (recentCourses.size() > 10) { // TODO: is this a logical constraint? (list of admin staff's recent courses is never more than 10)
+            recentCourses.remove(10);
         }
-        recentCourse.add(course);
     }
     public List<Course> getRecentlyViewedCourses(){
-        return this.recentCourse;
+        return Collections.unmodifiableList(this.recentCourses);
     }
 
 }
