@@ -117,7 +117,7 @@ public class AdminHomeController {
             return "null";
         }
         String aId = "no"; // what?
-        Map<String,Integer> markTbl = c.getAssessment(Integer.parseInt(aId)).getWholeTable();
+        Map<String,Integer> markTbl = c.getAssessment(aId).getWholeTable();
 
         Iterator<Map.Entry<String,Integer>> entryItr = markTbl.entrySet().iterator();
 
