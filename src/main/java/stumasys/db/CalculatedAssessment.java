@@ -15,7 +15,7 @@ public class CalculatedAssessment implements Assessment {
     // class for weighting in these calculations, rather than using int's.
     // (Normal float/double aren't appropriate for various reasons.)
 
-    private final String id = "";
+    private final String id;
 
     private List<Assessment> src;
     private List<Boolean> useUncapped; // <--- if null, only uses capped marks
@@ -41,7 +41,7 @@ public class CalculatedAssessment implements Assessment {
 
     public CalculatedAssessment(
             String id,
-            boolean published, boolean onStudentHome
+            boolean published, boolean onStudentHome,
             List<Assessment> src, List<Boolean> useUncapped, List<Integer> weight,
             int markCap
     ){
