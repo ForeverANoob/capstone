@@ -41,6 +41,7 @@ public class Database {
                    this.serverName +
                    ":" + this.portNumber + "/",
                    connectionProps);
+                   System.out.println("jdbc:" + this.dbms + "://" +  this.serverName + ":" + this.portNumber + "/" + connectionProps);
         }
         else if (this.dbms.equals("derby")){
             conn = DriverManager.getConnection(
@@ -64,16 +65,25 @@ public class Database {
             //con.prepareStatement(query);
             //con.commit();
 
-            System.out.println(con.getSchema());
-            System.out.println("hi");
+            //System.out.println(con.getSchema());
+            //System.out.println("hi");
             Statement st = con.createStatement();
             //String sql = "INSERT INTO /Unnamed/mysql/testing (id, Acedemic program, fname, surname, emplid, subject, class nbr, Term, Final grade, Catalog nbr) VALUES (dude, woof, swag, mlg, 420, smoke weed, bewbs, gone, gg, 18);";
-            String sql = "SELECT id FROM testing";
+            String sql = "INSERT INTO capstone.users VALUES ('TKDF', 'JOHN'), ('IUF2', 'ANDRE'), ('VRE', 'TIM'), ('RTFD1', 'ALEX')";
             ResultSet rs = st.executeQuery(sql);
-            if(rs.next()) {
-                int id = rs.getInt("first_column_name");
-                String str1 = rs.getString("second_column_name");
-                System.out.println(id+" "+str1);
+            while(rs.next()) {
+               String id = rs.getString("id");
+                //String str1 = rs.getString("second_column_name");
+                System.out.println(id+" ");
+            }
+            st = con.createStatement();
+            //String sql = "INSERT INTO /Unnamed/mysql/testing (id, Acedemic program, fname, surname, emplid, subject, class nbr, Term, Final grade, Catalog nbr) VALUES (dude, woof, swag, mlg, 420, smoke weed, bewbs, gone, gg, 18);";
+            sql = "SELECT id FROM capstone.users";
+            rs = st.executeQuery(sql);
+            while(rs.next()) {
+               String id = rs.getString("id");
+                //String str1 = rs.getString("second_column_name");
+                System.out.println(id+" ");
             }
             con.close();
 
