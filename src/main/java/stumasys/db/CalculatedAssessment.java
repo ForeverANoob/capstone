@@ -90,5 +90,6 @@ public class CalculatedAssessment implements Assessment {
     }
     public boolean publishMarks(){
         this.published = true;
+        return true;                /////  forgot why we have this
     }
 }

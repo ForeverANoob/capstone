@@ -54,6 +54,7 @@ public class RawAssessment implements Assessment {
     }
     public boolean publishMarks(){
         this.published = true;
+        return true;                        // why we have this
     }
     public String toString(){
         return ""+this.id+" "+this.markCap;
