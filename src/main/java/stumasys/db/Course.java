@@ -2,7 +2,7 @@ package stumasys.db;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collecctions;
+import java.util.Collections;
 
 public class Course {
 
