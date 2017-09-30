@@ -2,6 +2,7 @@ package stumasys.db;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Collections;
 
 public class RawAssessment implements Assessment {
     private final String id;          // no id yet
@@ -47,7 +48,7 @@ public class RawAssessment implements Assessment {
     }
 
     public Map<String, Integer> getWholeTable() { // TODO: actually implement this
-        return this.stu;
+        return Collections.unmodifiableMap(this.stu);
     }
     public boolean isPublished(){
         return this.published;
