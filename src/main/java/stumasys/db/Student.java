@@ -7,13 +7,13 @@ public class Student extends User {
     private List<Course> involvedIn; // list of all courses this student
                                      // is enrolled in, tutoring for, etc.  // should it maybe be a map?
     public Student(
-            String id, List<Course> courses,
-            byte[] pwDHash, byte[] pwHashSalt
+            String id, List<Course> courses
+
     ){
-        super(id, pwDHash, pwHashSalt);
+        super(id);
         involvedIn = courses;
     }
-
+    
     public List<Course> getInvolvedCourses() {
         return Collections.unmodifiableList(involvedIn);
     }
@@ -25,6 +25,9 @@ public class Student extends User {
 
     public boolean removeCourse(Course c) { // returns success status
         return involvedIn.remove(c);
+    }
+    public void deregister(String id){
+        //
     }
 /*
     public boolean setRawAssessmentMark(String cId, String aId, int mark){
@@ -42,6 +45,6 @@ public class Student extends User {
         // modify the mark
         return tmp.getAssessment(aId).setStudentMark(mark);     // returns false if the assessment doesn't exist
     }*/
-    
+
     // TODO: stage 4: track additions/removals from courses to update the DB correctly
 }

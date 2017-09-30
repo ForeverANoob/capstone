@@ -1,17 +1,33 @@
 package stumasys.db;
 
+import java.util.List;
+
 public class AdminStaff extends User {
     private String department;
+    private List<Course> recentCourse;      // sorted
 
     public AdminStaff(
             String id,
-            byte[] pwDHash, byte[] pwHashSalt,
             String department
     ){
-        super(id, pwDHash, pwHashSalt);
+        super(id);
+        this.department = department;
     }
 
     public String getDepartment() {
         return department;
     }
+
+    public void updateRecentlyVeiwedCourses(Course course){
+        if(recentCourse.contains(course)){
+            // sort, maybe
+
+            return;
+        }
+        recentCourse.add(course);
+    }
+    public List<Course> getRecentlyViewedCourses(){
+        return this.recentCourse;
+    }
+
 }

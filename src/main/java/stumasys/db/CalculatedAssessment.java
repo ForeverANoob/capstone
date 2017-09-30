@@ -19,6 +19,7 @@ public class CalculatedAssessment implements Assessment {
     private List<Integer> weight;
     private int markCap;
     private final String id = "";   // TODO: An actually id
+    private boolean published =false;
 
     public static int calculateAppropriateMarkCap(List<Assessment> src, List<Integer> weight) {
         Iterator<Integer> wIter = weight.iterator();
@@ -82,5 +83,12 @@ public class CalculatedAssessment implements Assessment {
 
     public String getId() {
         return this.id;
+    }
+
+    public boolean isPublished(){
+        return this.published;
+    }
+    public boolean publishMarks(){
+        this.published = true;
     }
 }

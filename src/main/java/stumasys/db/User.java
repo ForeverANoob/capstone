@@ -6,22 +6,22 @@ import java.security.MessageDigest;
 
 public class User {
     private String id;
-    private byte[] pwSaltedDblHash; // Note: at no point is the user's plaintext
-    private byte[] pwHashSalt;      // password in memory on the server this
+    //private byte[] pwSaltedDblHash; // Note: at no point is the user's plaintext
+    //private byte[] pwHashSalt;      // password in memory on the server this
                                     // application resides on.
 
     //public User(String id, byte[] pwDHash, byte[] pwHashSalt, Database db) {
-    public User(String id, byte[] pwDHash, byte[] pwHashSalt) {
+    public User(String id) {
         this.id = id;
-        this.pwHashSalt = pwHashSalt;
-        this.pwSaltedDblHash = pwDHash;
+        //his.pwHashSalt = pwHashSalt;
+        //this.pwSaltedDblHash = pwDHash;
         //this.db = db;
     }
 
-    public String getId(){
+    public String getID(){
         return this.id;
     }
-
+/*
     public byte[] getSaltedDHash() {
         return pwSaltedDblHash;
     }
@@ -52,5 +52,5 @@ public class User {
         //db.setPassword(id, pwHash);
         pwSaltedDblHash = pwHash;
     }
-
+*/
 }

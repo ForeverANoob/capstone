@@ -8,4 +8,6 @@ public interface Assessment {
     public int getStudentMark(String id);
     public int getUncappedStudentMark(String id);
     public Map<String, Integer> getWholeTable();
+    public boolean isPublished();
+    public boolean publishMarks();
 }

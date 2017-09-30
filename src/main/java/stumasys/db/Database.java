@@ -19,7 +19,7 @@ public class Database {
 
     public Database() {     // this sht has so much hardcoding in it
 
-        courses = new HashMap<String,Course>();
+        courses = new HashMap<String, Course>();
         assessments = new HashMap<String, Assessment>();
 
         // creating sample users
@@ -71,7 +71,7 @@ public class Database {
     }
 
     public Course getCourse(String code, int year) {
-        return courses.get(Integer.toString(year) +"_"+ code.toLowerCase());   
+        return courses.get(Integer.toString(year) +"_"+ code.toLowerCase());
     }
 
     public User getUser(String id) {

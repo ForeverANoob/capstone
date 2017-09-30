@@ -7,10 +7,10 @@ public class Lecturer extends User {
     private List<Course> involvedIn; // list of courses lecturing-in/convening
 
     public Lecturer(
-            String id, String department, List<Course> courses,
-            byte[] pwDHash, byte[] pwHashSalt
+            String id, String department, List<Course> courses
+
     ){
-        super(id, pwDHash, pwHashSalt);
+        super(id);
         this.involvedIn = courses;
         this.department = department;
     }
@@ -18,8 +18,14 @@ public class Lecturer extends User {
     public String getDepartment() {
         return department;
     }
+    public void setDepartment(String d){
+        this.department = d;
+    }
 
     public boolean addCourse(Course c) { // returns a success status
+        if(involvedIn.contains(c)){
+            return false;
+        }
         involvedIn.add(c);
         return true;
     }
