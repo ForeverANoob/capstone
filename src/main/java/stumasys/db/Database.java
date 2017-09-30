@@ -4,6 +4,11 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+import java.util.Properties;
+import java.sql.SQLException;
 
 import org.springframework.stereotype.Component;
 
@@ -13,11 +18,46 @@ public class Database {
     // TODO: stage 4: create a proper database backend that interacts with
     // an SQL server instead of these tables
 
-    private Map<String, Course> courses;
-    private Map<String, User> users =new HashMap<String, User>();        // remember to change this
-    private Map<String, Assessment> assessments;
+    private Connection con;
+    private final String portNumber = "3306";
+    private final String userName = "root";
+    private final String password = "j9bct840s";
+    private final String dbms = "mysql";
+    private final String serverName = "localhost";
+    private final String dbName = "testing";
+
+    public Connection getConnection() throws SQLException{
+
+        Connection conn = null;
+        Properties connectionProps = new Properties();
+        connectionProps.put("user", this.userName);
+        connectionProps.put("password", this.password);
+
+        if(this.dbms.equals("mysql")){
+            conn = DriverManager.getConnection(
+                   "jdbc:" + this.dbms + "://" +
+                   this.serverName +
+                   ":" + this.portNumber + "/",
+                   connectionProps);
+        }
+        else if (this.dbms.equals("derby")){
+            conn = DriverManager.getConnection(
+                   "jdbc:" + this.dbms + ":" +
+                   this.dbName +
+                   ";create=true",
+                   connectionProps);
+
+        }
+        System.out.println();
+        return conn;
+    }
 
     public Database(){              // TODO: sql
+        try{
+            this.con = this.getConnection();
+        }catch(SQLException e){
+            System.out.println("This connection is just like...no bruh");
+        }
 
     }
     public List<Course> getLikeCourse(String name){
