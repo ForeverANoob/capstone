@@ -2,34 +2,24 @@ package stumasys.db;
 
 import java.util.List;
 import java.util.Collections;
+import java.sql.Connection;
 
 public class AdminStaff extends User {
-    private String department;
-    private List<Course> recentCourses;      // sorted
 
-    public AdminStaff(
-            String id,
-            String department,
-            List<Course> recentCourses
-    ){
-        super(id);
-        this.department = department;
-        this.recentCourses = recentCourses;
+    public AdminStaff(String id, Connection con){
+        super(id, con);
     }
 
-    public String getDepartment() {
-        return department;
+    public String getDepartment() { // TODO: sql
+        return null;
     }
 
-    public void updateRecentlyVeiwedCourses(Course course){
-        recentCourses.remove(course);
-        recentCourses.add(0, course);
-        if (recentCourses.size() > 10) { // TODO: is this a logical constraint? (list of admin staff's recent courses is never more than 10)
-            recentCourses.remove(10);
-        }
+    public void updateRecentlyVeiwedCourses(Course course){ // TODO: sql
+         // TODO: is this a logical constraint? (list of admin staff's recent courses is never more than 10)
+
     }
-    public List<Course> getRecentlyViewedCourses(){
-        return Collections.unmodifiableList(this.recentCourses);
+    public List<Course> getRecentlyViewedCourses(){ //TODO: sql
+        return null;
     }
 
 }

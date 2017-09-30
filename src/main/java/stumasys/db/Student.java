@@ -2,29 +2,24 @@ package stumasys.db;
 
 import java.util.List;
 import java.util.Collections;
+import java.sql.Connection;
 
 public class Student extends User {
-    private List<Course> involvedIn; // list of all courses this student
-                                     // is enrolled in, tutoring for, etc.  // should it maybe be a map?
-    public Student(
-            String id, List<Course> courses
 
-    ){
-        super(id);
-        involvedIn = courses;
-    }
-    
-    public List<Course> getInvolvedCourses() {
-        return Collections.unmodifiableList(involvedIn);
+    public Student(String id, Connection con){
+        super(id, con);
     }
 
-    public boolean addCourse(Course c) { // returns a success status
-        involvedIn.add(c);
+    public List<Course> getInvolvedCourses() {         // TODO: sql
+        return null;
+    }
+
+    public boolean addCourse(Course c) {              // TODO: sql
         return true;
     }
 
-    public boolean removeCourse(Course c) { // returns success status
-        return involvedIn.remove(c);
+    public boolean removeCourse(Course c) {            // TODO: sql
+        return true;
     }
     public void deregister(String id){
         //

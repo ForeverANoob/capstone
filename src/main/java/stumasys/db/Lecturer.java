@@ -2,40 +2,30 @@ package stumasys.db;
 
 import java.util.List;
 import java.util.Collections;
+import java.sql.Connection;
 
 public class Lecturer extends User {
-    private String department;
-    private List<Course> involvedIn; // list of courses lecturing-in/convening
 
-    public Lecturer(
-            String id, String department, List<Course> courses
-
-    ){
-        super(id);
-        this.involvedIn = courses;
-        this.department = department;
+    public Lecturer(String id, Connection con){
+        super(id, con);
     }
 
-    public String getDepartment() {
-        return department;
+    public String getDepartment() {         // TODO: sql
+        return "";
     }
-    public void setDepartment(String d){
-        this.department = d;
+    public void setDepartment(String d){    // TODO: sql
+
     }
 
-    public boolean addCourse(Course c) { // returns a success status
-        if(involvedIn.contains(c)){
-            return false;
-        }
-        involvedIn.add(c);
+    public boolean addCourse(Course c) {    // TODO: sql
         return true;
     }
 
-    public boolean removeCourse(Course c) { // returns success status
-        return involvedIn.remove(c);
+    public boolean removeCourse(Course c) { // TODO: sql
+        return true;
     }
 
-    public List<Course> getCourses(){
-        return Collections.unmodifiableList(this.involvedIn);
+    public List<Course> getCourses(){       // TODO: sql
+        return null;
     }
 }
