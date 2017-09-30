@@ -20,6 +20,7 @@ public class CalculatedAssessment implements Assessment {
     private int markCap;
     private final String id = "";   // TODO: An actually id
     private boolean published =false;
+    private boolean onStudentHome = false;
 
     public static int calculateAppropriateMarkCap(List<Assessment> src, List<Integer> weight) {
         Iterator<Integer> wIter = weight.iterator();
@@ -88,8 +89,16 @@ public class CalculatedAssessment implements Assessment {
     public boolean isPublished(){
         return this.published;
     }
-    public boolean publishMarks(){
+    public void publishMarks(){
         this.published = true;
         return true;                /////  forgot why we have this
+    }
+
+    public boolean isAvailableFromStudentHome() {
+        return onStudentHome;
+    }
+
+    public void setStudentHomeAvailability(boolean v) {
+        onStudentHome = v;
     }
 }

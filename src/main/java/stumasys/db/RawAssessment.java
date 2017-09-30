@@ -10,6 +10,7 @@ public class RawAssessment implements Assessment {
     //private Database db; // reference to the creator of this object so we can read marks from the database upon request
     private HashMap<String, Integer> stu; // only need the marks of the student
     private boolean published = false;
+    private boolean onStudentHome = false;
     //private HashMap<String, >
 
     public RawAssessment(int mc, String id) {
@@ -32,9 +33,9 @@ public class RawAssessment implements Assessment {
         return ((markCap <= rm) ? markCap : rm);
     }
 
-    public int getUncappedStudentMark(String stuId) {
+    public int getUncappedStudentMark(Student stu) {
         //return db.getRawAssessmentMark(this.id, stuId); // TODO: do this instead of hardcode
-        return stu.get(stuId);  // returns student's mark
+        return stu.get(stu.getId());  // returns student's mark
     }
 
     public boolean setStudentMark(String stuId, int mark) {
@@ -53,10 +54,18 @@ public class RawAssessment implements Assessment {
     public boolean isPublished(){
         return this.published;
     }
-    public boolean publishMarks(){
+    public void publishMarks(){
         this.published = true;
-        return true;                        // why we have this
     }
+
+    public boolean isAvailableFromStudentHome() {
+        return onStudentHome;
+    }
+
+    public void setStudentHomeAvailability(boolean v) {
+        onStudentHome = v;
+    }
+
     public String toString(){
         return ""+this.id+" "+this.markCap;
     }

@@ -9,5 +9,7 @@ public interface Assessment {
     public int getUncappedStudentMark(String id);
     public Map<String, Integer> getWholeTable();
     public boolean isPublished();
-    public boolean publishMarks();
+    public void publishMarks();
+    public boolean isAvailableFromStudentHome();
+    public void setStudentHomeAvailability(boolean v);
 }
