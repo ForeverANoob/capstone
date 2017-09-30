@@ -4,11 +4,13 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
-
-import java.util.Properties;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
 
 import org.springframework.stereotype.Component;
 
@@ -55,8 +57,29 @@ public class Database {
     public Database(){              // TODO: sql
         try{
             this.con = this.getConnection();
+            System.out.println("#SmokeWeedEveryday #420 #ConnectionMake");
+            con.setAutoCommit(false);
+
+            //String query = "INSERT INTO testing (id, Acedemic program, fname, surname, emplid, subject, class nbr, Term, Final grade, Catalog nbr) VALUES (dude, woof, swag, mlg, 420, smoke weed, bewbs, gone, gg, 18);";
+            //con.prepareStatement(query);
+            //con.commit();
+
+            System.out.println(con.getSchema());
+            System.out.println("hi");
+            Statement st = con.createStatement();
+            //String sql = "INSERT INTO /Unnamed/mysql/testing (id, Acedemic program, fname, surname, emplid, subject, class nbr, Term, Final grade, Catalog nbr) VALUES (dude, woof, swag, mlg, 420, smoke weed, bewbs, gone, gg, 18);";
+            String sql = "SELECT id FROM testing";
+            ResultSet rs = st.executeQuery(sql);
+            if(rs.next()) {
+                int id = rs.getInt("first_column_name");
+                String str1 = rs.getString("second_column_name");
+                System.out.println(id+" "+str1);
+            }
+            con.close();
+
         }catch(SQLException e){
-            System.out.println("This connection is just like...no bruh");
+            System.out.println("------------------------------------------------->  This connection is just like...no bruh  <----------------------------------------");
+            System.out.println(e);
         }
 
     }
