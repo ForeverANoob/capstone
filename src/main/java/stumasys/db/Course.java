@@ -1,26 +1,45 @@
 package stumasys.db;
 
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Course {
-    private String code; // these two variables uniquely identify a given Course
-    private int year;
+    final private String code; // these two variables uniquely identify a given Course
+    final private int year;
 
     private Lecturer coordinator;
     private List<Lecturer> lecturers;
     private List<Student> teachingAssistants;
-    private List<Student> students;
-    private Map<Student, Boolean> registrationStaus;
+    private Map<Student, Boolean> registrationStatus; // this doubles as a list of student enrolled in the course
 
     private Map<String, Assessment> assessments;
 
     public Course(
             String code, int year,
             Lecturer coordinator, List<Lecturer> lecturers,
-            List<Student> teachingAssistants, List<Students> students,
-            Map<Student, Boolean> registrationStaus
+            List<Student> teachingAssistants, List<Student> students,
+    ){
+        this.code = code;
+        this.year = year;
+
+        this.coordinator = coordinator;
+        this.lecturers = lecturers;
+
+        this.teachingAssistants = teachingAssistants;
+        this.students = students;
+        this.registrationStatus = new HashMap<Student, Boolean>();
+
+        for (Student stu : students) {
+            registrationStatus.put(stu, Boolean.TRUE);
+        }
+    }
+    public Course(
+            String code, int year,
+            Lecturer coordinator, List<Lecturer> lecturers,
+            List<Student> teachingAssistants,
+            Map<Student, Boolean> registrationStatus
     ){
         this.code = code;
         this.year = year;
@@ -36,24 +55,33 @@ public class Course {
     public String getId(){
         return Integer.toString(year)+"_"+code;
     }
+    
+    public String getCode() {
+        return code;
+    }
+
+    public int getYear() {
+        return year;
+    }
 
     // assessments things
     public Assessment getAssessment(String id) {
         return assessments.get(id);
     }
-    public void addAssessment(Assessment a){
-        assessments.add(a);
+    public void addAssessment(Assessment a, String id){
+        assessments.put(id, a);
     }
-    public void setAssessments(List<Assessment> all){
-        assessments.addAll(all);
-    }
-    public List<Assessment> getAssessments(){
-        return Collections.unmodifiableList(this.assessments);
+
+    public Map<String, Assessment> getAssessments(){
+        return Collections.unmodifiableMap(this.assessments);
     }
 
     public boolean isRegistered(Student stu){ // TODO:    for all users or just student
-        if (registrationStaus.get(stu)
-        return registrationStaus.
+        if (registrationStatus.get(stu) != null) {
+            return registrationStatus.get(stu).booleanValue();
+        } else {
+            return false;
+        }
     }
     public void deregisterStudent(Student stu){ // TODO: unsure about this
         if (students.contains(stu)){
@@ -65,33 +93,23 @@ public class Course {
             }
         }
     }
-    public void setParticipants(List<User> users){
-        for (int i = 0; i < users.size(); i++){
-            User u = users.get(i);
-            if (u instanceof Student){  // is a student
-                students.add((Student)u);
-            }
-            else{       // is a lecturer
-                lecturers.add((Lecturer)u);
-            }
-        }
-    }
 
     public Lecturer getCourseConviner(){
-        return courseConviner;
+        return coordinator;
     }
-    public void setCourseConviner(Lecturer c){
-        courseConviner = c;
-        if (!lecturers.contains(c)){    // TODO: check if correct
-            lecturers.add(c);
-            //participants.add(c);
-        }
+    public void setCourseCoordinator(Lecturer c){
+        coordinator = c;
     }
 
-    public List<Student> getTA(){
-        return TA;
+    public List<Student> getTeachingAssistants() {
+        return Collections.unmodifiableList(teachingAssistants);
     }
-    public void setTA(Student ta){
-        this.TA.add(ta);
+
+    public void addTeachingAssistant(Student ta) {
+        teachingAssistants.add(ta);
+    }
+
+    public void removeTeachingAssistant(Student ta) {
+        teachingAssistants.remove(ta);
     }
 }

@@ -15,7 +15,6 @@ import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
 import stumasys.db.User;
 import stumasys.db.Database;
 import stumasys.db.Course;
@@ -43,38 +42,30 @@ public class StudentHomeController {
             Model model,
             HttpServletResponse servletRes
     ){
-        // TODO: return different (non-student/student) homepages depending on authorisation level
-        // TODO: retrieve the list of "relevant" courses (for both non-students/students)
-        final String ID = p.getName();
+        final String id = p.getName();
+        HashMap<String, List<Assessment>> subjectsAndMarks = new HashMap<String, List<Assessment>>();
 
-        //ArrayList<HashMap<String, Integer>> everthing = new ArrayList<HashMap<String, Integer>>();
-        //ArrayList<List<Integer>> everthing = new ArrayList<List<Integer>>();
-        //ArrayList<List<Assessment>> everthing = new ArrayList<List<Assessment>>();
-        //ArrayList<String> everthing = new ArrayList<String>();
-        HashMap<String, List<Assessment>> everthing = new HashMap<String, List<Assessment>>();
+        Student stu = (Student) db.getUser(id);
+        List<Course> courses = stu.getInvolvedCourses();
 
-        System.out.println("Getting student with name: " + ID);
-        Student stu = (Student)db.getUser(ID);
-        if (stu == null){
-            return "Student does not exist";
+        for (Course c : courses) {
+            Map<String, Assessment> al = c.getAssessments();
+            LinkedList<Assessment> fas = new LinkedList<Assessment>(); // Filtered ASsessments
+
+            for (Map.Entry<String,Assessment> e : al.values()) {
+                Assessment a = e.getKey();
+                if (a.isPublished() && a.isAvailableFromStudentHome()) {
+                    fas.add(a);
+                }
+            }
+
+            subjectAndMarks.put(c.getCode().toUpperCase(), fas);
         }
 
-        List<Course> c = stu.getInvolvedCourses();
-        if (c == null){
-            return "In no courses brah";
-        }
-        //List<Integer> ma = new ArrayList<Integer>();
-        //HashMap<String, Integer> ass = new HashMap<String, Integer>();
-        for (int i = 0; i < c.size(); i++){
-            List<Assessment> tmp = c.get(i).getAssessments();
-            
-            everthing.put(c.get(i).getId(), tmp);     // This holds all the assessments of all of the courses, may have to be changed
+        model.addAttribute("username", id);
+        model.addAttribute("subnmarks", subjectAndMarks);
 
-        }
-        model.addAttribute("username", ID);
-        model.addAttribute("subnmarks", everthing);    // will probably extand this to userId
-
-        return "StudentHome";       // TODO: give proper html page
+        return "StudentHome";
     }
 
 

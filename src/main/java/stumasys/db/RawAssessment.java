@@ -5,23 +5,22 @@ import java.util.HashMap;
 import java.util.Collections;
 
 public class RawAssessment implements Assessment {
-    private final String id;          // no id yet
+    private final String id;
+
     private int markCap;
-    //private Database db; // reference to the creator of this object so we can read marks from the database upon request
-    private HashMap<String, Integer> stu; // only need the marks of the student
+    private Map<String, Integer> markTbl;
+
     private boolean published = false;
     private boolean onStudentHome = false;
-    //private HashMap<String, >
 
-    public RawAssessment(int mc, String id) {
-        markCap = mc;
-        //this.db = db;
+    public RawAssessment(String id, String name, int markCap, Map<String, Integer> markTbl) {
         this.id = id;
-        this.stu = new HashMap<String, Integer>();
+        this.markCap = markCap;
+        this.markTbl = markTbl;
     }
 
     public String getId(){
-        return this.id;
+        return id;
     }
 
     public int getMarkCap() {
@@ -34,13 +33,12 @@ public class RawAssessment implements Assessment {
     }
 
     public int getUncappedStudentMark(Student s) {
-        //return db.getRawAssessmentMark(this.id, stuId); // TODO: do this instead of hardcode
-        return stu.get(s.getId());  // returns student's mark
+        return markTbl.get(s.getId());
     }
 
-    public boolean setStudentMark(String stuId, int mark) {
-        if(!stu.containsKey(stuId)) { return false; }   // doesn't contain the student
-        stu.put(stuId, mark);
+    public boolean setStudentMark(Student stu, int mark) {
+        if(!markTbl.containsKey(stu.getId())) { return false; }
+        markTbl.put(stu.getId(), mark);
         return true;
     }
 
@@ -48,8 +46,8 @@ public class RawAssessment implements Assessment {
         markCap = mc;
     }
 
-    public Map<String, Integer> getWholeTable() { // TODO: actually implement this
-        return Collections.unmodifiableMap(this.stu);
+    public Map<String, Integer> getWholeTable() {
+        return Collections.unmodifiableMap(this.markTbl);
     }
     public boolean isPublished(){
         return this.published;

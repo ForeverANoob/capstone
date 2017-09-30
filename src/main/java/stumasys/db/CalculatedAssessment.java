@@ -17,12 +17,15 @@ public class CalculatedAssessment implements Assessment {
 
     private final String id;
 
+    private String name;
+
     private List<Assessment> src;
     private List<Boolean> useUncapped; // <--- if null, only uses capped marks
     private List<Integer> weight;
     private int markCap;
-    private boolean published =false;
+    private boolean published = false;
     private boolean onStudentHome = false;
+    private HashMap<String, Integer> markTbl;
 
     public static int calculateAppropriateMarkCap(List<Assessment> src, List<Integer> weight) {
         Iterator<Integer> wIter = weight.iterator();
@@ -52,6 +55,14 @@ public class CalculatedAssessment implements Assessment {
         this.useUncapped = useUncapped;
         this.weight = weight;
         this.markCap = markCap;
+    }
+
+    public String getName() {
+        return name;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getMarkCap() {
@@ -85,8 +96,10 @@ public class CalculatedAssessment implements Assessment {
         return mark;
     }
 
-    public Map<String, Integer> getWholeTable() { // TODO: actually implement this
-        return new HashMap<String,Integer>();
+    public Map<String, Integer> getWholeTable() { // TODO: store in DB and update when underling RawAssessments are updated.
+        HashMap<String, Integer> markTbl = new HashMap<String, Integer>();
+
+        return markTbl;
     }
 
     public String getId() {
