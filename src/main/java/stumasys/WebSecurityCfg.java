@@ -54,9 +54,18 @@ public class WebSecurityCfg extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
             .inMemoryAuthentication()
-                .withUser("as123").password("123qwe").roles("ADMIN_STAFF") // TODO: stage 4: replace with real, database-powered user system, with more than one user type */
-                .and()
-                .withUser("qwe").password("qwe").roles("STUDENT");
+            .withUser("brrand016").password("qwe").roles("STUDENT").and()
+            .withUser("grncla007").password("qwe").roles("STUDENT").and()
+            .withUser("krydan003").password("qwe").roles("STUDENT").and()
+            .withUser("xyzmlg420").password("qwe").roles("STUDENT").and()
+
+            .withUser("100001").password("qwe").roles("LECTURER").and()
+            .withUser("100002").password("qwe").roles("LECTURER").and()
+            .withUser("100003").password("qwe").roles("LECTURER").and()
+            .withUser("100004").password("qwe").roles("LECTURER").and()
+
+            .withUser("200001").password("qwe").roles("ADMIN_STAFF").and()
+            .withUser("200002").password("qwe").roles("ADMIN_STAFF");
     }
     /*
     @Bean

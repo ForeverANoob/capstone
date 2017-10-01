@@ -4,17 +4,37 @@ import java.security.Principal;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+
+
+import stumasys.db.User;
+import stumasys.db.Database;
+import stumasys.db.Course;
+import stumasys.db.Student;
+import stumasys.db.Assessment;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Iterator;
+import java.util.List;
+import java.util.LinkedList;
 
 @Controller
 public class IndexController {
@@ -24,18 +44,11 @@ public class IndexController {
 
     // TODO: move the handler methods of AdminHomeController and StudentHomeController into this file, maybe rename this file to HomeController, so that we don't have to do this ridiculous bullshit hackery belo:
 
-    
-    private StudentHomeController stuHomeCtrler;
-    private AdminHomeController admHomeCtrler;
+    private Database db;
 
     @Autowired
-    public void setStudentHomeController(StudentHomeController stuHomeCtrler) {
-        this.stuHomeCtrler = stuHomeCtrler;
-    }
-
-    @Autowired
-    public void setAdminHomeController(AdminHomeController admHomeCtrler) {
-        this.admHomeCtrler = admHomeCtrler;
+    public void setDatabase(Database db) {
+        this.db = db;
     }
 
     @RequestMapping(value = "/")
@@ -46,9 +59,32 @@ public class IndexController {
             Principal p
     ){
         if (servletReq.isUserInRole("ADMIN_STAFF")) {
-            return admHomeCtrler.homeHandler(model, servletRes);
+            // NEW:TODO: Put recently viewed courses into this page as exemplified by the static HTML
+            return "AdminHome";
         } else if (servletReq.isUserInRole("STUDENT")) {
-            return stuHomeCtrler.homeHandler(p, model, servletRes);
+            final String id = p.getName();
+            HashMap<String, List<Assessment>> subjectsAndMarks = new HashMap<String, List<Assessment>>();
+
+            Student stu = (Student) db.getUser(id);
+            List<Course> courses = stu.getInvolvedCourses();
+
+            for (Course c : courses) {
+                List<Assessment> al = c.getAssessments();
+                LinkedList<Assessment> fas = new LinkedList<Assessment>(); // Filtered ASsessments
+
+                for (Assessment a : al) {
+                    if (a.isPublished() && a.isAvailableFromStudentHome()) {
+                        fas.add(a);
+                    }
+                }
+
+                subjectsAndMarks.put(c.getCode().toUpperCase(), fas);
+            }
+
+            model.addAttribute("username", id);
+            model.addAttribute("subnmarks", subjectsAndMarks);
+
+            return "StudentHome";
         } else {
             return null;
         }

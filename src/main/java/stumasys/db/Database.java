@@ -11,12 +11,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Database {
-    private Map<String, Course> courses;
-    private Map<String, User> users =new HashMap<String, User>();
+    private Map<String, Course> courses = new HashMap<String, Course>();
+    private Map<String, User> users = new HashMap<String, User>();
 
     public Database() {
-        // NEW:TODO: put all these users into the authorisation system!
-
         // Creating some sample users
         Student stu1 = new Student("brrand016", new LinkedList<Course>());
         Student stu2 = new Student("grncla007", new LinkedList<Course>());
@@ -118,6 +116,7 @@ public class Database {
                 stulist1,
                 new LinkedList<Assessment>(Arrays.asList(ra1, ra2, ca1))
             );
+        lec1.addCourse(crs1); lec3.addCourse(crs1); lec4.addCourse(crs1); stu1.addCourse(crs1); stu2.addCourse(crs1); stu3.addCourse(crs1);
         Course crs2 = new Course(
                 "CSC1016S", 2017,
                 lec2, leclist2,
@@ -125,6 +124,7 @@ public class Database {
                 stulist2,
                 new LinkedList<Assessment>(Arrays.asList(ra3, ra4, ca2))
             );
+        lec2.addCourse(crs2); lec4.addCourse(crs2); lec1.addCourse(crs2); stu2.addCourse(crs2); stu3.addCourse(crs2); stu4.addCourse(crs2);
         Course crs3 = new Course(
                 "CSC1015F", 2016,
                 lec3, leclist3,
@@ -132,6 +132,7 @@ public class Database {
                 stulist3,
                 new LinkedList<Assessment>(Arrays.asList(ra5, ra6, ca3))
             );
+        lec3.addCourse(crs3); lec1.addCourse(crs3); lec2.addCourse(crs3); stu3.addCourse(crs3); stu4.addCourse(crs3); stu1.addCourse(crs3);
         Course crs4 = new Course(
                 "CSC1016S", 2016,
                 lec4, leclist4,
@@ -139,6 +140,7 @@ public class Database {
                 stulist4,
                 new LinkedList<Assessment>(Arrays.asList(ra7, ra8, ca4))
             );
+        lec4.addCourse(crs4); lec2.addCourse(crs4); lec3.addCourse(crs4); stu4.addCourse(crs4); stu1.addCourse(crs4); stu2.addCourse(crs4);
 
         // adding those courses to the courses map
         courses.put("2017_csc1015f", crs1);
