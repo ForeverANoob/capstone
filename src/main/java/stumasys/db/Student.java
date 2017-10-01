@@ -11,17 +11,18 @@ public class Student extends User {
     }
 
     public List<Course> getInvolvedCourses() {         // TODO: sql
+        
         return null;
     }
 
-    public boolean addCourse(Course c) {              // TODO: sql
+    public boolean addCourse(Course c) {              // TODO: sql, maybe?
         return true;
     }
 
-    public boolean removeCourse(Course c) {            // TODO: sql
+    public boolean removeCourse(Course c) {            // TODO: sql, mabe?
         return true;
     }
-    public void deregister(String id){
+    public void deregister(String id){                 // TODO: maybe?
         //
     }
 /*
