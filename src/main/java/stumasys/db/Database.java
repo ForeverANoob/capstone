@@ -11,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.sql.DatabaseMetaData;
 
 import org.springframework.stereotype.Component;
 
@@ -79,9 +80,17 @@ public class Database {
             //rs = st.executeQuery(sql);
 
             System.out.println(this.checkUser("id1"));
+            System.out.println(this.checkUser("id1"));
             this.addUser("id1", "brt", "admin", "vra", "com sci");
             System.out.println(this.checkUser("id1"));
             System.out.println(this.getUser("id1"));
+
+            System.out.println(checkAssignment("pie"));
+            addAssignment("pie");
+            System.out.println(checkAssignment("pie"));
+
+            addMarkToAssessment("pie", "id1", 69);
+
 
         }catch(SQLException e){
             System.out.println("------------------------------------------------->  This connection is just like...no bruh  <----------------------------------------");
@@ -116,9 +125,9 @@ public class Database {
     }
     public boolean checkAssignment(String id){
         try{
-            Statement st = con.createStatement();
-            String sql = "IF (EXISTS (SELECT * FROM assessments WHERE TABLE_SCHEMA = 'TheSchema' AND TABLE_NAME = '"+id+"'))";   // TODO: check if correct
-            ResultSet rs = st.executeQuery(sql);
+            DatabaseMetaData meta = con.getMetaData();
+
+            ResultSet rs = meta.getTables(null, null, id, new String[] {"TABLE"});
             if (rs.next()){
                 return true;
             }
@@ -147,20 +156,20 @@ public class Database {
     public void addAssignment(String id){               // string or int?               // done
         try{
             Statement st = con.createStatement();
-            String sql = "CREATE TABLE assignments."+ id +" (id NVARCHAR(50), mark INT)";
+            String sql = "CREATE TABLE assignments."+ id +" (id NVARCHAR(50), mark INT)";   // TODO: test
             ResultSet rs = st.executeQuery(sql);
         }catch(SQLException e){ System.out.println("An error has occured: "+e); }
     }
 
     /*  these next two normally go together but don't have to  */
-    public void addCourseToUser(){
+    public void addCourseToUser(int year, String course_id, String user_id){
         try{
             Statement st = con.createStatement();
-            String sql = "";
+            String sql = "INSERT INTO users.user_courses VALUES ('"+user_id+"', '"+course_id+"', "+year+")";
             ResultSet rs = st.executeQuery(sql);
         }catch(SQLException e){ System.out.println(e); }
     }
-    public void addUserToCourse(){
+    public void addUserToCourse(int year, String course_id, String user_id){
         try{
             Statement st = con.createStatement();
             String sql = "";
@@ -168,10 +177,10 @@ public class Database {
         }catch(SQLException e){ System.out.println(e); }
     }
 
-    public void addMarkToAssessment(){
+    public void addMarkToAssessment(String ass_id, String user_id, int mark){   // assumes assignment exists
         try{
             Statement st = con.createStatement();
-            String sql = "";
+            String sql = "INSERT INTO assignments."+ ass_id + " VALUES ('"+user_id+"', '"+mark+"')";
             ResultSet rs = st.executeQuery(sql);
         }catch(SQLException e){ System.out.println(e); }
     }
@@ -220,6 +229,13 @@ public class Database {
         return null;
     }
 
+    public String getStudentAssMark(String ass_id, String stu_id){
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT * FROM assignments." + ass_id "WHERE id ='" + stu_id "'";
+            ResultSet rs = st.executeQuery(sql);
+        }catch(SQLException e){ System.out.println(e); }
+    }
 
     /*    Get similar objects   */
     public List<Course> getLikeCourse(String name){ // TODO: implement SQL search for courses with this name
