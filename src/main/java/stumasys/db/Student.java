@@ -1,18 +1,34 @@
 package stumasys.db;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Student extends User {
 
     public Student(String id, Connection con){
         super(id, con);
+        getInvolvedCourses();
     }
 
     public List<Course> getInvolvedCourses() {         // TODO: sql
-        
-        return null;
+
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT * FROM users.user_courses WHERE user_id = '" + this.id + "'";
+            ResultSet rs = st.executeQuery(sql);
+
+            while(rs.next()){
+                Course c = new Course(rs.getString("course_id"), rs.getInt("year"), this.con);
+                courses.add(c);
+            }
+
+            return courses;
+        }catch(SQLException e){ System.out.println("Error in getting involved courses " + e); return null; }    // not sure about this
     }
 
     public boolean addCourse(Course c) {              // TODO: sql, maybe?
@@ -43,4 +59,7 @@ public class Student extends User {
     }*/
 
     // TODO: stage 4: track additions/removals from courses to update the DB correctly
+    public String toString(){
+        return super.toString() + " student";
+    }
 }

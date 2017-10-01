@@ -4,16 +4,26 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Course {
     private String code; // these two variables uniquely identify a given Course
     private int year;
+    private List<Assessment> ass;
+    private Connection con;
 
     public Course(String code, int year, Connection con){  // TODO: sql
+        this.code = code;
+        this.year = year;
+        this.con = con;
+        ass = new ArrayList<Assessment>(); // TODO:fill in the assessments
+
 
     }
     public String getId(){          // TODO: sql
-        return "";
+        return year+"_"+code;
     }
 
     // assessments things
@@ -21,7 +31,7 @@ public class Course {
         return null;
     }
 
-    public void addAssessment(Assessment a){    // TODO: sql
+    public void addAssessment(Assessment a){    // TODO: sql not here
 
     }
     public void setAssessments(List<Assessment> all){ // TODO: sql
