@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.Collections;
 
 public class RawAssessment implements Assessment {
-    private final String id;
+    private final int id;
+
+    private String name;
 
     private int markCap;
     private Map<String, Integer> markTbl;
@@ -13,13 +15,14 @@ public class RawAssessment implements Assessment {
     private boolean published = false;
     private boolean onStudentHome = false;
 
-    public RawAssessment(String id, String name, int markCap, Map<String, Integer> markTbl) {
+    public RawAssessment(int id, String name, int markCap, Map<String, Integer> markTbl) {
         this.id = id;
+        this.name = name;
         this.markCap = markCap;
         this.markTbl = markTbl;
     }
 
-    public String getId(){
+    public int getId(){
         return id;
     }
 
@@ -52,8 +55,8 @@ public class RawAssessment implements Assessment {
     public boolean isPublished(){
         return this.published;
     }
-    public void publishMarks(){
-        this.published = true;
+    public void setPublishState(boolean v){
+        this.published = v;
     }
 
     public boolean isAvailableFromStudentHome() {

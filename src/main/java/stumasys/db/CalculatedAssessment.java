@@ -15,7 +15,7 @@ public class CalculatedAssessment implements Assessment {
     // class for weighting in these calculations, rather than using int's.
     // (Normal float/double aren't appropriate for various reasons.)
 
-    private final String id;
+    private final int id;
 
     private String name;
 
@@ -36,19 +36,20 @@ public class CalculatedAssessment implements Assessment {
         return mc;
     }
 
-    public CalculatedAssessment(String id, List<Assessment> src, List<Integer> weight) {
-        this(id, false, false, src, null, weight, calculateAppropriateMarkCap(src, weight));
+    public CalculatedAssessment(int id, String name, List<Assessment> src, List<Integer> weight) {
+        this(id, name, false, false, src, null, weight, calculateAppropriateMarkCap(src, weight));
         assert(src.size() == weight.size());
 
     }
 
     public CalculatedAssessment(
-            String id,
+            int id, String name,
             boolean published, boolean onStudentHome,
             List<Assessment> src, List<Boolean> useUncapped, List<Integer> weight,
             int markCap
     ){
         this.id = id;
+        this.name = name;
         this.published = published;
         this.onStudentHome = onStudentHome;
         this.src = src;
@@ -102,15 +103,16 @@ public class CalculatedAssessment implements Assessment {
         return markTbl;
     }
 
-    public String getId() {
+    public int getId() {
         return this.id;
     }
 
     public boolean isPublished(){
         return this.published;
     }
-    public void publishMarks(){
-        this.published = true;
+
+    public void setPublishState(boolean v){
+        this.published = v;
     }
 
     public boolean isAvailableFromStudentHome() {

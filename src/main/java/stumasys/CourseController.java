@@ -86,7 +86,7 @@ public class CourseController {
             return "null";
         }
 
-        Map<String,Integer> markTbl = c.getAssessment(aId).getWholeTable();
+        Map<String,Integer> markTbl = c.getAssessment(Integer.parseInt(aId)).getWholeTable();
 
         Iterator<Map.Entry<String,Integer>> entryItr = markTbl.entrySet().iterator();
 

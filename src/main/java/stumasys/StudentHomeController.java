@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Iterator;
 import java.util.List;
+import java.util.LinkedList;
 
 @Controller
 public class StudentHomeController {
@@ -49,21 +50,20 @@ public class StudentHomeController {
         List<Course> courses = stu.getInvolvedCourses();
 
         for (Course c : courses) {
-            Map<String, Assessment> al = c.getAssessments();
+            List<Assessment> al = c.getAssessments();
             LinkedList<Assessment> fas = new LinkedList<Assessment>(); // Filtered ASsessments
 
-            for (Map.Entry<String,Assessment> e : al.values()) {
-                Assessment a = e.getKey();
+            for (Assessment a : al) {
                 if (a.isPublished() && a.isAvailableFromStudentHome()) {
                     fas.add(a);
                 }
             }
 
-            subjectAndMarks.put(c.getCode().toUpperCase(), fas);
+            subjectsAndMarks.put(c.getCode().toUpperCase(), fas);
         }
 
         model.addAttribute("username", id);
-        model.addAttribute("subnmarks", subjectAndMarks);
+        model.addAttribute("subnmarks", subjectsAndMarks);
 
         return "StudentHome";
     }

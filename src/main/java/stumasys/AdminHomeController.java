@@ -62,56 +62,6 @@ public class AdminHomeController {
         @PathVariable int year,
         @PathVariable String courseCode
     ){
-/*
-        Course c = db.getCourse(courseCode, year);
-
-        if (c == null){
-            return "This course does not exist";
-        }
-
-        String ret = "[" + "["+year+"],["+courseCode+"]";
-
-        List<User> u = c.getParticipates();
-
-        if (u == null){
-            return ret+"]";     // has no users
-        }
-
-        for (int i = 0; i < u.size(); i++){
-
-            User user = u.get(i);
-            ret += ",[" +user.getID();           // opens the user bracket
-            if (user instanceof Student){
-                ret += ",[";        // opens courses bracket
-
-                Map<String,Integer> markTbl = c.getAssessment(Integer.parseInt(aId)).getWholeTable();
-
-                Iterator<Map.Entry<String,Integer>> entryItr = markTbl.entrySet().iterator();
-
-                if (!entryItr.hasNext()) {
-                    return "[]";
-                }
-
-                // encoding the mark table into JSON and returning it
-                String ret = "[";
-                    Map.Entry<String,Integer> entry = entryItr.next();
-                    ret += "[\"" + entry.getKey() + "\",\"" + entry.getValue().toString() + "]";
-
-                    while (entryItr.hasNext()) {
-                        entry = entryItr.next();
-                        ret += ",[\"" + entry.getKey() + "\",\"" + entry.getValue().toString() + "]";
-                    }
-                ret += "]";
-
-            }
-            if (user instanceof Lecturer){
-                ret += ","+ user.getDepartment();
-            }
-            ret += "]";                      // closes the user bracket
-        }
-
-        return ret;
-        */
         Course c = db.getCourse(courseCode, year);  // TODO: check if this is fine
         if (c == null) {
             return "null";
