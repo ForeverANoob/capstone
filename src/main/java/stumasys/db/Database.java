@@ -232,9 +232,12 @@ public class Database {
     public String getStudentAssMark(String ass_id, String stu_id){
         try{
             Statement st = con.createStatement();
-            String sql = "SELECT * FROM assignments." + ass_id "WHERE id ='" + stu_id "'";
+            String sql = "SELECT * FROM assignments." + ass_id + "WHERE id ='" + stu_id + "'";
             ResultSet rs = st.executeQuery(sql);
-        }catch(SQLException e){ System.out.println(e); }
+            if (rs.read()){
+                return rs.getString("id") + " " + rs.getInt("mark");
+            }
+        }catch(SQLException e){ System.out.println(e); return "";}
     }
 
     /*    Get similar objects   */

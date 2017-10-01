@@ -18,6 +18,7 @@ public class Student extends User {
     public List<Course> getInvolvedCourses() {         // TODO: sql
 
         try{
+            List<Course> courses = new ArrayList<Course>(); 
             Statement st = con.createStatement();
             String sql = "SELECT * FROM users.user_courses WHERE user_id = '" + this.id + "'";
             ResultSet rs = st.executeQuery(sql);

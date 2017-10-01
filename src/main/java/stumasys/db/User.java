@@ -10,15 +10,11 @@ import java.sql.SQLException;
 
 public class User {
     String id;
-    String name = "";
     Connection con;
-    List<Course> courses;       // might not need
-    String role = "";
 
     public User(String id, Connection con) {
         this.id = id;
         this.con = con;
-        this.courses = new ArrayList<Course>();
     }
 
     public String getId(){
@@ -37,6 +33,6 @@ public class User {
     }
 
     public String getString(){
-        return id + " " + name + " "+ courses + " " +role;
+        return id + " " + name + " "+ courses + " " + role;
     }
 }
