@@ -107,6 +107,9 @@ public class Database {
         Assessment ca3 = new CalculatedAssessment(3, "Final mark", Arrays.asList(ra5, ra6), Arrays.asList(75, 25));
         Assessment ca4 = new CalculatedAssessment(3, "Final mark", Arrays.asList(ra7, ra8), Arrays.asList(75, 25));
 
+        // setting these all so that they are published
+        ra1.setPublishState(true);ra2.setPublishState(true);ra3.setPublishState(true);ra4.setPublishState(true);ra5.setPublishState(true);ra6.setPublishState(true);ra7.setPublishState(true);ra8.setPublishState(true);ca1.setPublishState(true);ca2.setPublishState(true);ca3.setPublishState(true);ca4.setPublishState(true);
+        ra1.setStudentHomeAvailability(true);ra2.setStudentHomeAvailability(true);ra3.setStudentHomeAvailability(true);ra4.setStudentHomeAvailability(true);ra5.setStudentHomeAvailability(true);ra6.setStudentHomeAvailability(true);ra7.setStudentHomeAvailability(true);ra8.setStudentHomeAvailability(true);ca1.setStudentHomeAvailability(true);ca2.setStudentHomeAvailability(true);ca3.setStudentHomeAvailability(true);ca4.setStudentHomeAvailability(true);
 
         // Creating some sample courses
         Course crs1 = new Course(
@@ -117,6 +120,7 @@ public class Database {
                 new LinkedList<Assessment>(Arrays.asList(ra1, ra2, ca1))
             );
         lec1.addCourse(crs1); lec3.addCourse(crs1); lec4.addCourse(crs1); stu1.addCourse(crs1); stu2.addCourse(crs1); stu3.addCourse(crs1);
+
         Course crs2 = new Course(
                 "CSC1016S", 2017,
                 lec2, leclist2,
@@ -125,6 +129,7 @@ public class Database {
                 new LinkedList<Assessment>(Arrays.asList(ra3, ra4, ca2))
             );
         lec2.addCourse(crs2); lec4.addCourse(crs2); lec1.addCourse(crs2); stu2.addCourse(crs2); stu3.addCourse(crs2); stu4.addCourse(crs2);
+
         Course crs3 = new Course(
                 "CSC1015F", 2016,
                 lec3, leclist3,
@@ -133,6 +138,7 @@ public class Database {
                 new LinkedList<Assessment>(Arrays.asList(ra5, ra6, ca3))
             );
         lec3.addCourse(crs3); lec1.addCourse(crs3); lec2.addCourse(crs3); stu3.addCourse(crs3); stu4.addCourse(crs3); stu1.addCourse(crs3);
+
         Course crs4 = new Course(
                 "CSC1016S", 2016,
                 lec4, leclist4,
@@ -141,6 +147,9 @@ public class Database {
                 new LinkedList<Assessment>(Arrays.asList(ra7, ra8, ca4))
             );
         lec4.addCourse(crs4); lec2.addCourse(crs4); lec3.addCourse(crs4); stu4.addCourse(crs4); stu1.addCourse(crs4); stu2.addCourse(crs4);
+
+        // putting crs4 on the recently viewed list for the first admin staff member
+        adm1.updateRecentlyVeiwedCourses(crs4);
 
         // adding those courses to the courses map
         courses.put("2017_csc1015f", crs1);

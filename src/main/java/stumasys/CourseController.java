@@ -1,7 +1,9 @@
 package stumasys;
 
+import java.security.Principal;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,8 +22,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Iterator;
 
-import stumasys.db.Database;
-import stumasys.db.Course;
+import stumasys.db.*;
 
 @Controller         // response functionality
 public class CourseController {
@@ -51,7 +52,9 @@ public class CourseController {
             @PathVariable String year,
             @PathVariable String courseCode,
             Model model,
-            HttpServletResponse servletRes
+            HttpServletResponse servletRes,
+            HttpServletRequest servletReq,
+            Principal p
     ){
 
         /*
@@ -62,10 +65,19 @@ public class CourseController {
          * 4. client page then requests columns via REST api calls in the JS
          * */
 
+        final String uId = p.getName();
+
+
+
         Course c = db.getCourse(courseCode.toLowerCase(), Integer.parseInt(year));
 
         if (c == null) {
             return "nope";// TODO: respond with a proper error page when course doesnt exist
+        }
+
+        if (servletReq.isUserInRole("ADMIN_STAFF")) {
+            AdminStaff u = (AdminStaff) db.getUser(uId);
+            u.updateRecentlyVeiwedCourses(db.getCourse(courseCode, Integer.parseInt(year)));
         }
 
         model.addAttribute("courseCode", courseCode.toUpperCase());

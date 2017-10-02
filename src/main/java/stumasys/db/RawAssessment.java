@@ -26,6 +26,10 @@ public class RawAssessment implements Assessment {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public int getMarkCap() {
         return markCap;
     }
@@ -36,7 +40,9 @@ public class RawAssessment implements Assessment {
     }
 
     public int getUncappedStudentMark(Student s) {
-        return markTbl.get(s.getId());
+        System.out.println(" ============= " + markTbl);
+        return markTbl.get(
+                s.getId());
     }
 
     public boolean setStudentMark(Student stu, int mark) {

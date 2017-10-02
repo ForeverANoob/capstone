@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import stumasys.db.User;
+import stumasys.db.AdminStaff;
 import stumasys.db.Database;
 import stumasys.db.Course;
 import stumasys.db.Student;
@@ -58,11 +59,14 @@ public class IndexController {
             HttpServletRequest servletReq,
             Principal p
     ){
+        final String id = p.getName();
+
         if (servletReq.isUserInRole("ADMIN_STAFF")) {
-            // NEW:TODO: Put recently viewed courses into this page as exemplified by the static HTML
+            // NEW:TODO: Put recently viewed courses into this page as exemplified by the static HTML (currently DOING:)
+            AdminStaff u = (AdminStaff) db.getUser(id);
+            model.addAttribute("recentlyViewed", u.getRecentlyViewedCourses());
             return "AdminHome";
         } else if (servletReq.isUserInRole("STUDENT")) {
-            final String id = p.getName();
             HashMap<String, List<Assessment>> subjectsAndMarks = new HashMap<String, List<Assessment>>();
 
             Student stu = (Student) db.getUser(id);
@@ -73,15 +77,19 @@ public class IndexController {
                 LinkedList<Assessment> fas = new LinkedList<Assessment>(); // Filtered ASsessments
 
                 for (Assessment a : al) {
+                    System.out.println("ALOHA _--------------");
                     if (a.isPublished() && a.isAvailableFromStudentHome()) {
+
+                        System.out.println("PRETTT _--------------");
                         fas.add(a);
                     }
                 }
 
-                subjectsAndMarks.put(c.getCode().toUpperCase(), fas);
+                subjectsAndMarks.put(c.getCode().toUpperCase() + ", " + c.getYear(), fas);
             }
 
             model.addAttribute("username", id);
+            model.addAttribute("student", (Student)db.getUser(id));
             model.addAttribute("subnmarks", subjectsAndMarks);
 
             return "StudentHome";

@@ -80,7 +80,7 @@ public class CalculatedAssessment implements Assessment {
         Iterator<Integer> wIter = weight.iterator();
         if (useUncapped == null) {
             for (Assessment a : src) {
-                mark += a.getStudentMark(stu);
+                mark += wIter.next() * a.getStudentMark(stu);
             }
         } else {
             Iterator<Boolean> uncapIter = useUncapped.iterator();
@@ -97,7 +97,7 @@ public class CalculatedAssessment implements Assessment {
         return mark;
     }
 
-    public Map<String, Integer> getWholeTable() { // TODO: store in DB and update when underling RawAssessments are updated.
+    public Map<String, Integer> getWholeTable() { // TODO: store in DB and update when underlying RawAssessments are updated.
         HashMap<String, Integer> markTbl = new HashMap<String, Integer>();
 
         return markTbl;

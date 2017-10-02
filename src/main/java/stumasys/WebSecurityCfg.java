@@ -43,8 +43,7 @@ public class WebSecurityCfg extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/")
                 .permitAll()
                 .and()
-            .logout()    // auto logout ?
-                .permitAll();
+            .logout().logoutSuccessUrl("/login");
         http.csrf().disable(); // TODO: stage 4: re-enable this, it's a security feature that helps stop XSS attacks. causing issues right now, so it's getting disable til we've got time.
 
     }

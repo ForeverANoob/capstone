@@ -10,6 +10,7 @@
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 
+  <script src="/js/common.js"></script>
 </head>
 <body>
  <a href = "/">
@@ -34,47 +35,15 @@
   <div id="contentWrapper">
     <center><h3>Recently viewed pages:</h3></center>
     <div class="card-deck mx-auto" id="recentlyViewed" style="display: flex; margin-left: auto; margin-right: auto;">
-      <div class="card courseButton " style="flex: 0 0 12rem;">
-        <span class="card-body">MAM1000W, 2017</span>
+
+      <div class="card courseButton" onclick="window.location = '/course/2017/csc1015f'" onmouseover="" style="cursor: pointer; flex: 0 0 12rem;">
+        <span class="card-body">CSC1015F, 2017</span>
       </div>
 
-      <a href = "course/2017/csc1015f">
-      <div class="card courseButton " style="width:12rem;">
-        <span class="card-body">CSC1015F, 2017</span>
+      <div th:each="course : ${recentlyViewed}" th:onclick="'window.location = \'/course/' + ${course.getYear()} + '/' + ${course.getCode()} + '\''"
+        class="card courseButton" onmouseover="" style="cursor: pointer; flex: 0 0 12rem;">
+        <span class="card-body" th:text="${course.getCode().toUpperCase()} + ', ' + ${course.getYear()}"></span>
       </div>
-      </a>
-
-      <div class="card courseButton " style="flex: 0 0 12rem;">
-        <span class="card-body">PHY1031F, 2017</span>
-      </div>
-      <div class="card courseButton " style="flex: 0 0 12rem;">
-        <span class="card-body">MAM1000W, 2017</span>
-      </div>
-      <div class="card courseButton " style="flex: 0 0 12rem;">
-        <span class="card-body">CSC1015F, 2017</span>
-    </div>
-      <div class="card courseButton " style="flex: 0 0 12rem;">
-        <span class="card-body">PHY1031F, 2017</span>
-      </div>
-      <div class="card courseButton " style="flex: 0 0 12rem;">
-        <span class="card-body">MAM1000W, 2017</span>
-      </div>
-      <div class="card courseButton " style="flex: 0 0 12rem;">
-        <span class="card-body">CSC1015F, 2017</span>
-    </div>
-      <div class="card courseButton " style="flex: 0 0 12rem;">
-        <span class="card-body">PHY1031F, 2017</span>
-      </div>
-      <div class="card courseButton " style="flex: 0 0 12rem;">
-        <span class="card-body">MAM1000W, 2017</span>
-      </div>
-      <div class="card courseButton " style="flex: 0 0 12rem;">
-        <span class="card-body">CSC1015F, 2017</span>
-    </div>
-      <div class="card courseButton " style="flex: 0 0 12rem;">
-        <span class="card-body">PHY1031F, 2017</span>
-      </div>
-
     </div>
 </div>
 
