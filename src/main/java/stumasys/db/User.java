@@ -32,7 +32,7 @@ public class User {
         }catch(SQLException e){ System.out.println("Error: " + e); return "null"; }
     }
 
-    public String getString(){
-        return id + " " + name + " "+ courses + " " + role;
-    }
+    //public String getString(){
+    //    return id + " " + name + " "+ courses + " " + role;
+    //}
 }

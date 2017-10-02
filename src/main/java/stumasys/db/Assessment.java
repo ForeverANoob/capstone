@@ -4,6 +4,7 @@ import java.util.Map;
 
 public interface Assessment {
     public String getId();
+    public String getName();
 
     public int getMarkCap();
     public int getStudentMark(Student stu);

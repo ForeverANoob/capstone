@@ -223,7 +223,7 @@ public class Database {
     public Assessment getAssessment(String id){
         try{
             Statement st = con.createStatement();
-            String sql = "";
+            String sql = "SELECT "+" FROM courses.";
             ResultSet rs = st.executeQuery(sql);
         }catch(SQLException e){ System.out.println(e); }
         return null;
@@ -234,9 +234,10 @@ public class Database {
             Statement st = con.createStatement();
             String sql = "SELECT * FROM assignments." + ass_id + "WHERE id ='" + stu_id + "'";
             ResultSet rs = st.executeQuery(sql);
-            if (rs.read()){
-                return rs.getString("id") + " " + rs.getInt("mark");
+            if (rs.next()){
+                return rs.getString("id") + " " + rs.getInt("mark");    // TODO: standardize
             }
+            return "No data";
         }catch(SQLException e){ System.out.println(e); return "";}
     }
 

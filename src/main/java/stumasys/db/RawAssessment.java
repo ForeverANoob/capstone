@@ -23,6 +23,9 @@ public class RawAssessment implements Assessment {
     public String getId(){
         return this.id;
     }
+    public String getName(){
+        return "";      // TODO: sql
+    }
 
     public int getMarkCap() {
         return markCap;

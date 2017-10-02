@@ -33,6 +33,10 @@ public class CalculatedAssessment implements Assessment {
         return mc;
     }
 
+    public String getName(){
+        return "";
+    }
+
     public CalculatedAssessment(String id, List<Assessment> src, List<Integer> weight) {
         this(id, false, false, src, null, weight, calculateAppropriateMarkCap(src, weight));
         assert(src.size() == weight.size());

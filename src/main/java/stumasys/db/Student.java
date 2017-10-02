@@ -12,13 +12,12 @@ public class Student extends User {
 
     public Student(String id, Connection con){
         super(id, con);
-        getInvolvedCourses();
     }
 
     public List<Course> getInvolvedCourses() {         // TODO: sql
 
         try{
-            List<Course> courses = new ArrayList<Course>(); 
+            List<Course> courses = new ArrayList<Course>();
             Statement st = con.createStatement();
             String sql = "SELECT * FROM users.user_courses WHERE user_id = '" + this.id + "'";
             ResultSet rs = st.executeQuery(sql);
@@ -60,7 +59,7 @@ public class Student extends User {
     }*/
 
     // TODO: stage 4: track additions/removals from courses to update the DB correctly
-    public String toString(){
-        return super.toString() + " student";
-    }
+    //public String toString(){
+    //    return super.toString() + " student";
+    //}
 }
