@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import java.sql.Connection;
@@ -173,6 +174,12 @@ public class Database {
             Statement st = con.createStatement();
             String sql = "CREATE TABLE courses."+id+arg;
             ResultSet rs = st.executeQuery(sql);
+
+            String[] tmp = args[0].split("_");
+            st = con.createStatement();
+            sql = "INSERT INTO courses.courses_info VALUES ('"+tmp[0]+"', "+tmp[1]+")";
+            rs = st.executeQuery(sql);
+
         }catch(SQLException e){ System.out.println("An error has occured: "+e); }
     }
     public void addAssessment(String id, int upload, int published, int mark_cap, String cal){               // string or int?               // done
@@ -263,23 +270,29 @@ public class Database {
     /*    Get similar objects   */
     public List<Course> getLikeCourse(String name){ // TODO: implement SQL search for courses with this name
         try{
+            List<Course> tmp = new ArrayList<Course>();
             Statement st = con.createStatement();
-            String sql = "";
+            String sql = "SELECT * FROM courses.courses_info WHERE course_code = '"+name+"'";
             ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                tmp.add(new Course(rs.getString("course_code"), rs.getInt("year"), con));
+            }
 
-            System.out.println(rs.getString("id"));
-            return null;
+            return tmp;
         }catch (SQLException e){ System.out.println("An error has occured "+e); return null;}
 
     }
     public List<Course> getLikeYear(String year){ // TODO: implement SQL search for courses in this year
         try{
+            List<Course> tmp = new ArrayList<Course>();
             Statement st = con.createStatement();
-            String sql = "";
+            String sql = "SELECT * FROM courses.courses_info WHERE year = "+year+"";
             ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                tmp.add(new Course(rs.getString("course_code"), rs.getInt("year"), con));
+            }
 
-            System.out.println(rs.getString("id"));
-            return null;
+            return tmp;
         }catch (SQLException e){ System.out.println("An error has occured "+e); return null;}
 
     }
