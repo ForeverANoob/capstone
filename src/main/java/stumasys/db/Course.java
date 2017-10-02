@@ -11,16 +11,12 @@ import java.sql.SQLException;
 public class Course {
     private String code; // these two variables uniquely identify a given Course
     private int year;
-    private List<Assessment> ass;
     private Connection con;
 
     public Course(String code, int year, Connection con){  // TODO: sql
         this.code = code;
         this.year = year;
         this.con = con;
-        ass = new ArrayList<Assessment>(); // TODO:fill in the assessments
-
-
     }
     public String getId(){          // TODO: sql
         return year+"_"+code;

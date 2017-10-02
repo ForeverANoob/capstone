@@ -15,6 +15,6 @@ public interface Assessment {
     public boolean isPublished();
     public void publishMarks();
 
-    public boolean isAvailableFromStudentHome();
+    public boolean isUploaded();
     public void setStudentHomeAvailability(boolean v);
 }

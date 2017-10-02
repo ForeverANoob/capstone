@@ -6,7 +6,12 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Collections;
 
-public class CalculatedAssessment implements Assessment {
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.SQLException;
+
+public class CalculatedAssessment implements Assessment {       // TODO: sql
     // TODO: stage 4: extend this class to allow arbitrary calculations
     // including min/max, branching, etc, since weighted averages are not the
     // only computations commonly done.
@@ -16,6 +21,8 @@ public class CalculatedAssessment implements Assessment {
     // (Normal float/double aren't appropriate for various reasons.)
 
     private final String id;
+    private Connection con;
+    private String[] all;
 
     private List<Assessment> src;
     private List<Boolean> useUncapped; // <--- if null, only uses capped marks
@@ -35,6 +42,12 @@ public class CalculatedAssessment implements Assessment {
 
     public String getName(){
         return "";
+    }
+
+    public CalculatedAssessment(String id, Connection con){
+        this.id = id;
+        this.con = con;
+        this.all = id.split("_");
     }
 
     public CalculatedAssessment(String id, List<Assessment> src, List<Integer> weight) {
@@ -104,7 +117,7 @@ public class CalculatedAssessment implements Assessment {
         this.published = true;
     }
 
-    public boolean isAvailableFromStudentHome() {
+    public boolean isUploaded() {
         return onStudentHome;
     }
 

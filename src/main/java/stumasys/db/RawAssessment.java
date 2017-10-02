@@ -4,72 +4,114 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Collections;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 public class RawAssessment implements Assessment {
     private final String id;          // no id yet
-    private int markCap;
-    //private Database db; // reference to the creator of this object so we can read marks from the database upon request
-    private HashMap<String, Integer> stu; // only need the marks of the student
-    private boolean published = false;
-    private boolean onStudentHome = false;
+    private Connection con;
+    private String[] all;
     //private HashMap<String, >
 
-    public RawAssessment(int mc, String id) {
-        markCap = mc;
-        //this.db = db;
+    public RawAssessment(String id, Connection con) {
         this.id = id;
-        this.stu = new HashMap<String, Integer>();
+        this.con = con;
+        this.all = id.split("_");
     }
 
     public String getId(){
         return this.id;
     }
-    public String getName(){
-        return "";      // TODO: sql
+    public String getName(){    // TODO: check again
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT ass_id FROM assessments.assessments WHERE ass_id = '"+this.id+"'";
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                String tmp = rs.getString("ass_id");
+                String[] args = tmp.split("_");
+                return args[2];
+            }
+        }catch(SQLException e){ System.out.println("Error: getting name " + e); }
+        return "";
     }
 
     public int getMarkCap() {
-        return markCap;
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT mark_cap FROM assessments.assessments WHERE ass_id = '"+this.id+"'";
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                return rs.getInt("mark_cap");
+            }
+        }catch(SQLException e){ System.out.println("Error: getting mark_cap " + e); }
+        return -1;
+
+    }
+    public int getStudentMark(Student s){
+        return-1;
     }
 
-    public int getStudentMark(Student s) {
-        int rm = getUncappedStudentMark(s);
-        return ((markCap <= rm) ? markCap : rm);
+    public int getStudentMark(String stu_id) {  // capped student mark?
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT "+all[2]+" FROM courses."+all[0]+"_"+all[1]+" WHERE id = '"+stu_id+"'";
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                return rs.getInt(all[2]);
+            }
+        }catch(SQLException e){ System.out.println("Error: getting mark_cap " + e); }
+        return -1;
     }
 
     public int getUncappedStudentMark(Student s) {
-        //return db.getRawAssessmentMark(this.id, stuId); // TODO: do this instead of hardcode
-        return stu.get(s.getId());  // returns student's mark
+        return -1;  // returns student's mark
     }
 
     public boolean setStudentMark(String stuId, int mark) {
-        if(!stu.containsKey(stuId)) { return false; }   // doesn't contain the student
-        stu.put(stuId, mark);
         return true;
     }
 
     public void setMarkCap(int mc) {
-        markCap = mc;
     }
 
     public Map<String, Integer> getWholeTable() { // TODO: actually implement this
-        return Collections.unmodifiableMap(this.stu);
+        return null;
     }
-    public boolean isPublished(){
-        return this.published;
+    public boolean isPublished(){   // TODO: sql
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT published FROM assessments.assessments WHERE ass_id = '"+id+"'";
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                return 1 == rs.getInt("published");
+            }
+        }catch(SQLException e){ System.out.println("Error: getting mark_cap " + e); }
+        return false;
     }
-    public void publishMarks(){
-        this.published = true;
+    public void publishMarks(){     // TODO: sql?
+        //this.published = true;
     }
 
-    public boolean isAvailableFromStudentHome() {
-        return onStudentHome;
+    public boolean isUploaded() {       // TODO: sql
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT uploaded FROM assessments.assessments WHERE ass_id = '"+id+"'";
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                return 1 == rs.getInt("uploaded");
+            }
+        }catch(SQLException e){ System.out.println("Error: getting mark_cap " + e); }
+        return false;
     }
 
     public void setStudentHomeAvailability(boolean v) {
-        onStudentHome = v;
+        //onStudentHome = v;
     }
 
-    public String toString(){
-        return ""+this.id+" "+this.markCap;
-    }
+//    public String toString(){
+//        return ""+this.id+" "+this.markCap;
+//    }
 }

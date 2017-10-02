@@ -76,7 +76,7 @@ public class Database {
             }
 
             st = con.createStatement();
-            sql = "CREATE TABLE assignments."+ "ass1" +" (id NVARCHAR(50), mark INT)";
+            sql = "CREATE TABLE assessments."+ "ass1" +" (id NVARCHAR(50), mark INT)";
             //rs = st.executeQuery(sql);
 
             System.out.println(this.checkUser("id1"));
@@ -85,11 +85,16 @@ public class Database {
             System.out.println(this.checkUser("id1"));
             System.out.println(this.getUser("id1"));
 
-            System.out.println(checkAssignment("pie"));
-            addAssignment("pie");
-            System.out.println(checkAssignment("pie"));
+            System.out.println(checkAssessment("2017_csc1015_pie"));
+            addAssessment("2017_csc1015_pie", 2, 2, 2, "a + b");
+            System.out.println(checkAssessment("2017_csc1015_pie"));
 
-            addMarkToAssessment("pie", "id1", 69);
+            System.out.println(checkCourse("csc1015", 2017));
+            String n = "id vqvr vqe rtv pie";
+            addCourse("2017_csc1015", n.split(" "));
+            System.out.println(checkCourse("csc1015", 2017));
+
+            addMarkToAssessment("2017_csc1015_pie", "id1", 69);
 
 
         }catch(SQLException e){
@@ -114,20 +119,28 @@ public class Database {
     }
     public boolean checkCourse(String name, int year){
         try{
-            Statement st = con.createStatement();
-            String sql = "SELECT id FROM courses.course_ass WHERE name = '"+name+"' AND year = "+year;
-            ResultSet rs = st.executeQuery(sql);
+            DatabaseMetaData meta = con.getMetaData();
+            String id = year + "_"+name;
+            ResultSet rs = meta.getTables(null, null, id, new String[] {"TABLE"});
             if (rs.next()){
                 return true;
             }
             return false;
         }catch(SQLException e){ System.out.println("An error has occured: "+e); return true;}
     }
-    public boolean checkAssignment(String id){
+    public boolean checkAssessment(String id){
         try{
+            /*
             DatabaseMetaData meta = con.getMetaData();
-
             ResultSet rs = meta.getTables(null, null, id, new String[] {"TABLE"});
+            if (rs.next()){
+                return true;
+            }
+            return false;
+            */
+            Statement st = con.createStatement();
+            String sql = "SELECT * FROM assessments.assessments WHERE ass_id = '" + id + "'";
+            ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
                 return true;
             }
@@ -146,17 +159,26 @@ public class Database {
             System.out.println(sql);        //
         }catch(SQLException e){ System.out.println("An error has occurred "+e); }
     }
-    public void addCourse(String id){
+    public void addCourse(String id, String[] args){
+        String arg = " (" + args[0] +" NVARCHAR(50), ";                                    // remember this
+        for (int i = 1; i < args.length; i++){
+            if (i == args.length - 1){
+                arg += "" +args[i]+" INT)";
+            }
+            else{
+                arg += "" +args[i]+ " INT, ";
+            }
+        }
         try{
             Statement st = con.createStatement();
-            String sql = "CREATE TABLE courses."+id+" ()";
+            String sql = "CREATE TABLE courses."+id+arg;
             ResultSet rs = st.executeQuery(sql);
         }catch(SQLException e){ System.out.println("An error has occured: "+e); }
     }
-    public void addAssignment(String id){               // string or int?               // done
+    public void addAssessment(String id, int upload, int published, int mark_cap, String cal){               // string or int?               // done
         try{
             Statement st = con.createStatement();
-            String sql = "CREATE TABLE assignments."+ id +" (id NVARCHAR(50), mark INT)";   // TODO: test
+            String sql = "INSERT INTO assessments.assessments VALUES ('"+id+"', "+upload+", "+published+", "+mark_cap+", '"+cal+"')";   // TODO: test
             ResultSet rs = st.executeQuery(sql);
         }catch(SQLException e){ System.out.println("An error has occured: "+e); }
     }
@@ -172,67 +194,64 @@ public class Database {
     public void addUserToCourse(int year, String course_id, String user_id){
         try{
             Statement st = con.createStatement();
-            String sql = "";
+            String sql = "INSERT INTO courses."+year+"_"+course_id + " VALUES ('"+user_id+"')"; // TODO: the other values
             ResultSet rs = st.executeQuery(sql);
         }catch(SQLException e){ System.out.println(e); }
     }
 
-    public void addMarkToAssessment(String ass_id, String user_id, int mark){   // assumes assignment exists
+    public void addMarkToAssessment(String ass_id, String user_id, int mark){   // assumes assessment exists
+        String[] args = ass_id.split("_");
         try{
             Statement st = con.createStatement();
-            String sql = "INSERT INTO assignments."+ ass_id + " VALUES ('"+user_id+"', '"+mark+"')";
+            String sql = "UPDATE courses."+args[0]+"_"+args[1]+" SET "+args[2]+" = "+mark+" WHERE id = '"+user_id+"'";
             ResultSet rs = st.executeQuery(sql);
         }catch(SQLException e){ System.out.println(e); }
     }
 
 
     /*   Getting info from the database   */
-    public User getUser(String id){                    // TODO: sql
+    public User getUser(String id){
+
+        User user = new User(id, con);
+        String role = user.findRole();
+
+        if(role.equals("admin")){
+            user = new AdminStaff(id, this.con);
+
+        }else if (role.equals("lecturer")){
+            user = new Lecturer(id, this.con);
+
+        }else if(role.equals("student")){
+            user = new Student(id, this.con);
+
+        }else{ System.out.println("User has no defined role: " + role); }
+        return user;
+
+    }
+    public Course getCourse(String code, int year) {    // TODO: check if correct
+        return new Course(code, year, con);
+    }
+    public Assessment getAssessment(String id){     // TODO: sql, assumes Assessment exists and check if correct
         try{
-
-            User user = new User(id, con);
-            String role = user.findRole();
-
-            if(role.equals("admin")){
-                user = new AdminStaff(id, this.con);
-
-            }else if (role.equals("lecturer")){
-                user = new Lecturer(id, this.con);
-
-            }else if(role.equals("student")){
-                user = new Student(id, this.con);
-                Statement st = con.createStatement();
-                String sql = "SELECT * FROM users.user_info WHERE id = '" + id + "'";
-                ResultSet rs = st.executeQuery(sql);
-                while (rs.next()){
-                    System.out.println(rs.getString("id") + " " + rs.getString("name"));
+            Statement st = con.createStatement();
+            String sql = "SELECT calculation FROM assessments.assessments WHERE ass_id = '"+id+"'";
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                String tmp = rs.getString("calculation");
+                if (tmp.equals("")){
+                    return new RawAssessment(id, con);
+                }else{
+                    return new CalculatedAssessment(id, con);
                 }
-
-            }else{ System.out.println("User has no defined role: " + role); }
-            return user;
-        }catch(SQLException e){ System.out.println(e); return null; }
-    }
-    public Course getCourse(String code, int year) {    // TODO: sql
-        try{
-            Statement st = con.createStatement();
-            String sql = "";
-            ResultSet rs = st.executeQuery(sql);
-        }catch(SQLException e){ System.out.println(e); }
-        return null;
-    }
-    public Assessment getAssessment(String id){
-        try{
-            Statement st = con.createStatement();
-            String sql = "SELECT "+" FROM courses.";
-            ResultSet rs = st.executeQuery(sql);
+            }
         }catch(SQLException e){ System.out.println(e); }
         return null;
     }
 
-    public String getStudentAssMark(String ass_id, String stu_id){
+    public String getStudentAssMark(String ass_id, String stu_id){  // TODO
         try{
             Statement st = con.createStatement();
-            String sql = "SELECT * FROM assignments." + ass_id + "WHERE id ='" + stu_id + "'";
+            String sql = "SELECT * FROM assessments." + ass_id + "WHERE id ='" + stu_id + "'";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
                 return rs.getString("id") + " " + rs.getInt("mark");    // TODO: standardize
