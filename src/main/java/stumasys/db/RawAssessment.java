@@ -77,7 +77,7 @@ public class RawAssessment implements Assessment {
     public void setMarkCap(int mc) {
     }
 
-    public Map<String, Integer> getWholeTable() { // TODO: actually implement this
+    public Map<String, Integer> getWholeTable() {       // TODO: actually implement this
         return null;
     }
     public boolean isPublished(){   // TODO: sql
