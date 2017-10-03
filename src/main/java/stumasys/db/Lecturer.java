@@ -43,7 +43,7 @@ public class Lecturer extends User {
     public void addCourse(Course c) {    // TODO: sql
         try{
             Statement st = con.createStatement();
-            String sql = "INSERT INTO users.user_courses VALUES ('"+this.id+"', '"+c.getName()+"', "+c.getYear()+", 'lecturer')";
+            String sql = "INSERT INTO users.user_courses VALUES ('"+this.id+"', '"+c.getCode()+"', "+c.getYear()+", 'lecturer')";
             ResultSet rs = st.executeQuery(sql);
         }catch(SQLException e){ System.out.println(e); }
     }

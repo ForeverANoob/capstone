@@ -78,7 +78,7 @@ public class IndexController {
 
                 for (Assessment a : al) {
                     System.out.println("ALOHA _--------------");
-                    if (a.isPublished() && a.isAvailableFromStudentHome()) {
+                    if (a.isPublished() && a.isAvailableOnStudentHome()) {
 
                         System.out.println("PRETTT _--------------");
                         fas.add(a);

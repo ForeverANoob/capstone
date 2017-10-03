@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
 
-public class CalculatedAssessment implements Assessment {       // TODO: sql
+public class CalculatedAssessment implements Assessment {
     // TODO: stage 4: extend this class to allow arbitrary calculations
     // including min/max, branching, etc, since weighted averages are not the
     // only computations commonly done.
@@ -19,7 +19,7 @@ public class CalculatedAssessment implements Assessment {       // TODO: sql
     // TODO: stage 4: write something along the lines of a "rational number"
     // class for weighting in these calculations, rather than using int's.
     // (Normal float/double aren't appropriate for various reasons.)
-
+    
     private final String id;
     private Connection con;
     private String[] all;
@@ -39,23 +39,39 @@ public class CalculatedAssessment implements Assessment {       // TODO: sql
         this.all = id.split("_");
     }
 
-    public String getName(){
+    public String getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getName(){ // TODO: sql
+        return null;
     }
 
-    public int getMarkCap() {
-        return markCap;
+    public void setName(String name) { // TODO: sql
+    }
+
+    public int getMarkCap() { // TODO: sql
+        return -1;
     }
 
     public int getStudentMark(Student stu) {
-        int mark = getUncappedStudentMark(stu);
-        return ((markCap < mark) ? markCap : mark);
+        int um = getUncappedStudentMark(stu);
+        int mc = getMarkCap();
+        return (um > mc ? mc : um);
     }
 
-    public int getUncappedStudentMark(Student stu) {
+    public int getUncappedStudentMark(Student stu) { // TODO: convert this old hardcoded stuff into SQL (basically just 
+        //             HOW TO DO THE CONVERSION:
+        // these two lists should have the weights and the source assessments
+        // (source assessments are those used to calculcate the result from,
+        // e.g. section A/B are source assessments for test1), respectively.
+        List<Integer> weight = null;
+        List<Assessment> src = null;
+
+        // TODO: make this NOT NULL *_only_* if we are implementing a more advanced CalculatedAssessment !!!
+        List<Boolean> useUncapped = null;
+
+        // then the rest of this code will work just fine
         int mark = 0;
         Iterator<Integer> wIter = weight.iterator();
         if (useUncapped == null) {
@@ -77,29 +93,21 @@ public class CalculatedAssessment implements Assessment {       // TODO: sql
         return mark;
     }
 
-    public Map<String, Integer> getWholeTable() { // TODO: store in DB and update when underlying RawAssessments are updated.
-        HashMap<String, Integer> markTbl = new HashMap<String, Integer>();
-
-        return markTbl;
+    public Map<String, Integer> getWholeTable() { // TODO: sql. store whole calculated mark table in DB, then update it when underlying RawAssessments are updated.
+        return null;
     }
 
-    public int getId() {
-        return this.id;
+    public boolean isPublished(){ // TODO: sql
+        return true;
     }
 
-    public boolean isPublished(){
-        return this.published;
+    public void setPublishState(boolean v){ // TODO: sql
     }
 
-    public void setPublishState(boolean v){
-        this.published = v;
+    public boolean isAvailableOnStudentHome() { // TODO: sql
+        return true;
     }
 
-    public boolean isUploaded() {
-        return onStudentHome;
-    }
-
-    public void setStudentHomeAvailability(boolean v) {
-        onStudentHome = v;
+    public void setStudentHomeAvailability(boolean v) { // TODO: sql
     }
 }

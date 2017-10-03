@@ -117,6 +117,7 @@ public class Database {
         }catch(SQLException e){ System.out.println("An error has occured: "+e); return true;}
         return false;
     }
+
     public boolean checkCourse(String name, int year){
         try{
             DatabaseMetaData meta = con.getMetaData();
@@ -128,6 +129,7 @@ public class Database {
             return false;
         }catch(SQLException e){ System.out.println("An error has occured: "+e); return true;}
     }
+
     public boolean checkAssessment(String id){
         try{
             
@@ -152,6 +154,7 @@ public class Database {
             System.out.println(sql);        //
         }catch(SQLException e){ System.out.println("An error has occurred "+e); }
     }
+
     public void addCourse(String id, String[] args){
         String arg = " (" + args[0] +" NVARCHAR(50), ";                                    // remember this
         for (int i = 1; i < args.length; i++){
@@ -174,6 +177,7 @@ public class Database {
 
         }catch(SQLException e){ System.out.println("An error has occured: "+e); }
     }
+
     public void addAssessment(String id, int upload, int published, int mark_cap, String cal){               // string or int?               // done
         try{
             Statement st = con.createStatement();
@@ -190,6 +194,7 @@ public class Database {
             ResultSet rs = st.executeQuery(sql);
         }catch(SQLException e){ System.out.println(e); }
     }
+
     public void addUserToCourse(int year, String course_id, String user_id){
         try{
             Statement st = con.createStatement();
@@ -227,9 +232,11 @@ public class Database {
         return user;
 
     }
+
     public Course getCourse(String code, int year) {    // TODO: check if correct
         return new Course(code, year, con);
     }
+
     public Assessment getAssessment(String id){     // TODO: sql, assumes Assessment exists and check if correct
         try{
             Statement st = con.createStatement();
@@ -274,6 +281,7 @@ public class Database {
         }catch (SQLException e){ System.out.println("An error has occured "+e); return null;}
 
     }
+
     public List<Course> getLikeYear(String year){ // TODO: implement SQL search for courses in this year
         try{
             List<Course> tmp = new ArrayList<Course>();

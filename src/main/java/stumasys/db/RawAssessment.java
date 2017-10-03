@@ -21,9 +21,10 @@ public class RawAssessment implements Assessment {
         this.all = id.split("_");
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
+
     public String getName(){    // TODO: check again
         try{
             Statement st = con.createStatement();
@@ -35,7 +36,7 @@ public class RawAssessment implements Assessment {
                 return args[2];
             }
         }catch(SQLException e){ System.out.println("Error: getting name " + e); }
-        return "";
+        return null;
     }
 
     public int getMarkCap() {
@@ -59,7 +60,7 @@ public class RawAssessment implements Assessment {
     public int getUncappedStudentMark(Student s) {
         try{
             Statement st = con.createStatement();
-            String sql = "SELECT "+all[2]+" FROM courses."+all[0]+"_"+all[1]+" WHERE id = '"+stu_id+"'";
+            String sql = "SELECT "+all[2]+" FROM courses."+all[0]+"_"+all[1]+" WHERE id = '"+s.getId()+"'";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
                 return rs.getInt(all[2]);
@@ -68,11 +69,10 @@ public class RawAssessment implements Assessment {
         return -1;
     }
 
-    public boolean setStudentMark(Student stu, int mark) {
-        return true;
+    public void setStudentMark(Student stu, int mark) { // TODO: sql
     }
 
-    public void setMarkCap(int mc) {
+    public void setMarkCap(int mc) { // TODO: sql
     }
 
     public Map<String, Integer> getWholeTable() { // TODO: actually implement this
@@ -90,11 +90,11 @@ public class RawAssessment implements Assessment {
         }catch(SQLException e){ System.out.println("Error: getting mark_cap " + e); }
         return false;
     }
-    public void setPublishState(boolean v){
-        this.published = v;
+
+    public void setPublishState(boolean v){ // TODO: sql
     }
 
-    public boolean isUploaded() {       // TODO: sql
+    public boolean isAvailableOnStudentHome() {       // TODO: this method used to be called "isUploaded", which we have determined was not the desired thing
         try{
             Statement st = con.createStatement();
             String sql = "SELECT uploaded FROM assessments.assessments WHERE ass_id = '"+id+"'";
@@ -106,7 +106,7 @@ public class RawAssessment implements Assessment {
         return false;
     }
 
-    public void setStudentHomeAvailability(boolean v) {
+    public void setStudentHomeAvailability(boolean v) { // TODO: sql
         //onStudentHome = v;
     }
 

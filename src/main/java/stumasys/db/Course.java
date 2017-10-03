@@ -17,21 +17,24 @@ public class Course {
     private int year;
     private Connection con;
 
-    public Course(String code, int year, Connection con){  // TODO: sql
+    public Course(String code, int year, Connection con){
         this.code = code;
         this.year = year;
         this.con = con;
     }
-    public String getId(){          // TODO: sql
+    public String getId(){
         return year+"_"+code;
+    }
+
+    public String getCode() {
+        return code;
     }
 
     public int getYear(){
         return this.year;
     }
 
-    // assessments things
-    public Assessment getAssessment(String id) {    // TODO: sql
+    public Assessment getAssessment(String id) {
         try{
             Statement st = con.createStatement();
             String sql = "SELECT calculation FROM assessments.assessments WHERE ass_id = '" + id + "'";
@@ -48,23 +51,22 @@ public class Course {
         return null;
     }
 
-    public void addAssessment(Assessment a){    // TODO: sql not here
+    public void addAssessment(Assessment a){    // TODO: sql
     }
 
     public void setAssessments(List<Assessment> all){ // TODO: sql
     }
 
-    public List<Student> getTeachingAssistants() {
-        return Collections.unmodifiableList(teachingAssistants);
+    public List<Student> getTeachingAssistants() { // TODO: sql
+        return null;
     }
 
-    public void addTeachingAssistant(Student ta) {
-        teachingAssistants.add(ta);
+    public void addTeachingAssistant(Student ta) { // TODO: sql
     }
 
-    public void removeTeachingAssistant(Student ta) {
-        teachingAssistants.remove(ta);
+    public void removeTeachingAssistant(Student ta) { // TODO: sql
     }
+
     public List<Assessment> getAssessments(){   // TODO: sql
         List<Assessment> lst = new ArrayList<Assessment>();
         try{
@@ -95,6 +97,7 @@ public class Course {
         }catch(SQLException e){ System.out.println("Error: is registered " + e); }
         return false;
     }
+
     public void deregisterStudent(Student stu){ // TODO: sql
         try{
             Statement st = con.createStatement();
@@ -120,6 +123,7 @@ public class Course {
         }catch(SQLException e){ System.out.println("Error: is registered " + e); }
         return null;
     }
+
     public void setCourseCoordinator(Lecturer c){
         try{
             Statement st = con.createStatement();

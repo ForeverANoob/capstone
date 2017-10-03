@@ -2,6 +2,11 @@ package stumasys.db;
 
 import java.util.Map;
 
+// TODO:NEW: seriously need to think about how the ID happens. the whole
+// "get id from the name" necessitates that we create a new columns every
+// time the name changes. it makes far more sense to just create a unique
+// ID that we know never changes, and allow its name to change arbitrarily.
+
 public interface Assessment {
     public String getId();
 
@@ -15,6 +20,6 @@ public interface Assessment {
     public boolean isPublished();
     public void setPublishState(boolean v);
 
-    public boolean isUploaded();
+    public boolean isAvailableOnStudentHome();
     public void setStudentHomeAvailability(boolean v);
 }
