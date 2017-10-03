@@ -7,124 +7,51 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Course {
-    final private String code; // these two variables uniquely identify a given Course
-    final private int year;
+    private String code; // these two variables uniquely identify a given Course
+    private int year;
+    private Connection con;
 
-    private Lecturer coordinator;
-    private List<Lecturer> lecturers;
-
-    private List<Student> teachingAssistants;
-    private Map<Student, Boolean> registrationStatus; // this doubles as a list of students enrolled in the course
-
-    private List<Assessment> assessments;
-
-    public Course(
-            String code, int year,
-            Lecturer coordinator, List<Lecturer> lecturers,
-            List<Student> teachingAssistants, List<Student> students,
-            List assessments
-    ){
+    public Course(String code, int year, Connection con){  // TODO: sql
         this.code = code;
         this.year = year;
-
-        this.coordinator = coordinator;
-        this.lecturers = lecturers;
-
-        this.teachingAssistants = teachingAssistants;
-        this.registrationStatus = new HashMap<Student, Boolean>();
-
-        this.assessments = assessments;
-
-        for (Student stu : students) {
-            registrationStatus.put(stu, Boolean.TRUE);
-        }
+        this.con = con;
     }
-    public Course(
-            String code, int year,
-            Lecturer coordinator, List<Lecturer> lecturers,
-            List<Student> teachingAssistants,
-            Map<Student, Boolean> registrationStatus,
-            Map<String, Assessment> assessments
-    ){
-        this.code = code;
-        this.year = year;
-
-        this.coordinator = coordinator;
-        this.lecturers = lecturers;
-
-        this.teachingAssistants = teachingAssistants;
-        //this.students = students;
-        this.registrationStatus = registrationStatus;
+    public String getId(){          // TODO: sql
+        return year+"_"+code;
     }
 
-    public String getId(){
-        return Integer.toString(year)+"_"+code;
-    }
-    
-    public String getCode() {
-        return code;
-    }
-
-    public int getYear() {
-        return year;
+    public int getYear(){
+        return this.year;
     }
 
     // assessments things
-    public Assessment getAssessment(int id) {
-        return assessments.get(id);
+    public Assessment getAssessment(String id) {    // TODO: sql
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT calculation FROM assessments.assessments WHERE ass_id = '" + id + "'";
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                if(rs.getString("calculation").equals("")){
+                    return new RawAssessment(id, this.con);
+                }else{
+                    return new CalculatedAssessment(id, this.con);
+                }
+            }
+        }catch(SQLException e){ System.out.println("Error: " + e); }
+
+        return null;
     }
 
-    public int createNewRawAssessment(String name, int markCap, Map<String,Integer> markTable) {
-        assessments.add(new RawAssessment(assessments.size(), name, markCap, markTable));
-        return assessments.size() - 1;
+    public void addAssessment(Assessment a){    // TODO: sql not here
     }
 
-    public int createNewCalculatedAssessment(String name, List<Integer> sourceAssIds, List<Integer> weights) {
-        LinkedList<Assessment> as = new LinkedList<Assessment>();
-        for (Integer id : sourceAssIds) {
-            as.add(assessments.get(id));
-        }
-        Assessment a = new CalculatedAssessment(assessments.size(), name, as, weights);
-        assessments.add(a);
-        return assessments.size() - 1;
-    }
-
-    public int createNewCalculatedAssessment(String name, List<Integer> sourceAssIds, List<Boolean> useUncapped, List<Integer> weights, int markCap) {
-        LinkedList<Assessment> as = new LinkedList<Assessment>();
-        for (Integer id : sourceAssIds) {
-            as.add(assessments.get(id));
-        }
-        Assessment a = new CalculatedAssessment(assessments.size(), name, false, false, as, useUncapped, weights, markCap);
-        assessments.add(a);
-        return assessments.size()-1;
-    }
-
-    public List<Assessment> getAssessments(){
-        return Collections.unmodifiableList(this.assessments);
-    }
-
-    public boolean isRegistered(Student stu) {
-        if (registrationStatus.get(stu) != null) {
-            return registrationStatus.get(stu).booleanValue();
-        } else {
-            return false;
-        }
-    }
-
-    public void deregisterStudent(Student stu) {
-        if (registrationStatus.get(stu) != null) {
-            registrationStatus.put(stu, Boolean.FALSE);
-        } else {
-            System.err.println("Attempted to dereg student " + stu.getId() + " from course " + code + year + ", but stu isnt reg'd in 1st place.");
-        }
-    }
-
-    public Lecturer getCourseConviner(){
-        return coordinator;
-    }
-    public void setCourseCoordinator(Lecturer c){
-        coordinator = c;
+    public void setAssessments(List<Assessment> all){ // TODO: sql
     }
 
     public List<Student> getTeachingAssistants() {
@@ -137,5 +64,89 @@ public class Course {
 
     public void removeTeachingAssistant(Student ta) {
         teachingAssistants.remove(ta);
+    }
+    public List<Assessment> getAssessments(){   // TODO: sql
+        List<Assessment> lst = new ArrayList<Assessment>();
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT * FROM assessments.assessments";
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                if(rs.getString("calculation").equals("")){
+                    lst.add(new RawAssessment(rs.getString("ass_id"), this.con));
+                }else{
+                    lst.add(new CalculatedAssessment(rs.getString("ass_id"), this.con));
+                }
+            }
+        }catch(SQLException e){ System.out.println(e); }
+        return lst;
+    }
+
+    public boolean isRegistered(Student stu){ // TODO:    sql
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT registered FROM users.user_courses WHERE user_id = '" + stu.getId() + "' AND course_id '"+this.getId()+"'";  // remember
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                if(rs.getString("registered").equals("registered")){
+                    return true;
+                }
+            }
+        }catch(SQLException e){ System.out.println("Error: is registered " + e); }
+        return false;
+    }
+    public void deregisterStudent(Student stu){ // TODO: sql
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPDATE users.user_courses SET role = 'deregister' WHERE user_id = '"+stu.getId()+"' AND course_id = '"+this.getId()+"'"; // remember
+            ResultSet rs = st.executeQuery(sql);
+
+        }catch(SQLException e){ System.out.println("Error: is registered " + e); }
+    }
+
+    public void setParticipants(List<User> users){  // TODO: sql
+
+    }
+
+    public Lecturer getCourseCoordinator(){
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT user_id FROM users.user_courses WHERE role = 'coord' AND course_id = '"+this.getId()+"'";
+            ResultSet rs = st.executeQuery(sql);
+            if(rs.next()){
+                return new Lecturer (rs.getString("user_id"), this.con);
+            }
+            // no coordinator
+        }catch(SQLException e){ System.out.println("Error: is registered " + e); }
+        return null;
+    }
+    public void setCourseCoordinator(Lecturer c){
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPDATE users.user_courses SET role = 'coord' WHERE user_id = '"+c.getId()+"' AND course_id = '"+this.getId()+"'";
+            ResultSet rs = st.executeQuery(sql);
+        }catch(SQLException e){ System.out.println(e); }
+    }
+
+    public List<Student> getTAs(){
+        List<Student> lst = new ArrayList<Student>();
+        try{
+
+            Statement st = con.createStatement();
+            String sql = "SELECT user_id FROM users.user_courses WHERE role = 'ta' AND course_id = '"+this.getId()+"'";
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                lst.add(new Student(rs.getString("user_id"), this.con));
+            }
+        }catch(SQLException e){ System.out.println(e); }
+        return lst;
+    }
+
+    public void addTA(Student ta){
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPDATE users.user_courses SET role = 'ta' WHERE user_id = '"+ta.getId()+"' AND course_id = '"+this.getId()+"'";
+            ResultSet rs = st.executeQuery(sql);
+        }catch(SQLException e){ System.out.println(e); }
     }
 }

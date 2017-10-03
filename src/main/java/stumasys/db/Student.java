@@ -1,32 +1,44 @@
 package stumasys.db;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Student extends User {
-    private List<Course> involvedIn; // list of all courses this student
-                                     // is enrolled in, tutoring for, etc.  // should it maybe be a map?
-    public Student(
-            String id, List<Course> courses
 
-    ){
-        super(id);
-        involvedIn = courses;
-    }
-    
-    public List<Course> getInvolvedCourses() {
-        return Collections.unmodifiableList(involvedIn);
+    public Student(String id, Connection con){
+        super(id, con);
     }
 
-    public boolean addCourse(Course c) { // returns a success status
-        involvedIn.add(c);
+    public List<Course> getInvolvedCourses() {         // TODO: sql
+
+        try{
+            List<Course> courses = new ArrayList<Course>();
+            Statement st = con.createStatement();
+            String sql = "SELECT * FROM users.user_courses WHERE user_id = '" + this.id + "'";
+            ResultSet rs = st.executeQuery(sql);
+
+            while(rs.next()){
+                Course c = new Course(rs.getString("course_id"), rs.getInt("year"), this.con);
+                courses.add(c);
+            }
+
+            return courses;
+        }catch(SQLException e){ System.out.println("Error in getting involved courses " + e); return null; }    // not sure about this
+    }
+
+    public boolean addCourse(Course c) {              // TODO: sql, maybe?
         return true;
     }
 
-    public boolean removeCourse(Course c) { // returns success status
-        return involvedIn.remove(c);
+    public boolean removeCourse(Course c) {            // TODO: sql, mabe?
+        return true;
     }
-    public void deregister(String id){
+    public void deregister(String id){                 // TODO: maybe?
         //
     }
 /*
@@ -47,4 +59,7 @@ public class Student extends User {
     }*/
 
     // TODO: stage 4: track additions/removals from courses to update the DB correctly
+    //public String toString(){
+    //    return super.toString() + " student";
+    //}
 }

@@ -3,7 +3,7 @@ package stumasys.db;
 import java.util.Map;
 
 public interface Assessment {
-    public int getId();
+    public String getId();
 
     public String getName();
 
@@ -15,6 +15,6 @@ public interface Assessment {
     public boolean isPublished();
     public void setPublishState(boolean v);
 
-    public boolean isAvailableFromStudentHome();
+    public boolean isUploaded();
     public void setStudentHomeAvailability(boolean v);
 }

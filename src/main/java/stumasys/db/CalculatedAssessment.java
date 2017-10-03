@@ -6,7 +6,12 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Collections;
 
-public class CalculatedAssessment implements Assessment {
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.SQLException;
+
+public class CalculatedAssessment implements Assessment {       // TODO: sql
     // TODO: stage 4: extend this class to allow arbitrary calculations
     // including min/max, branching, etc, since weighted averages are not the
     // only computations commonly done.
@@ -15,17 +20,9 @@ public class CalculatedAssessment implements Assessment {
     // class for weighting in these calculations, rather than using int's.
     // (Normal float/double aren't appropriate for various reasons.)
 
-    private final int id;
-
-    private String name;
-
-    private List<Assessment> src;
-    private List<Boolean> useUncapped; // <--- if null, only uses capped marks
-    private List<Integer> weight;
-    private int markCap;
-    private boolean published = false;
-    private boolean onStudentHome = false;
-    private HashMap<String, Integer> markTbl;
+    private final String id;
+    private Connection con;
+    private String[] all;
 
     public static int calculateAppropriateMarkCap(List<Assessment> src, List<Integer> weight) {
         Iterator<Integer> wIter = weight.iterator();
@@ -36,32 +33,15 @@ public class CalculatedAssessment implements Assessment {
         return mc;
     }
 
-    public CalculatedAssessment(int id, String name, List<Assessment> src, List<Integer> weight) {
-        this(id, name, false, false, src, null, weight, calculateAppropriateMarkCap(src, weight));
-        assert(src.size() == weight.size());
-
-    }
-
-    public CalculatedAssessment(
-            int id, String name,
-            boolean published, boolean onStudentHome,
-            List<Assessment> src, List<Boolean> useUncapped, List<Integer> weight,
-            int markCap
-    ){
+    public CalculatedAssessment(String id, Connection con){
         this.id = id;
-        this.name = name;
-        this.published = published;
-        this.onStudentHome = onStudentHome;
-        this.src = src;
-        this.useUncapped = useUncapped;
-        this.weight = weight;
-        this.markCap = markCap;
+        this.con = con;
+        this.all = id.split("_");
     }
 
-    public String getName() {
-        return name;
+    public String getName(){
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
@@ -115,7 +95,7 @@ public class CalculatedAssessment implements Assessment {
         this.published = v;
     }
 
-    public boolean isAvailableFromStudentHome() {
+    public boolean isUploaded() {
         return onStudentHome;
     }
 

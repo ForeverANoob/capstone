@@ -6,171 +6,286 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Properties;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.DatabaseMetaData;
 
 import org.springframework.stereotype.Component;
 
 @Component
 public class Database {
-    private Map<String, Course> courses = new HashMap<String, Course>();
-    private Map<String, User> users = new HashMap<String, User>();
 
-    public Database() {
-        // Creating some sample users
-        Student stu1 = new Student("brrand016", new LinkedList<Course>());
-        Student stu2 = new Student("grncla007", new LinkedList<Course>());
-        Student stu3 = new Student("krydan003", new LinkedList<Course>());
-        Student stu4 = new Student("xyzmlg420", new LinkedList<Course>());
+    /*  variables  */
+    private Connection con;
+    private final String portNumber = "3306";
+    private final String userName = "root";
+    private final String password = "j9bct840s";
+    private final String dbms = "mysql";
+    private final String serverName = "localhost";
+    private final String dbName = "testing";
 
-        Lecturer lec1 = new Lecturer("100001", "CS", new LinkedList<Course>());
-        Lecturer lec2 = new Lecturer("100002", "CS", new LinkedList<Course>());
-        Lecturer lec3 = new Lecturer("100003", "CS", new LinkedList<Course>());
-        Lecturer lec4 = new Lecturer("100004", "CS", new LinkedList<Course>());
+    /*   Establishing a connection  */
+    public Connection getConnection() throws SQLException{
+        Connection conn = null;
+        Properties connectionProps = new Properties();
+        connectionProps.put("user", this.userName);
+        connectionProps.put("password", this.password);
 
-        AdminStaff adm1 = new AdminStaff("200001", "CS", new LinkedList<Course>());
-        AdminStaff adm2 = new AdminStaff("200002", "CS", new LinkedList<Course>());
+        if(this.dbms.equals("mysql")){
+            conn = DriverManager.getConnection(
+                   "jdbc:" + this.dbms + "://" +
+                   this.serverName +
+                   ":" + this.portNumber + "/",
+                   connectionProps);
+                   System.out.println("jdbc:" + this.dbms + "://" +  this.serverName + ":" + this.portNumber + "/" + connectionProps);
+        }
+        else if (this.dbms.equals("derby")){
+            conn = DriverManager.getConnection(
+                   "jdbc:" + this.dbms + ":" +
+                   this.dbName +
+                   ";create=true",
+                   connectionProps);
 
-        // Adding users to the users map
-        users.put("brrand016", stu1);
-        users.put("grncla007", stu2);
-        users.put("krydan003", stu3);
-        users.put("xyzmlg420", stu4);
-
-        users.put("100001", lec1);
-        users.put("100002", lec2);
-        users.put("100003", lec3);
-        users.put("100004", lec4);
-
-        users.put("200001", adm1);
-        users.put("200002", adm2);
-
-        // Creating lists of students/lecturers to be added to courses in a sec
-        List<Student> stulist1 = Arrays.asList(stu1,stu2,stu3);
-        List<Student> stulist2 = Arrays.asList(stu2,stu3,stu4);
-        List<Student> stulist3 = Arrays.asList(stu3,stu4,stu1);
-        List<Student> stulist4 = Arrays.asList(stu4,stu1,stu2);
-
-        List<Lecturer> leclist1 = Arrays.asList(lec3, lec4);
-        List<Lecturer> leclist2 = Arrays.asList(lec4, lec1);
-        List<Lecturer> leclist3 = Arrays.asList(lec1, lec2);
-        List<Lecturer> leclist4 = Arrays.asList(lec2, lec3);
-
-
-        // creating marktables for assessments
-        // NEW:TODO: add a test case for when people miss an assessment?
-        HashMap<String,Integer> mt1 = new HashMap<String,Integer>();
-            mt1.put("brrand016", 100);
-            mt1.put("grncla007", 100);
-            mt1.put("krydan003", 100);
-        HashMap<String,Integer> mt2 = new HashMap<String,Integer>();
-            mt2.put("grncla007", 100);
-            mt2.put("krydan003", 100);
-            mt2.put("xyzmlg420", 100);
-        HashMap<String,Integer> mt3 = new HashMap<String,Integer>();
-            mt3.put("krydan003", 100);
-            mt3.put("xyzmlg420", 100);
-            mt3.put("brrand016", 100);
-        HashMap<String,Integer> mt4 = new HashMap<String,Integer>();
-            mt4.put("xyzmlg420", 100);
-            mt4.put("brrand016", 100);
-            mt4.put("grncla007", 100);
-
-        HashMap<String,Integer> mt5 = new HashMap<String,Integer>(); 
-            mt5.put("brrand016", 50);
-            mt5.put("grncla007", 50);
-            mt5.put("krydan003", 50);
-        HashMap<String,Integer> mt6 = new HashMap<String,Integer>();
-            mt6.put("grncla007", 50);
-            mt6.put("krydan003", 50);
-            mt6.put("xyzmlg420", 50);
-        HashMap<String,Integer> mt7 = new HashMap<String,Integer>();
-            mt7.put("krydan003", 50);
-            mt7.put("xyzmlg420", 50);
-            mt7.put("brrand016", 50);
-        HashMap<String,Integer> mt8 = new HashMap<String,Integer>();
-            mt8.put("xyzmlg420", 50);
-            mt8.put("brrand016", 50);
-            mt8.put("grncla007", 50);
-
-        // creating assessments, putting in courses
-        Assessment ra1 = new RawAssessment(1, "Test", 100, mt1);
-        Assessment ra2 = new RawAssessment(2, "Prac", 100, mt5);
-        Assessment ra3 = new RawAssessment(1, "Test", 100, mt2);
-        Assessment ra4 = new RawAssessment(2, "Prac", 100, mt6);
-        Assessment ra5 = new RawAssessment(1, "Test", 100, mt3);
-        Assessment ra6 = new RawAssessment(2, "Prac", 100, mt7);
-        Assessment ra7 = new RawAssessment(1, "Test", 100, mt4);
-        Assessment ra8 = new RawAssessment(2, "Prac", 100, mt8);
-
-
-        Assessment ca1 = new CalculatedAssessment(3, "Final mark", Arrays.asList(ra1, ra2), Arrays.asList(75, 25));
-        Assessment ca2 = new CalculatedAssessment(3, "Final mark", Arrays.asList(ra3, ra4), Arrays.asList(75, 25));
-        Assessment ca3 = new CalculatedAssessment(3, "Final mark", Arrays.asList(ra5, ra6), Arrays.asList(75, 25));
-        Assessment ca4 = new CalculatedAssessment(3, "Final mark", Arrays.asList(ra7, ra8), Arrays.asList(75, 25));
-
-        // setting these all so that they are published
-        ra1.setPublishState(true);ra2.setPublishState(true);ra3.setPublishState(true);ra4.setPublishState(true);ra5.setPublishState(true);ra6.setPublishState(true);ra7.setPublishState(true);ra8.setPublishState(true);ca1.setPublishState(true);ca2.setPublishState(true);ca3.setPublishState(true);ca4.setPublishState(true);
-        ra1.setStudentHomeAvailability(true);ra2.setStudentHomeAvailability(true);ra3.setStudentHomeAvailability(true);ra4.setStudentHomeAvailability(true);ra5.setStudentHomeAvailability(true);ra6.setStudentHomeAvailability(true);ra7.setStudentHomeAvailability(true);ra8.setStudentHomeAvailability(true);ca1.setStudentHomeAvailability(true);ca2.setStudentHomeAvailability(true);ca3.setStudentHomeAvailability(true);ca4.setStudentHomeAvailability(true);
-
-        // Creating some sample courses
-        Course crs1 = new Course(
-                "CSC1015F", 2017,
-                lec1, leclist1,
-                new LinkedList<Student>(),
-                stulist1,
-                new LinkedList<Assessment>(Arrays.asList(ra1, ra2, ca1))
-            );
-        lec1.addCourse(crs1); lec3.addCourse(crs1); lec4.addCourse(crs1); stu1.addCourse(crs1); stu2.addCourse(crs1); stu3.addCourse(crs1);
-
-        Course crs2 = new Course(
-                "CSC1016S", 2017,
-                lec2, leclist2,
-                new LinkedList<Student>(),
-                stulist2,
-                new LinkedList<Assessment>(Arrays.asList(ra3, ra4, ca2))
-            );
-        lec2.addCourse(crs2); lec4.addCourse(crs2); lec1.addCourse(crs2); stu2.addCourse(crs2); stu3.addCourse(crs2); stu4.addCourse(crs2);
-
-        Course crs3 = new Course(
-                "CSC1015F", 2016,
-                lec3, leclist3,
-                new LinkedList<Student>(),
-                stulist3,
-                new LinkedList<Assessment>(Arrays.asList(ra5, ra6, ca3))
-            );
-        lec3.addCourse(crs3); lec1.addCourse(crs3); lec2.addCourse(crs3); stu3.addCourse(crs3); stu4.addCourse(crs3); stu1.addCourse(crs3);
-
-        Course crs4 = new Course(
-                "CSC1016S", 2016,
-                lec4, leclist4,
-                new LinkedList<Student>(),
-                stulist4,
-                new LinkedList<Assessment>(Arrays.asList(ra7, ra8, ca4))
-            );
-        lec4.addCourse(crs4); lec2.addCourse(crs4); lec3.addCourse(crs4); stu4.addCourse(crs4); stu1.addCourse(crs4); stu2.addCourse(crs4);
-
-        // putting crs4 on the recently viewed list for the first admin staff member
-        adm1.updateRecentlyVeiwedCourses(crs4);
-
-        // adding those courses to the courses map
-        courses.put("2017_csc1015f", crs1);
-        courses.put("2017_csc1016s", crs2);
-        courses.put("2016_csc1015f", crs3);
-        courses.put("2016_csc1016f", crs4);
-        
+        }
+        System.out.println();
+        return conn;
     }
 
-    public List<Course> getLikeCourse(String name){
-        return null;            // TODO: implement SQL search query for courses with similar name
-    }
-    public List<Course> getLikeYear(String year){
-        return null;            // TODO: implement SQL search for courses in this year
+    /*   constructor   */
+    public Database(){              // TODO: sql
+        try{
+            this.con = this.getConnection();
+            System.out.println("#SmokeWeedEveryday #420 #ConnectionMake");
+            con.setAutoCommit(false);
+
+            //String query = "INSERT INTO testing (id, Acedemic program, fname, surname, emplid, subject, class nbr, Term, Final grade, Catalog nbr) VALUES (dude, woof, swag, mlg, 420, smoke weed, bewbs, gone, gg, 18);";
+
+            Statement st = con.createStatement();
+            //String sql = "INSERT INTO /Unnamed/mysql/testing (id, Acedemic program, fname, surname, emplid, subject, class nbr, Term, Final grade, Catalog nbr) VALUES (dude, woof, swag, mlg, 420, smoke weed, bewbs, gone, gg, 18);";
+            String sql = "INSERT INTO capstone.users VALUES ('TKDF', 'jorg', 1, NULL), ('tim', 'Dude', 1, NULL), ('nty', 'TIM', 1, NULL), ('sfs', 'ALEX', 1, NULL);";
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()) {
+               String id = rs.getString("id");
+                System.out.println(id+" ");
+            }
+
+            st = con.createStatement();
+            sql = "CREATE TABLE assessments."+ "ass1" +" (id NVARCHAR(50), mark INT)";
+            //rs = st.executeQuery(sql);
+
+            System.out.println(this.checkUser("id1"));
+            System.out.println(this.checkUser("id1"));
+            this.addUser("id1", "brt", "admin", "vra", "com sci");
+            System.out.println(this.checkUser("id1"));
+            System.out.println(this.getUser("id1"));
+
+            System.out.println(checkAssessment("2017_csc1015_pie"));
+            addAssessment("2017_csc1015_pie", 2, 2, 2, "a + b");
+            System.out.println(checkAssessment("2017_csc1015_pie"));
+
+            System.out.println(checkCourse("csc1015", 2017));
+            String n = "id vqvr vqe rtv pie";
+            addCourse("2017_csc1015", n.split(" "));
+            System.out.println(checkCourse("csc1015", 2017));
+
+            addMarkToAssessment("2017_csc1015_pie", "id1", 69);
+
+
+        }catch(SQLException e){
+            System.out.println("------------------------------------------------->  This connection is just like...no bruh  <----------------------------------------");
+            System.out.println(e);
+        }
     }
 
-    public Course getCourse(String code, int year) {
-        return courses.get(Integer.toString(year) +"_"+ code.toLowerCase());
+
+    /*   Checking if the info exists in the database   */
+    public boolean checkUser(String id){    // works
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT id FROM users.user_info WHERE id = '"+id+"'";
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                return true;
+            }
+
+        }catch(SQLException e){ System.out.println("An error has occured: "+e); return true;}
+        return false;
+    }
+    public boolean checkCourse(String name, int year){
+        try{
+            DatabaseMetaData meta = con.getMetaData();
+            String id = year + "_"+name;
+            ResultSet rs = meta.getTables(null, null, id, new String[] {"TABLE"});
+            if (rs.next()){
+                return true;
+            }
+            return false;
+        }catch(SQLException e){ System.out.println("An error has occured: "+e); return true;}
+    }
+    public boolean checkAssessment(String id){
+        try{
+            
+            Statement st = con.createStatement();
+            String sql = "SELECT * FROM assessments.assessments WHERE ass_id = '" + id + "'";
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                return true;
+            }
+            return false;
+        }catch(SQLException e){ System.out.println("An error has occured: "+e); return true;}
     }
 
-    public User getUser(String id) {
-        return users.get(id);
+
+    /*   Adding stuff to the databases   */  // TODO
+    public void addUser(String id, String name, String role, String degree, String department) throws SQLException{    // works
+        // Check if user already exists
+        try{
+            Statement st = con.createStatement();
+            String sql = "INSERT INTO users.user_info VALUES ('"+id+"', '"+name+"', '"+role+"', '"+degree+"', '"+department+"')";     // TODO: distinguish between users
+            ResultSet rs = st.executeQuery(sql);
+            System.out.println(sql);        //
+        }catch(SQLException e){ System.out.println("An error has occurred "+e); }
+    }
+    public void addCourse(String id, String[] args){
+        String arg = " (" + args[0] +" NVARCHAR(50), ";                                    // remember this
+        for (int i = 1; i < args.length; i++){
+            if (i == args.length - 1){
+                arg += "" +args[i]+" INT)";
+            }
+            else{
+                arg += "" +args[i]+ " INT, ";
+            }
+        }
+        try{
+            Statement st = con.createStatement();
+            String sql = "CREATE TABLE courses."+id+arg;
+            ResultSet rs = st.executeQuery(sql);
+
+            String[] tmp = args[0].split("_");
+            st = con.createStatement();
+            sql = "INSERT INTO courses.courses_info VALUES ('"+tmp[0]+"', "+tmp[1]+")";
+            rs = st.executeQuery(sql);
+
+        }catch(SQLException e){ System.out.println("An error has occured: "+e); }
+    }
+    public void addAssessment(String id, int upload, int published, int mark_cap, String cal){               // string or int?               // done
+        try{
+            Statement st = con.createStatement();
+            String sql = "INSERT INTO assessments.assessments VALUES ('"+id+"', "+upload+", "+published+", "+mark_cap+", '"+cal+"')";   // TODO: test
+            ResultSet rs = st.executeQuery(sql);
+        }catch(SQLException e){ System.out.println("An error has occured: "+e); }
+    }
+
+    /*  these next two normally go together but don't have to  */
+    public void addCourseToUser(int year, String course_id, String user_id){
+        try{
+            Statement st = con.createStatement();
+            String sql = "INSERT INTO users.user_courses VALUES ('"+user_id+"', '"+course_id+"', "+year+")";
+            ResultSet rs = st.executeQuery(sql);
+        }catch(SQLException e){ System.out.println(e); }
+    }
+    public void addUserToCourse(int year, String course_id, String user_id){
+        try{
+            Statement st = con.createStatement();
+            String sql = "INSERT INTO courses."+year+"_"+course_id + " VALUES ('"+user_id+"')"; // TODO: the other values
+            ResultSet rs = st.executeQuery(sql);
+        }catch(SQLException e){ System.out.println(e); }
+    }
+
+    public void addMarkToAssessment(String ass_id, String user_id, int mark){   // assumes assessment exists
+        String[] args = ass_id.split("_");
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPDATE courses."+args[0]+"_"+args[1]+" SET "+args[2]+" = "+mark+" WHERE id = '"+user_id+"'";
+            ResultSet rs = st.executeQuery(sql);
+        }catch(SQLException e){ System.out.println(e); }
+    }
+
+
+    /*   Getting info from the database   */
+    public User getUser(String id){
+
+        User user = new User(id, con);
+        String role = user.findRole();
+
+        if(role.equals("admin")){
+            user = new AdminStaff(id, this.con);
+
+        }else if (role.equals("lecturer")){
+            user = new Lecturer(id, this.con);
+
+        }else if(role.equals("student")){
+            user = new Student(id, this.con);
+
+        }else{ System.out.println("User has no defined role: " + role); }
+        return user;
+
+    }
+    public Course getCourse(String code, int year) {    // TODO: check if correct
+        return new Course(code, year, con);
+    }
+    public Assessment getAssessment(String id){     // TODO: sql, assumes Assessment exists and check if correct
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT calculation FROM assessments.assessments WHERE ass_id = '"+id+"'";
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                String tmp = rs.getString("calculation");
+                if (tmp.equals("")){
+                    return new RawAssessment(id, con);
+                }else{
+                    return new CalculatedAssessment(id, con);
+                }
+            }
+        }catch(SQLException e){ System.out.println(e); }
+        return null;
+    }
+
+    public String getStudentAssMark(String ass_id, String stu_id){  // TODO
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT * FROM assessments." + ass_id + "WHERE id ='" + stu_id + "'";
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                return rs.getString("id") + " " + rs.getInt("mark");    // TODO: standardize
+            }
+            return "No data";
+        }catch(SQLException e){ System.out.println(e); return "";}
+    }
+
+    /*    Get similar objects   */
+    public List<Course> getLikeCourse(String name){ // TODO: implement SQL search for courses with this name
+        try{
+            List<Course> tmp = new ArrayList<Course>();
+            Statement st = con.createStatement();
+            String sql = "SELECT * FROM courses.courses_info WHERE course_code = '"+name+"'";
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                tmp.add(new Course(rs.getString("course_code"), rs.getInt("year"), con));
+            }
+
+            return tmp;
+        }catch (SQLException e){ System.out.println("An error has occured "+e); return null;}
+
+    }
+    public List<Course> getLikeYear(String year){ // TODO: implement SQL search for courses in this year
+        try{
+            List<Course> tmp = new ArrayList<Course>();
+            Statement st = con.createStatement();
+            String sql = "SELECT * FROM courses.courses_info WHERE year = "+year+"";
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                tmp.add(new Course(rs.getString("course_code"), rs.getInt("year"), con));
+            }
+
+            return tmp;
+        }catch (SQLException e){ System.out.println("An error has occured "+e); return null;}
+
     }
 }
