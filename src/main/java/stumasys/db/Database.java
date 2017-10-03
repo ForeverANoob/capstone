@@ -131,14 +131,7 @@ public class Database {
     }
     public boolean checkAssessment(String id){
         try{
-            /*
-            DatabaseMetaData meta = con.getMetaData();
-            ResultSet rs = meta.getTables(null, null, id, new String[] {"TABLE"});
-            if (rs.next()){
-                return true;
-            }
-            return false;
-            */
+            
             Statement st = con.createStatement();
             String sql = "SELECT * FROM assessments.assessments WHERE ass_id = '" + id + "'";
             ResultSet rs = st.executeQuery(sql);

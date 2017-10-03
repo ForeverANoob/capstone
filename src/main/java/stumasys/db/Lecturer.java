@@ -33,11 +33,19 @@ public class Lecturer extends User {
         return department;
     }
     public void setDepartment(String d){    // TODO: sql
-
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPDATE users.user_info SET department = '"+d+"' WHERE id = '"+this.id+"'";
+            ResultSet rs = st.executeQuery(sql);
+        }catch(SQLException e){ System.out.println(e); }
     }
 
-    public boolean addCourse(Course c) {    // TODO: sql
-        return true;
+    public void addCourse(Course c) {    // TODO: sql
+        try{
+            Statement st = con.createStatement();
+            String sql = "INSERT INTO users.user_courses VALUES ('"+this.id+"', '"+c.getName()+"', "+c.getYear()+", 'lecturer')";
+            ResultSet rs = st.executeQuery(sql);
+        }catch(SQLException e){ System.out.println(e); }
     }
 
     public boolean removeCourse(Course c) { // TODO: sql

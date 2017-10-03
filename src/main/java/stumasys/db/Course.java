@@ -22,9 +22,28 @@ public class Course {
     public String getId(){          // TODO: sql
         return year+"_"+code;
     }
+    public String getName(){
+        return code;
+    }
+    public int getYear(){
+        return this.year;
+    }
 
     // assessments things
     public Assessment getAssessment(String id) {    // TODO: sql
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT calculation FROM assessments.assessments WHERE ass_id = '" + id + "'";
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                if(rs.getString("calculation").equals("")){
+                    return new RawAssessment(id, this.con);
+                }else{
+                    return new CalculatedAssessment(id, this.con);
+                }
+            }
+        }catch(SQLException e){ System.out.println("Error: " + e); }
+
         return null;
     }
 
@@ -35,32 +54,87 @@ public class Course {
 
     }
     public List<Assessment> getAssessments(){   // TODO: sql
-        return null;
+        List<Assessment> lst = new ArrayList<Assessment>();
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT * FROM assessments.assessments";
+            ResultSet rs = st.executeQuery(sql);
+            while (rs.next()){
+                if(rs.getString("calculation").equals("")){
+                    lst.add(new RawAssessment(rs.getString("ass_id"), this.con));
+                }else{
+                    lst.add(new CalculatedAssessment(rs.getString("ass_id"), this.con));
+                }
+            }
+        }catch(SQLException e){ System.out.println(e); }
+        return lst;
     }
 
     public boolean isRegistered(Student stu){ // TODO:    sql
-        return true;
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT registered FROM users.user_courses WHERE user_id = '" + stu.getId() + "' AND course_id '"+this.getId()+"'";  // remember
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                if(rs.getString("registered").equals("registered")){
+                    return true;
+                }
+            }
+        }catch(SQLException e){ System.out.println("Error: is registered " + e); }
+        return false;
     }
     public void deregisterStudent(Student stu){ // TODO: sql
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPDATE users.user_courses SET role = 'deregister' WHERE user_id = '"+stu.getId()+"' AND course_id = '"+this.getId()+"'"; // remember
+            ResultSet rs = st.executeQuery(sql);
 
+        }catch(SQLException e){ System.out.println("Error: is registered " + e); }
     }
 
     public void setParticipants(List<User> users){  // TODO: sql
 
     }
 
-    public Lecturer getCourseConviner(){    // TODO: sql
+    public Lecturer getCourseConviner(){
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT user_id FROM users.user_courses WHERE role = 'coord' AND course_id = '"+this.getId()+"'";
+            ResultSet rs = st.executeQuery(sql);
+            if(rs.next()){
+                return new Lecturer (rs.getString("user_id"), this.con);
+            }
+            // no coordinator
+        }catch(SQLException e){ System.out.println("Error: is registered " + e); }
         return null;
     }
-    public void setCourseConviner(Lecturer c){  // TODO: sql
-
+    public void setCourseConviner(Lecturer c){
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPDATE users.user_courses SET role = 'coord' WHERE user_id = '"+c.getId()+"' AND course_id = '"+this.getId()+"'";
+            ResultSet rs = st.executeQuery(sql);
+        }catch(SQLException e){ System.out.println(e); }
     }
 
-    public List<Student> getTA(){       // TODO: sql
-        return null;
+    public List<Student> getTA(){
+        List<Student> lst = new ArrayList<Student>();
+        try{
+
+            Statement st = con.createStatement();
+            String sql = "SELECT user_id FROM users.user_courses WHERE role = 'ta' AND course_id = '"+this.getId()+"'";
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                lst.add(new Student(rs.getString("user_id"), this.con));
+            }
+        }catch(SQLException e){ System.out.println(e); }
+        return lst;
     }
 
-    public void setTA(Student ta){      // TODO: sql
-
+    public void addTA(Student ta){
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPDATE users.user_courses SET role = 'ta' WHERE user_id = '"+ta.getId()+"' AND course_id = '"+this.getId()+"'";
+            ResultSet rs = st.executeQuery(sql);
+        }catch(SQLException e){ System.out.println(e); }
     }
 }
