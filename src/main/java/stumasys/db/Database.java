@@ -148,6 +148,7 @@ public class Database {
             );
         lec4.addCourse(crs4); lec2.addCourse(crs4); lec3.addCourse(crs4); stu4.addCourse(crs4); stu1.addCourse(crs4); stu2.addCourse(crs4);
 
+
         // putting crs4 on the recently viewed list for the first admin staff member
         adm1.updateRecentlyVeiwedCourses(crs4);
 
@@ -155,8 +156,7 @@ public class Database {
         courses.put("2017_csc1015f", crs1);
         courses.put("2017_csc1016s", crs2);
         courses.put("2016_csc1015f", crs3);
-        courses.put("2016_csc1016f", crs4);
-        
+        courses.put("2016_csc1016s", crs4);
     }
 
     public List<Course> getLikeCourse(String name){
@@ -167,6 +167,8 @@ public class Database {
     }
 
     public Course getCourse(String code, int year) {
+        System.out.println("getting " + Integer.toString(year) +"_"+ code.toLowerCase());
+        System.out.println(courses.get(Integer.toString(year) +"_"+ code.toLowerCase()));
         return courses.get(Integer.toString(year) +"_"+ code.toLowerCase());
     }
 

@@ -58,6 +58,14 @@ public class Course {
         this.registrationStatus = registrationStatus;
     }
 
+    public Map<Assessment, Boolean> getPrevVisibleColumns(AdminStaff u) {
+        HashMap<Assessment, Boolean> vis = new HashMap<Assessment, Boolean>();
+        for(Assessment a : assessments) {
+            vis.put(a, Boolean.TRUE);
+        }
+        return vis;
+    }
+
     public String getId(){
         return Integer.toString(year)+"_"+code;
     }

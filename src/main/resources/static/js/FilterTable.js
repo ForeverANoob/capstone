@@ -42,15 +42,4 @@ $(document).ready(function(){
             $table.find('tbody').prepend($('<tr class="no-result text-center"><td colspan="'+ $table.find('.filters th').length +'">No result found</td></tr>'));
         }
     });
-
-
-  $('.colselector').click(function(e) {
-    var colId = e.target.id;
-    console.log(colId);
-    $('.' + colId).hide();
-  });
-  
-  $("#showMarkModal").click(function() {
-    //$("markColModal").modal({ show: true });
-  });
 });
