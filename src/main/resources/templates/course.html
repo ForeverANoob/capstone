@@ -17,9 +17,10 @@
 
   <script src="/js/common.js"></script>
 
-  <script>
-    var columnVisibility = [true, true, true, true, true, true];
-  </script> <!-- we use thymeleaf to inject javascript into the page determining which columns are initially visible -->
+  <!-- we use thymeleaf to inject javascript into the page determining which
+       columns are initially visible: -->
+
+  <script th:utext="${configJs}"></script> 
 
   <script src="/js/course.js"></script>
 </head>

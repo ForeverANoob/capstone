@@ -40,11 +40,6 @@ import java.util.LinkedList;
 @Controller
 public class IndexController {
 
-    //private static final String PATH = "/error";
-    //private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
-
-    // TODO: move the handler methods of AdminHomeController and StudentHomeController into this file, maybe rename this file to HomeController, so that we don't have to do this ridiculous bullshit hackery belo:
-
     private Database db;
 
     @Autowired
@@ -66,6 +61,7 @@ public class IndexController {
             AdminStaff u = (AdminStaff) db.getUser(id);
             model.addAttribute("recentlyViewed", u.getRecentlyViewedCourses());
             return "AdminHome";
+
         } else if (servletReq.isUserInRole("STUDENT")) {
             HashMap<String, List<Assessment>> subjectsAndMarks = new HashMap<String, List<Assessment>>();
 

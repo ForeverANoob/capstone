@@ -294,6 +294,5 @@ public class Database {
 
             return tmp;
         }catch (SQLException e){ System.out.println("An error has occured "+e); return null;}
-
     }
 }

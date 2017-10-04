@@ -66,24 +66,46 @@ public class CourseController {
          * */
 
         final String uId = p.getName();
-
-
+        final User user = db.getUser(uId);
 
         Course c = db.getCourse(courseCode.toLowerCase(), Integer.parseInt(year));
 
         if (c == null) {
-            return "nope";// TODO: respond with a proper error page when course doesnt exist
+            return "404";// TODO: respond with a proper error page when course doesnt exist
         }
 
-        if (servletReq.isUserInRole("ADMIN_STAFF")) {
-            AdminStaff u = (AdminStaff) db.getUser(uId);
-            u.updateRecentlyVeiwedCourses(db.getCourse(courseCode, Integer.parseInt(year)));
-        }
 
         model.addAttribute("courseCode", courseCode.toUpperCase());
         model.addAttribute("year", year);
 
-        return "course";    // course?
+        if (servletReq.isUserInRole("ADMIN_STAFF")) {
+            ((AdminStaff) user).updateRecentlyVeiwedCourses(c);
+
+            // preparing some Javascript that determines what columns are visible when the page first loads:
+            String configJs = "var visibleCols = {";
+
+            Map<Assessment, Boolean> visibleCols = c.getPrevVisibleColumns((AdminStaff) user);
+            Iterator<Map.Entry<Assessment, Boolean>> it = visibleCols.entrySet().iterator();
+
+            if (it.hasNext()) {
+                Map.Entry<Assessment, Boolean> e = it.next();
+                configJs += "\"" + e.getKey().getId() + "\":[" + e.getValue() + ",\"" + e.getKey().getName() + "\"]";
+
+                while (it.hasNext()) {
+                    e = it.next();
+                    configJs += ",\"" + e.getKey().getId() + "\":[" + e.getValue() + ",\"" + e.getKey().getName() + "\"]";
+                }
+            }
+            configJs += "};\nvar courseCode = \""+courseCode+"\";\nvar courseYear = "+year+";";
+
+            model.addAttribute("configJs", configJs);
+
+            return "course";    // course?
+        } else {
+            // TODO: show appropriate page for student users, and lecturers/coordinator
+        return "course";
+        }
+
     }
 
     @RequestMapping(value = "/api/get_assessment/{code}/{year}/{aId}", produces = "application/json")

@@ -22,6 +22,29 @@ public class Course {
         this.year = year;
         this.con = con;
     }
+
+    public Map<Assessment, Boolean> getPrevVisibleColumns(AdminStaff u) { // TODO(merge): sql!
+        /* The non-sql version that just says that every assessment should immediately be visible on the course page is this:
+
+        HashMap<Assessment, Boolean> vis = new HashMap<Assessment, Boolean>();
+        for(Assessment a : assessments) {
+            vis.put(a, Boolean.TRUE);
+        }
+        return vis;
+
+        // this is the way we remember which adminstaff has which columns chosen to be
+        // displayed (with the checkboxes). you'll need to store this information
+        // somewhere in the database, andre. it's different for every admin:
+        // don't store it as a constant for the whole course! I'd guess a table
+        // structure like this might work:
+        //      admin_id | binary string ("1010101110")
+        // where the string is indicating 1 -> visible, 0 -> not visible, if
+        // we are using integer ID's (or just if we can establish a universal
+        // ordering on the IDs that will never get invalidated)
+
+        */
+    }
+
     public String getId(){
         return year+"_"+code;
     }
