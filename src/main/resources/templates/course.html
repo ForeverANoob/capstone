@@ -8,7 +8,7 @@
 
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"/>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
@@ -33,10 +33,12 @@
             <h3 class="panel-title"></h3>
             <div style="align: center;">
               <button class="btn btn-default btn-xs" data-toggle="modal" data-target="#newAssessModal">New assessment</button>
-              <a href="{courseCode}/AddingUser"><button class="btn btn-default btn-xs" >Add user</button></a>
-              <!--<button id="markcol-1" class="btn btn-default btn-xs" >Hide first column</button>-->
-              <button id="showMarkModal" class="btn btn-default btn-xs" data-toggle="modal" data-target="#markColModal">Hidden mark columns</button>
+              <button class="btn btn-default btn-xs" data-toggle="modal" data-target="#importPplsoftModal">Import Peoplesoft file</button>
+              <button class="btn btn-default btn-xs">Export Peoplesoft file</button>
+              <button id="showMarkModal" class="btn btn-default btn-xs" data-toggle="modal" data-target="#markColModal">Choose visible columns</button>
             </div>
+
+            <!--     Modals      -->
             <div id="markColModal" class="modal fade" role="dialog">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -58,6 +60,7 @@
                 </div>
               </div>
             </div>
+
             <div id="newAssessModal" class="modal fade" role="dialog">
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -66,30 +69,64 @@
                     <h4 class="modal-title">Create new assessment</h4>
                   </div>
                   <div class="modal-body">
-                    <form class="form-control">
-                      <input type="text" placeholder="Assessment name"></input>
-                      <input type="file"></input>
-                      <button>Create</button>
+                    Type: <input type="radio" name="assType" value="raw">Raw</input>
+                    <input type="radio" name="assType" value="calc">Calculated</input>
+                    <div id="newass_options_raw" class="newass_options" style="display:none;">
+                      <form class="form-control" id="newAssFileInput">
+                        <input type="text" placeholder="Assessment name"></input>
+                        <input type="file"></input>
+                        <button>Create</button>
+                      </form>
+                    </div>
+                    <div id="newass_options_calc" class="newass_options" style="display:none;">
+                      Calculated from:<br/>
+                      Weighting:<br/>
+                      <form class="form-control">
+                        <input type="text" placeholder="Assessment name"></input><br/>
+                        <input type="text" placeholder="Calculation string"></input>
+                        <button>Create</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="importPplsoftModal" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-title">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Upload Peoplesoft participant file</h4>
+                  </div>
+                  <div class="modal-body">
+                    <form class="form-control" enctype="multipart/form-data">
+                      <input type="file" name="file"></input>
+                      <button>Import</button>
                     </form>
                   </div>
                 </div>
               </div>
             </div>
+
           </div>
           <table class="table" style="text-align: center; width: 100%;">
             <thead>
               <tr id="header_row" class="filters">
                 <th><input type="text" class="form-control" placeholder="Student number" ></input></th>
-                <th class="markcol-1">Assignment 1</th>
-                <th class="markcol-2">Assignment 2</th>
-                <th class="markcol-3"><a href="{courseCode}/Layer2">Test 1</a></th>
-                <th class="markcol-4">Test 2</th>
-                <th class="markcol-5">DP</th>
-                <th class="markcol-6">Final mark</th>
+                <!--
+                  <th class="markcol-1">Assignment 1</th>
+                  <th class="markcol-2">Assignment 2</th>
+                  <th class="markcol-3"><a href="{courseCode}/Layer2">Test 1</a></th>
+                  <th class="markcol-4">Test 2</th>
+                  <th class="markcol-5">DP</th>
+                  <th class="markcol-6">Final mark</th>
+                -->
               </tr>
             </thead>
-            <tbody>
-              <tr>
+            <tbody id="marktable-body">
+              <!-- the following is an example entry -->
+              <!-- tr id="markrow-ottmar001">
                 <td>OTTMAR001</td>
                 <td class="markcol-1">78</td>
                 <td class="markcol-2">43</td>
@@ -97,7 +134,7 @@
                 <td class="markcol-4">54</td>
                 <td class="markcol-5">87</td>
                 <td class="markcol-6">23</td>
-              </tr>
+              </tr -->
             </tbody>
           </table>
       </div>

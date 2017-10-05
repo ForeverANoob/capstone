@@ -25,7 +25,6 @@ public class CalculatedAssessment implements Assessment {
     private int markCap;
     private boolean published = false;
     private boolean onStudentHome = false;
-    private HashMap<String, Integer> markTbl;
 
     public static int calculateAppropriateMarkCap(List<Assessment> src, List<Integer> weight) {
         Iterator<Integer> wIter = weight.iterator();
@@ -56,6 +55,7 @@ public class CalculatedAssessment implements Assessment {
         this.useUncapped = useUncapped;
         this.weight = weight;
         this.markCap = markCap;
+
     }
 
     public String getName() {
@@ -97,8 +97,26 @@ public class CalculatedAssessment implements Assessment {
         return mark;
     }
 
-    public Map<String, Integer> getWholeTable() { // TODO: store in DB and update when underlying RawAssessments are updated.
+    public Map<String, Integer> getWholeTable() { // TODO: store in DB and update when underlying RawAssessments are updated, rather than calculate each time
         HashMap<String, Integer> markTbl = new HashMap<String, Integer>();
+
+        Iterator<Assessment> aIter = src.iterator();
+        Iterator<Integer> wIter = weight.iterator();
+        while (aIter.hasNext()) {
+            Assessment a = aIter.next();
+            Integer w = wIter.next();
+
+            System.out.println("0-------------------------------------------------- 000000000000000000");
+            Map<String,Integer> src_markTbl = a.getWholeTable();
+            for (Map.Entry<String,Integer> e : src_markTbl.entrySet()) {
+                Integer cm = markTbl.get(e.getKey());
+                if (cm != null) {
+                    markTbl.put(e.getKey(), cm + w*e.getValue());
+                } else {
+                    markTbl.put(e.getKey(), w*e.getValue());
+                }
+            }
+        }
 
         return markTbl;
     }

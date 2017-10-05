@@ -92,20 +92,20 @@ public class Database {
             mt8.put("grncla007", 50);
 
         // creating assessments, putting in courses
-        Assessment ra1 = new RawAssessment(1, "Test", 100, mt1);
-        Assessment ra2 = new RawAssessment(2, "Prac", 100, mt5);
-        Assessment ra3 = new RawAssessment(1, "Test", 100, mt2);
-        Assessment ra4 = new RawAssessment(2, "Prac", 100, mt6);
-        Assessment ra5 = new RawAssessment(1, "Test", 100, mt3);
-        Assessment ra6 = new RawAssessment(2, "Prac", 100, mt7);
-        Assessment ra7 = new RawAssessment(1, "Test", 100, mt4);
-        Assessment ra8 = new RawAssessment(2, "Prac", 100, mt8);
+        Assessment ra1 = new RawAssessment(0, "Test", 100, mt1);
+        Assessment ra2 = new RawAssessment(1, "Prac", 100, mt5);
+        Assessment ra3 = new RawAssessment(0, "Test", 100, mt2);
+        Assessment ra4 = new RawAssessment(1, "Prac", 100, mt6);
+        Assessment ra5 = new RawAssessment(0, "Test", 100, mt3);
+        Assessment ra6 = new RawAssessment(1, "Prac", 100, mt7);
+        Assessment ra7 = new RawAssessment(0, "Test", 100, mt4);
+        Assessment ra8 = new RawAssessment(1, "Prac", 100, mt8);
 
 
-        Assessment ca1 = new CalculatedAssessment(3, "Final mark", Arrays.asList(ra1, ra2), Arrays.asList(75, 25));
-        Assessment ca2 = new CalculatedAssessment(3, "Final mark", Arrays.asList(ra3, ra4), Arrays.asList(75, 25));
-        Assessment ca3 = new CalculatedAssessment(3, "Final mark", Arrays.asList(ra5, ra6), Arrays.asList(75, 25));
-        Assessment ca4 = new CalculatedAssessment(3, "Final mark", Arrays.asList(ra7, ra8), Arrays.asList(75, 25));
+        Assessment ca1 = new CalculatedAssessment(2, "Final mark", Arrays.asList(ra1, ra2), Arrays.asList(75, 25));
+        Assessment ca2 = new CalculatedAssessment(2, "Final mark", Arrays.asList(ra3, ra4), Arrays.asList(75, 25));
+        Assessment ca3 = new CalculatedAssessment(2, "Final mark", Arrays.asList(ra5, ra6), Arrays.asList(75, 25));
+        Assessment ca4 = new CalculatedAssessment(2, "Final mark", Arrays.asList(ra7, ra8), Arrays.asList(75, 25));
 
         // setting these all so that they are published
         ra1.setPublishState(true);ra2.setPublishState(true);ra3.setPublishState(true);ra4.setPublishState(true);ra5.setPublishState(true);ra6.setPublishState(true);ra7.setPublishState(true);ra8.setPublishState(true);ca1.setPublishState(true);ca2.setPublishState(true);ca3.setPublishState(true);ca4.setPublishState(true);

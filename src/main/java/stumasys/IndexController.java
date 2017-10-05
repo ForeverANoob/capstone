@@ -73,10 +73,7 @@ public class IndexController {
                 LinkedList<Assessment> fas = new LinkedList<Assessment>(); // Filtered ASsessments
 
                 for (Assessment a : al) {
-                    System.out.println("ALOHA _--------------");
                     if (a.isPublished() && a.isAvailableFromStudentHome()) {
-
-                        System.out.println("PRETTT _--------------");
                         fas.add(a);
                     }
                 }

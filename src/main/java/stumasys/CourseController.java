@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Hashtable;
 import java.util.ArrayList;
@@ -125,21 +127,34 @@ public class CourseController {
         Iterator<Map.Entry<String,Integer>> entryItr = markTbl.entrySet().iterator();
 
         if (!entryItr.hasNext()) {
-            return "[]";
+            return "{}";
         }
 
         // encoding the mark table into JSON and returning it
-        String ret = "[";
+        String ret = "{";
             Map.Entry<String,Integer> entry = entryItr.next();
-            ret += "[\"" + entry.getKey() + "\",\"" + entry.getValue().toString() + "]";
+            ret += "\"" + entry.getKey() + "\":" + entry.getValue().toString();
 
             while (entryItr.hasNext()) {
                 entry = entryItr.next();
-                ret += ",[\"" + entry.getKey() + "\",\"" + entry.getValue().toString() + "]";
+                ret += ",\"" + entry.getKey() + "\":" + entry.getValue().toString();
             }
-        ret += "]";
+        ret += "}";
 
         return ret;
+    }
+
+    @RequestMapping(value = "/api/upload_pplsoft/{year}/{courseCode}", method=RequestMethod.POST)
+    public String pplsoftHandler(
+            @PathVariable String year,
+            @PathVariable String courseCode,
+            @RequestParam("file") MultipartFile file
+    ){
+        // TODO: get InputStream from the MultipartFile, do CSV parsing from it,
+        // use that to update registration status of the students. also need to
+        // export this type of file at some point...
+        System.out.println("?AYATAWDFSADFASDFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+        return "redirect:/";
     }
 
     @RequestMapping(value ="/course/{year}/{code}/{assId}")

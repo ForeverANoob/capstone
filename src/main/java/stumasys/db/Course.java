@@ -23,7 +23,7 @@ public class Course {
             String code, int year,
             Lecturer coordinator, List<Lecturer> lecturers,
             List<Student> teachingAssistants, List<Student> students,
-            List assessments
+            List<Assessment> assessments
     ){
         this.code = code;
         this.year = year;
