@@ -20,6 +20,6 @@ public interface Assessment {
     public boolean isPublished();
     public void setPublishState(boolean v);
 
-    public boolean isAvailableOnStudentHome();
-    public void setStudentHomeAvailability(boolean v);
+    public boolean isUploaded();
+    public void setUpload(boolean v);
 }

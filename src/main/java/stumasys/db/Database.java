@@ -132,7 +132,7 @@ public class Database {
 
     public boolean checkAssessment(String id){
         try{
-            
+
             Statement st = con.createStatement();
             String sql = "SELECT * FROM assessments.assessments WHERE ass_id = '" + id + "'";
             ResultSet rs = st.executeQuery(sql);

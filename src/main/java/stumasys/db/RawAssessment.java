@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class RawAssessment implements Assessment {
+public class RawAssessment implements Assessment {      //    
     private final String id;          // no id yet
     private Connection con;
     private String[] all;
@@ -69,10 +69,20 @@ public class RawAssessment implements Assessment {
         return -1;
     }
 
-    public void setStudentMark(Student stu, int mark) { // TODO: sql
+    public void setStudentMark(Student stu, int mark) { //  sql
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPADTE courses."+all[0]+"_"+all[1]+" SET "+all[2]+" = "+mark+" WHERE id = '"+stu.getId()+"'";
+            ResultSet rs = st.executeQuery(sql);
+        }catch(SQLException e){ System.out.println(e); }
     }
 
     public void setMarkCap(int mc) { // TODO: sql
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPADTE assessments.assessments SET mark_cap = "+mc+" WHERE ass_id = '"+id+"'";
+            ResultSet rs = st.executeQuery(sql);
+        }catch(SQLException e){ System.out.println(e); }
     }
 
     public Map<String, Integer> getWholeTable() {       // TODO: actually implement this
@@ -92,9 +102,19 @@ public class RawAssessment implements Assessment {
     }
 
     public void setPublishState(boolean v){ // TODO: sql
+        int t = 0;
+        if (v){ t = 1; }
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPATE assessments.assessments SET published = "+t+" WHERE ass_id = '"+id+"'";
+            ResultSet rs  =st.executeQuery(sql);
+            if (rs.next()){
+
+            }
+        }catch(SQLException e){ System.out.println(e); }
     }
 
-    public boolean isAvailableOnStudentHome() {       // TODO: this method used to be called "isUploaded", which we have determined was not the desired thing
+    public boolean isUploaded() {       // TODO: this method used to be called "isUploaded", which we have determined was not the desired thing
         try{
             Statement st = con.createStatement();
             String sql = "SELECT uploaded FROM assessments.assessments WHERE ass_id = '"+id+"'";
@@ -106,8 +126,15 @@ public class RawAssessment implements Assessment {
         return false;
     }
 
-    public void setStudentHomeAvailability(boolean v) { // TODO: sql
-        //onStudentHome = v;
+    public void setUpload(boolean v) { // TODO: sql
+        int t = 0;
+        if (v){ t = 1; }
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPATE assessments.assessments SET published = "+t+" WHERE ass_id = '"+id+"'";
+            ResultSet rs  =st.executeQuery(sql);
+
+        }catch(SQLException e){ System.out.println(e); }
     }
 
 //    public String toString(){

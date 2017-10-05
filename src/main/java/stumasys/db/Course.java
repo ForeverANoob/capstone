@@ -43,6 +43,7 @@ public class Course {
         // ordering on the IDs that will never get invalidated)
 
         */
+        return null;
     }
 
     public String getId(){
