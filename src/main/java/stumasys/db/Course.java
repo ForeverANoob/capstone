@@ -43,6 +43,7 @@ public class Course {
         // ordering on the IDs that will never get invalidated)
 
         */
+        return null;
     }
 
     public String getId(){
@@ -57,16 +58,20 @@ public class Course {
         return this.year;
     }
 
-    public Assessment getAssessment(String id) {
+    public Assessment getAssessment(String id){
+        return this.getAssessment(Integer.parseInt(id));
+    }
+
+    public Assessment getAssessment(int id) {
         try{
             Statement st = con.createStatement();
-            String sql = "SELECT calculation FROM assessments.assessments WHERE ass_id = '" + id + "'";
+            String sql = "SELECT calculation FROM assessments.assessments WHERE ass_id = " + id + " AND year = "+year +" AND  course_code = '"+code+"'";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
                 if(rs.getString("calculation").equals("")){
-                    return new RawAssessment(id, this.con);
+                    return new RawAssessment(id, code, year, this.con);
                 }else{
-                    return new CalculatedAssessment(id, this.con);
+                    return new CalculatedAssessment(id, code, year, this.con);
                 }
             }
         }catch(SQLException e){ System.out.println("Error: " + e); }
@@ -77,20 +82,41 @@ public class Course {
     public void addAssessment(Assessment a){    // TODO: sql
     }
 
-    public void setAssessments(List<Assessment> all){ // TODO: sql
+    public void setAssessments(List<Assessment> all){ // TODO: sql DOES NOT WORK
+        try{
+            for (int i = 0; i < all.size(); i++){
+                Statement st = con.createStatement();
+                String sql = "INSERT INTO courses."+year+"_"+code+" VALUES ()";
+                ResultSet rs = st.executeQuery(sql);
+            }
+        }catch(SQLException e){ System.out.println(e); }
     }
 
-    public List<Student> getTeachingAssistants() { // TODO: sql
-        return null;
+    public List<Student> getTeachingAssistants() { //
+        List<Student> lst = new ArrayList<Student>();
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT user_id FROM users.user_courses WHERE course_id = '"+this.code+"' AND year = "+year+"";
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                lst.add(new Student(rs.getString("user_id"), this.con));
+            }
+        }catch(SQLException e){ System.out.println(e);}
+        return lst;
     }
 
-    public void addTeachingAssistant(Student ta) { // TODO: sql
+    public void addTeachingAssistant(Student ta) { //
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPDATE users.user_courses SET role = 'ta' WHERE user_id = '"+ta.getId()+"' AND year = "+year+" AND course_id = '"+code+"'";
+            ResultSet rs = st.executeQuery(sql);
+        }catch(SQLException e){ System.out.println(e);}
     }
 
     public void removeTeachingAssistant(Student ta) { // TODO: sql
     }
 
-    public List<Assessment> getAssessments(){   // TODO: sql
+    public List<Assessment> getAssessments(){   //
         List<Assessment> lst = new ArrayList<Assessment>();
         try{
             Statement st = con.createStatement();
@@ -98,9 +124,9 @@ public class Course {
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()){
                 if(rs.getString("calculation").equals("")){
-                    lst.add(new RawAssessment(rs.getString("ass_id"), this.con));
+                    lst.add(new RawAssessment(rs.getInt("ass_id"), code, year, this.con));
                 }else{
-                    lst.add(new CalculatedAssessment(rs.getString("ass_id"), this.con));
+                    lst.add(new CalculatedAssessment(rs.getInt("ass_id"), code, year,this.con));
                 }
             }
         }catch(SQLException e){ System.out.println(e); }
@@ -130,8 +156,22 @@ public class Course {
         }catch(SQLException e){ System.out.println("Error: is registered " + e); }
     }
 
-    public void setParticipants(List<User> users){  // TODO: sql
+    public void setParticipants(List<User> users){  // TODO: is this all i need to do
+        try{
+            String values = "";
 
+            Statement st = con.createStatement();
+            String sql = "SELECT num_ass FROM courses.courses_info WHERE course_code = '"+code+"' AND year = "+year+"";
+            ResultSet rs = st.executeQuery(sql);
+            for (int i = 0; i < rs.getInt("num_ass"); i++){
+                values += ", 0";                // TODO: chack if right default
+            }
+            for (int i = 0; i < users.size(); i++){
+                st = con.createStatement();
+                sql = "INSERT INTO courses."+year+"_"+code+" VALUES ('"+users.get(i).getId()+"'"+values+")";
+                rs = st.executeQuery(sql);
+            }
+        }catch(SQLException e){ System.out.println(e); }
     }
 
     public Lecturer getCourseCoordinator(){

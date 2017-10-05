@@ -8,7 +8,7 @@ import java.util.Map;
 // ID that we know never changes, and allow its name to change arbitrarily.
 
 public interface Assessment {
-    public String getId();
+    public int getId();
 
     public String getName();
 
@@ -20,6 +20,8 @@ public interface Assessment {
     public boolean isPublished();
     public void setPublishState(boolean v);
 
+    public boolean isUploaded();
+    public void setUpload(boolean v);
+
     public boolean isAvailableOnStudentHome();
-    public void setStudentHomeAvailability(boolean v);
 }

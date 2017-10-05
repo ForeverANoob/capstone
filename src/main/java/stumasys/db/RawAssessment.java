@@ -9,30 +9,33 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class RawAssessment implements Assessment {
-    private final String id;          // no id yet
+public class RawAssessment implements Assessment {      //
+    private final int id;
+    private String cc;
+    private int year;
     private Connection con;
-    private String[] all;
     //private HashMap<String, >
 
-    public RawAssessment(String id, Connection con) {
-        this.id = id;
+    public RawAssessment(int id, String cc, int year, Connection con) {
+        this.cc = cc;
+        this.year = year;
         this.con = con;
-        this.all = id.split("_");
+        this.id = id;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
     public String getName(){    // TODO: check again
         try{
             Statement st = con.createStatement();
-            String sql = "SELECT ass_id FROM assessments.assessments WHERE ass_id = '"+this.id+"'";
+            String sql = "SELECT name FROM assessments.assessments WHERE ass_id = "+this.id+" AND year = "+year+" AND course_code = '"+cc+"'";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
-                String tmp = rs.getString("ass_id");
+                String tmp = rs.getString("name");
                 String[] args = tmp.split("_");
+                //this.name = args[2];
                 return args[2];
             }
         }catch(SQLException e){ System.out.println("Error: getting name " + e); }
@@ -42,7 +45,7 @@ public class RawAssessment implements Assessment {
     public int getMarkCap() {
         try{
             Statement st = con.createStatement();
-            String sql = "SELECT mark_cap FROM assessments.assessments WHERE ass_id = '"+this.id+"'";
+            String sql = "SELECT mark_cap FROM assessments.assessments WHERE ass_id = "+this.id+" AND year = "+year+" AND course_code = '"+cc+"'";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
                 return rs.getInt("mark_cap");
@@ -58,31 +61,53 @@ public class RawAssessment implements Assessment {
     }
 
     public int getUncappedStudentMark(Student s) {
+        String str = "a"+id;
         try{
             Statement st = con.createStatement();
-            String sql = "SELECT "+all[2]+" FROM courses."+all[0]+"_"+all[1]+" WHERE id = '"+s.getId()+"'";
+            String sql = "SELECT "+str+" FROM courses."+year+"_"+cc+" WHERE id = '"+s.getId()+"'";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
-                return rs.getInt(all[2]);
+                return rs.getInt(this.getName());             // TODO: name or id
             }
         }catch(SQLException e){ System.out.println("Error: getting mark_cap " + e); }
         return -1;
     }
 
-    public void setStudentMark(Student stu, int mark) { // TODO: sql
+    public void setStudentMark(Student stu, int mark) { //  sql
+        String str = "a"+id;
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPDATE courses."+year+"_"+cc+" SET "+str+" = "+mark+" WHERE id = '"+stu.getId()+"'";
+            ResultSet rs = st.executeQuery(sql);
+        }catch(SQLException e){ System.out.println(e); }
     }
 
     public void setMarkCap(int mc) { // TODO: sql
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPDATE assessments.assessments SET mark_cap = "+mc+" WHERE ass_id = "+id+" AND year = "+year+" AND course_code = '"+cc+"'";
+            ResultSet rs = st.executeQuery(sql);
+        }catch(SQLException e){ System.out.println(e); }
     }
 
-    public Map<String, Integer> getWholeTable() { // TODO: actually implement this
-        return null;
+    public Map<String, Integer> getWholeTable() {       // TODO: actually implement this
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT * FROM courses."+year+"_"+cc+"";     // TODO: make more efficient
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                map.put(rs.getString("id"), rs.getInt(this.getName()));   // TODO: name or id
+            }
+        }catch(SQLException e){ System.out.println(e); }
+
+        return map;
     }
 
     public boolean isPublished(){   // TODO: sql
         try{
             Statement st = con.createStatement();
-            String sql = "SELECT published FROM assessments.assessments WHERE ass_id = '"+id+"'";
+            String sql = "SELECT published FROM assessments.assessments WHERE ass_id = "+id+" AND year = "+year+" AND course_code = '"+cc+"'";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
                 return 1 == rs.getInt("published");
@@ -91,13 +116,25 @@ public class RawAssessment implements Assessment {
         return false;
     }
 
-    public void setPublishState(boolean v){ // TODO: sql
+    public boolean isAvailableOnStudentHome(){
+        return isPublished();
     }
 
-    public boolean isAvailableOnStudentHome() {       // TODO: this method used to be called "isUploaded", which we have determined was not the desired thing
+    public void setPublishState(boolean v){ // TODO: sql
+        int t = 0;
+        if (v){ t = 1; }
         try{
             Statement st = con.createStatement();
-            String sql = "SELECT uploaded FROM assessments.assessments WHERE ass_id = '"+id+"'";
+            String sql = "UPDATE assessments.assessments SET published = "+t+" WHERE ass_id = "+id+" AND year = "+year+" AND course_code = '"+cc+"'";
+            ResultSet rs  =st.executeQuery(sql);
+
+        }catch(SQLException e){ System.out.println(e); }
+    }
+
+    public boolean isUploaded() {       // TODO: this method used to be called "isUploaded", which we have determined was not the desired thing
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT uploaded FROM assessments.assessments WHERE ass_id = "+id+" AND year = "+year+" AND course_code = '"+cc+"'";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
                 return 1 == rs.getInt("uploaded");
@@ -106,9 +143,17 @@ public class RawAssessment implements Assessment {
         return false;
     }
 
-    public void setStudentHomeAvailability(boolean v) { // TODO: sql
-        //onStudentHome = v;
+    public void setUpload(boolean v) { // TODO: sql
+        int t = 0;
+        if (v){ t = 1; }
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPDATE assessments.assessments SET published = "+t+" WHERE ass_id = "+id+" AND year = "+year+" AND course_code = '"+cc+"'";
+            ResultSet rs  =st.executeQuery(sql);
+
+        }catch(SQLException e){ System.out.println(e); }
     }
+    
 
 //    public String toString(){
 //        return ""+this.id+" "+this.markCap;
