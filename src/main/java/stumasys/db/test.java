@@ -93,12 +93,46 @@ public class test{
             a.setStudentMark((Student)users.get(0), 50+i);
             if (i%2 == 0){
                 a.setCalculation("12 + 15");
-
+                
             }
             a.setUpload(true);
 
             a.setMarkCap(60+i);
         }
+    }
+
+    public static void delete(Connection con) throws SQLException{
+        Statement st = con.createStatement();
+        String sql = "DROP TABLE courses.2017_CSC1015F";
+        ResultSet rs = st.executeQuery(sql);
+
+        st = con.createStatement();
+        sql = "DROP TABLE courses.2017_CSC1016S";
+        rs = st.executeQuery(sql);
+
+        st = con.createStatement();
+        sql = "DROP TABLE courses.2016_CSC1015F";
+        rs = st.executeQuery(sql);
+
+        st = con.createStatement();
+        sql = "DROP TABLE courses.2016_CSC1016S";
+        rs = st.executeQuery(sql);
+
+        st = con.createStatement();
+        sql = "TRUNCATE TABLE courses.courses_info";
+        rs = st.executeQuery(sql);
+
+        st = con.createStatement();
+        sql = "TRUNCATE TABLE users.user_info";
+        rs = st.executeQuery(sql);
+
+        st = con.createStatement();
+        sql = "TRUNCATE TABLE users.user_courses";
+        rs = st.executeQuery(sql);
+
+        st = con.createStatement();
+        sql = "TRUNCATE TABLE assessments.assessments";
+        rs = st.executeQuery(sql);
     }
 
 }
