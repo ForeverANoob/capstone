@@ -128,6 +128,10 @@ public class Course {
         }
     }
 
+    public void batchUpdateRegistrationStatus(Map<String,Boolean> regStatus) {
+        return;
+    }
+
     public Lecturer getCourseConviner(){
         return coordinator;
     }
