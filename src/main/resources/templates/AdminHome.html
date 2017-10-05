@@ -7,14 +7,14 @@
   <link rel="stylesheet" href="/css/AdminHome.css"/>
 
   <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/common.js"></script>
 </head>
 <body>
-  <div id="logoutButton">
-    <button class="btn btn-lg btn-primary btn-block btn-signin" type="button" onclick="logout()">Logout</input>
+  <div id="topRightContainer">
+    <button class="btn btn-lg btn-primary btn-block" type="button" onclick="logout()">Logout</button>
+    <button class="btn btn-lg btn-primary btn-block" type="button">Change password</button>
   </div>
 
  <a href = "CreateCourse">
@@ -23,21 +23,14 @@
   </div>
  </a>
 
-  <a href = "StudentHome">
   <div id="searchWrapper" style="width: 35rem;">
     <input type="text" class="form-control" id="searchBar" placeholder="Type course code here"></input>
     <!-- <input type="button" class="btn-default" id="searchButton" text="Search"></input> -->
   </div>
-  </a>
 
   <div id="contentWrapper">
     <center><h3>Recently viewed pages:</h3></center>
     <div class="card-deck mx-auto" id="recentlyViewed" style="display: flex; margin-left: auto; margin-right: auto;">
-
-      <div class="card courseButton" onclick="window.location = '/course/2017/csc1015f'" onmouseover="" style="cursor: pointer; flex: 0 0 12rem;">
-        <span class="card-body">CSC1015F, 2017</span>
-      </div>
-
       <div th:each="course : ${recentlyViewed}" th:onclick="'window.location = \'/course/' + ${course.getYear()} + '/' + ${course.getCode()} + '\''"
         class="card courseButton" onmouseover="" style="cursor: pointer; flex: 0 0 12rem;">
         <span class="card-body" th:text="${course.getCode().toUpperCase()} + ', ' + ${course.getYear()}"></span>
