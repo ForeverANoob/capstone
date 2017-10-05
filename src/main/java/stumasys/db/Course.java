@@ -58,8 +58,21 @@ public class Course {
         return this.year;
     }
 
-    public Assessment getAssessment(String id){
-        return this.getAssessment(Integer.parseInt(id));
+    public Assessment getAssessment(String name){
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT * FROM assessments.assessments WHERE name = " + name + " AND year = "+year +" AND  course_code = '"+code+"'";
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                if(rs.getString("calculation").equals("")){
+                    return new RawAssessment(rs.getInt("ass_id"), code, year, this.con);
+                }else{
+                    return new CalculatedAssessment(rs.getInt("ass_id"), code, year, this.con);
+                }
+            }
+        }catch(SQLException e){ System.out.println("Error: " + e); }
+
+        return null;
     }
 
     public Assessment getAssessment(int id) {
@@ -163,13 +176,16 @@ public class Course {
             Statement st = con.createStatement();
             String sql = "SELECT num_ass FROM courses.courses_info WHERE course_code = '"+code+"' AND year = "+year+"";
             ResultSet rs = st.executeQuery(sql);
-            for (int i = 0; i < rs.getInt("num_ass"); i++){
+            System.out.println(users.size() + "first");
+            if(rs.next()){}
+            for (int i = 1; i < rs.getInt("num_ass"); i++){
                 values += ", 0";                // TODO: chack if right default
             }
             for (int i = 0; i < users.size(); i++){
                 st = con.createStatement();
                 sql = "INSERT INTO courses."+year+"_"+code+" VALUES ('"+users.get(i).getId()+"'"+values+")";
                 rs = st.executeQuery(sql);
+
             }
         }catch(SQLException e){ System.out.println(e); }
     }
@@ -215,5 +231,9 @@ public class Course {
             String sql = "UPDATE users.user_courses SET role = 'ta' WHERE user_id = '"+ta.getId()+"' AND course_id = '"+this.getId()+"'";
             ResultSet rs = st.executeQuery(sql);
         }catch(SQLException e){ System.out.println(e); }
+    }
+
+    public void batchUpdateRegistrationStatus(Map<String,Boolean> regStatus) {  // TODO
+
     }
 }

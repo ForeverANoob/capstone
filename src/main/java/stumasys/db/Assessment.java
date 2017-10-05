@@ -12,8 +12,10 @@ public interface Assessment {
 
     public String getName();
 
+    public void setMarkCap(int mark);
     public int getMarkCap();
     public int getStudentMark(Student stu);
+    public void setStudentMark(Student stu, int mark);
     public int getUncappedStudentMark(Student stu);
     public Map<String, Integer> getWholeTable();
 
@@ -24,4 +26,6 @@ public interface Assessment {
     public void setUpload(boolean v);
 
     public boolean isAvailableOnStudentHome();
+    public String getCalculation();
+    public void setCalculation(String cal);
 }

@@ -33,10 +33,8 @@ public class RawAssessment implements Assessment {      //
             String sql = "SELECT name FROM assessments.assessments WHERE ass_id = "+this.id+" AND year = "+year+" AND course_code = '"+cc+"'";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
-                String tmp = rs.getString("name");
-                String[] args = tmp.split("_");
-                //this.name = args[2];
-                return args[2];
+                
+                return rs.getString("name");
             }
         }catch(SQLException e){ System.out.println("Error: getting name " + e); }
         return null;
@@ -74,10 +72,11 @@ public class RawAssessment implements Assessment {      //
     }
 
     public void setStudentMark(Student stu, int mark) { //  sql
-        String str = "a"+id;
+        int str = id;
         try{
+            System.out.println(mark);
             Statement st = con.createStatement();
-            String sql = "UPDATE courses."+year+"_"+cc+" SET "+str+" = "+mark+" WHERE id = '"+stu.getId()+"'";
+            String sql = "UPDATE courses."+year+"_"+cc+" SET "+getName()+" = "+mark+" WHERE id = '"+stu.getId()+"'";
             ResultSet rs = st.executeQuery(sql);
         }catch(SQLException e){ System.out.println(e); }
     }
@@ -153,7 +152,26 @@ public class RawAssessment implements Assessment {      //
 
         }catch(SQLException e){ System.out.println(e); }
     }
-    
+    public void setCalculation(String a){
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPDATE assessments.assessments SET calculation = '"+a+"' WHERE ass_id = "+id+" AND year = "+year+" AND course_code = '"+cc+"'";
+            ResultSet rs  =st.executeQuery(sql);
+
+        }catch(SQLException e){ System.out.println(e); }
+    }
+
+    public String getCalculation(){
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT calculation FROM assessments.assessments WHERE ass_id = "+id+" AND year = "+year+" AND course_code = '"+cc+"'";
+            ResultSet rs = st.executeQuery(sql);
+            if(rs.next()){
+                return rs.getString("calculation");
+            }
+        }catch(SQLException e){ System.out.println(e); }
+        return null;
+    }
 
 //    public String toString(){
 //        return ""+this.id+" "+this.markCap;

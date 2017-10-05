@@ -51,10 +51,8 @@ public class CalculatedAssessment implements Assessment {
             String sql = "SELECT name FROM assessments.assessments WHERE ass_id = "+this.id+" AND year = "+year+" AND course_code = '"+cc+"'";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
-                String tmp = rs.getString("name");
-                String[] args = tmp.split("_");
-                //this.name = args[2];
-                return args[2];
+
+                return rs.getString("name");
             }
         }catch(SQLException e){ System.out.println("Error: getting name " + e); }
         return null;
@@ -69,6 +67,13 @@ public class CalculatedAssessment implements Assessment {
         }catch(SQLException e){ System.out.println(e); }
     }
 
+    public void setMarkCap(int mc){
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPDATE assessments.assessments SET mark_cap = "+mc+" WHERE ass_id = "+id+" AND year = "+year+" AND course_code = '"+cc+"'";
+            ResultSet rs = st.executeQuery(sql);
+        }catch(SQLException e){ System.out.println(e); }
+    }
     public int getMarkCap() { // sql
         try{
             Statement st = con.createStatement();
@@ -81,6 +86,7 @@ public class CalculatedAssessment implements Assessment {
         return -1;
     }
 
+    public void setStudentMark(Student s, int mark){}
     public int getStudentMark(Student stu) {
         int um = getUncappedStudentMark(stu);
         int mc = getMarkCap();
@@ -182,5 +188,25 @@ public class CalculatedAssessment implements Assessment {
             ResultSet rs  =st.executeQuery(sql);
 
         }catch(SQLException e){ System.out.println(e); }
+    }
+
+    public void setCalculation(String a){
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPDATE assessments.assessments SET calculation = '"+a+"' WHERE ass_id = "+id+" AND year = "+year+" AND course_code = '"+cc+"'";
+            ResultSet rs  =st.executeQuery(sql);
+
+        }catch(SQLException e){ System.out.println(e); }
+    }
+    public String getCalculation(){
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT calculation FROM assessments.assessments WHERE ass_id = "+id+" AND year = "+year+" AND course_code = '"+cc+"'";
+            ResultSet rs = st.executeQuery(sql);
+            if(rs.next()){
+                return rs.getString("calculation");
+            }
+        }catch(SQLException e){ System.out.println(e); }
+        return null;
     }
 }
