@@ -65,7 +65,7 @@ public class Database {
             con.setAutoCommit(false);
 
             //String query = "INSERT INTO testing (id, Acedemic program, fname, surname, emplid, subject, class nbr, Term, Final grade, Catalog nbr) VALUES (dude, woof, swag, mlg, 420, smoke weed, bewbs, gone, gg, 18);";
-
+/*
             Statement st = con.createStatement();
             //String sql = "INSERT INTO /Unnamed/mysql/testing (id, Acedemic program, fname, surname, emplid, subject, class nbr, Term, Final grade, Catalog nbr) VALUES (dude, woof, swag, mlg, 420, smoke weed, bewbs, gone, gg, 18);";
             String sql = "INSERT INTO capstone.users VALUES ('TKDF', 'jorg', 1, NULL), ('tim', 'Dude', 1, NULL), ('nty', 'TIM', 1, NULL), ('sfs', 'ALEX', 1, NULL);";
@@ -96,7 +96,7 @@ public class Database {
 
             addMarkToAssessment("2017_csc1015_pie", "id1", 69);
 
-
+*/
         }catch(SQLException e){
             System.out.println("------------------------------------------------->  This connection is just like...no bruh  <----------------------------------------");
             System.out.println(e);
@@ -130,11 +130,10 @@ public class Database {
         }catch(SQLException e){ System.out.println("An error has occured: "+e); return true;}
     }
 
-    public boolean checkAssessment(String id){
+    public boolean checkAssessment(int id, String code, int year){
         try{
-
             Statement st = con.createStatement();
-            String sql = "SELECT * FROM assessments.assessments WHERE ass_id = '" + id + "'";
+            String sql = "SELECT * FROM assessments.assessments WHERE ass_id = " + id + " AND year = "+year+" AND course_code = '"+code+"'";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
                 return true;
@@ -189,17 +188,39 @@ public class Database {
     /*  these next two normally go together but don't have to  */
     public void addCourseToUser(int year, String course_id, String user_id){
         try{
+            String role = "";
             Statement st = con.createStatement();
-            String sql = "INSERT INTO users.user_courses VALUES ('"+user_id+"', '"+course_id+"', "+year+")";
+            String sql = "SELECT role FROM users.user_info WHERE id = '"+user_id+"'";
             ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                role = rs.getString("role");
+            }
+            if (role.equals("student")){    // TODO: this can be reduced
+                role = "student";
+            }else if(role.equals("lecturer")){
+                role = "lecturer";
+            }else if(role.equals("admin")){
+                role = "admin";
+            }else { System.out.println("The role which the user has is undefined"); return; } // testing purpose
+
+            st = con.createStatement();
+            sql = "INSERT INTO users.user_courses VALUES ('"+user_id+"', '"+course_id+"', "+year+", "+role+")";
+            rs = st.executeQuery(sql);
         }catch(SQLException e){ System.out.println(e); }
     }
 
     public void addUserToCourse(int year, String course_id, String user_id){
         try{
+            String values = "";
             Statement st = con.createStatement();
-            String sql = "INSERT INTO courses."+year+"_"+course_id + " VALUES ('"+user_id+"')"; // TODO: the other values
+            String sql = "SELECT num_ass FROM courses.courses_info WHERE course_code = '"+course_id+"' AND year = "+year+"";
             ResultSet rs = st.executeQuery(sql);
+            for (int i = 0; i < rs.getInt("num_ass"); i++){
+                values += ", 0";                // TODO: chack if right default
+            }
+            st = con.createStatement();
+            sql = "INSERT INTO courses."+year+"_"+course_id + " VALUES ('"+user_id+"'"+values+")"; //
+            rs = st.executeQuery(sql);
         }catch(SQLException e){ System.out.println(e); }
     }
 
@@ -237,17 +258,17 @@ public class Database {
         return new Course(code, year, con);
     }
 
-    public Assessment getAssessment(String id){     // TODO: sql, assumes Assessment exists and check if correct
+    public Assessment getAssessment(int id, String code, int year){     // TODO: sql, assumes Assessment exists and check if correct
         try{
             Statement st = con.createStatement();
-            String sql = "SELECT calculation FROM assessments.assessments WHERE ass_id = '"+id+"'";
+            String sql = "SELECT calculation FROM assessments.assessments WHERE ass_id = "+id+" AND course_id = '"+code+"' AND year = "+year+"";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
                 String tmp = rs.getString("calculation");
                 if (tmp.equals("")){
-                    return new RawAssessment(id, con);
+                    return new RawAssessment(id, code, year, con);
                 }else{
-                    return new CalculatedAssessment(id, con);
+                    return new CalculatedAssessment(id, code, year, con);
                 }
             }
         }catch(SQLException e){ System.out.println(e); }

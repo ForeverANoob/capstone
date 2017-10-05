@@ -21,7 +21,7 @@ public class CalculatedAssessment implements Assessment {
     // (Normal float/double aren't appropriate for various reasons.)
 
     private final int id;
-    private String name;
+    private String cc;
     private int year;
     private Connection con;
 
@@ -34,24 +34,36 @@ public class CalculatedAssessment implements Assessment {
         return mc;
     }
 
-    public CalculatedAssessment(String name, int year, Connection con){
-        this.name = name;
+    public CalculatedAssessment(int id, String cc, int year, Connection con){
+        this.cc = cc;
         this.year = year;
         this.con = con;
+        this.id = id;
     }
 
-    public String getId() {
-        return id;
+    public int getId() {
+        return this.id;
     }
 
     public String getName(){ // TODO: sql
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT name FROM assessments.assessments WHERE ass_id = "+this.id+" AND year = "+year+" AND course_code = '"+cc+"'";
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                String tmp = rs.getString("name");
+                String[] args = tmp.split("_");
+                //this.name = args[2];
+                return args[2];
+            }
+        }catch(SQLException e){ System.out.println("Error: getting name " + e); }
         return null;
     }
 
     public void setName(String n) { // TODO: sql
         try{
             Statement st = con.createStatement();
-            String sql = "UPATE assessments.assessments SET name = '"+n+"' WHERE ass_id = '"+id+"' AND course_code = '"+cc+"' AND year = "+year+"";
+            String sql = "UPDATE assessments.assessments SET name = '"+n+"' WHERE ass_id = '"+id+"' AND course_code = '"+cc+"' AND year = "+year+"";
             ResultSet rs  =st.executeQuery(sql);
 
         }catch(SQLException e){ System.out.println(e); }
@@ -60,7 +72,7 @@ public class CalculatedAssessment implements Assessment {
     public int getMarkCap() { // sql
         try{
             Statement st = con.createStatement();
-            String sql = "SELECT mark_cap FROM assessments.assessments WHERE ass_id = '"+this.id+"'";
+            String sql = "SELECT mark_cap FROM assessments.assessments WHERE ass_id = "+this.id+" WHERE course_code = '"+this.cc+"' AND year = "+this.year+"";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
                 return rs.getInt("mark_cap");
@@ -112,10 +124,10 @@ public class CalculatedAssessment implements Assessment {
         Map<String, Integer> map = new HashMap<String, Integer>();
         try{
             Statement st = con.createStatement();
-            String sql = "SELECT * FROM courses."+all[0]+"_"+all[1]+"";     // TODO: make more efficient
+            String sql = "SELECT * FROM courses."+year+"_"+cc+"";     // TODO: make more efficient
             ResultSet rs = st.executeQuery(sql);
             while(rs.next()){
-                map.put(rs.getString("id"), rs.getInt(all[2]));
+                map.put(rs.getString("id"), rs.getInt(this.getName()));   // TODO: name or id
             }
         }catch(SQLException e){ System.out.println(e); }
 
@@ -125,7 +137,7 @@ public class CalculatedAssessment implements Assessment {
     public boolean isPublished(){ //  sql
         try{
             Statement st = con.createStatement();
-            String sql = "SELECT published FROM assessments.assessments WHERE ass_id = '"+id+"'";
+            String sql = "SELECT published FROM assessments.assessments WHERE ass_id = "+id+" AND course_code = '"+cc+"' AND year = "+year+"";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
                 return 1 == rs.getInt("published");
@@ -134,12 +146,16 @@ public class CalculatedAssessment implements Assessment {
         return false;
     }
 
+    public boolean isAvailableOnStudentHome(){
+        return isPublished();
+    }
+
     public void setPublishState(boolean v){ //  sql
         int t = 0;
         if (v){ t = 1; }
         try{
             Statement st = con.createStatement();
-            String sql = "UPATE assessments.assessments SET published = "+t+" WHERE ass_id = '"+id+"'";
+            String sql = "UPDATE assessments.assessments SET published = "+t+" WHERE ass_id = "+id+" AND course_code = '"+cc+"' AND year = "+year+"";
             ResultSet rs  =st.executeQuery(sql);
 
         }catch(SQLException e){ System.out.println(e); }
@@ -148,7 +164,7 @@ public class CalculatedAssessment implements Assessment {
     public boolean isUploaded() {       //  this method used to be called "isUploaded", which we have determined was not the desired thing
         try{
             Statement st = con.createStatement();
-            String sql = "SELECT uploaded FROM assessments.assessments WHERE ass_id = '"+id+"'";
+            String sql = "SELECT uploaded FROM assessments.assessments WHERE ass_id = "+id+" AND course_code = '"+cc+"' AND year = "+year+"";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
                 return 1 == rs.getInt("uploaded");
@@ -162,7 +178,7 @@ public class CalculatedAssessment implements Assessment {
         if (v){ t = 1; }
         try{
             Statement st = con.createStatement();
-            String sql = "UPATE assessments.assessments SET published = "+t+" WHERE ass_id = '"+id+"'";
+            String sql = "UPDATE assessments.assessments SET published = "+t+" WHERE ass_id = "+id+" AND course_code = '"+cc+"' AND year = "+year+"";
             ResultSet rs  =st.executeQuery(sql);
 
         }catch(SQLException e){ System.out.println(e); }
