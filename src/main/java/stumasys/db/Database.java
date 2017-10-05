@@ -52,6 +52,7 @@ public class Database {
                    ";create=true",
                    connectionProps);
 
+
         }
         System.out.println();
         return conn;
@@ -62,14 +63,17 @@ public class Database {
         try{
             this.con = this.getConnection();
             System.out.println("#SmokeWeedEveryday #420 #ConnectionMake");
-            con.setAutoCommit(false);
+            con.setAutoCommit(true);
 
+            //test.delete(con);
+            test.create(con, this);
             //String query = "INSERT INTO testing (id, Acedemic program, fname, surname, emplid, subject, class nbr, Term, Final grade, Catalog nbr) VALUES (dude, woof, swag, mlg, 420, smoke weed, bewbs, gone, gg, 18);";
-/*
+
             Statement st = con.createStatement();
             //String sql = "INSERT INTO /Unnamed/mysql/testing (id, Acedemic program, fname, surname, emplid, subject, class nbr, Term, Final grade, Catalog nbr) VALUES (dude, woof, swag, mlg, 420, smoke weed, bewbs, gone, gg, 18);";
-            String sql = "INSERT INTO capstone.users VALUES ('TKDF', 'jorg', 1, NULL), ('tim', 'Dude', 1, NULL), ('nty', 'TIM', 1, NULL), ('sfs', 'ALEX', 1, NULL);";
+            String sql = "INSERT INTO users.user_info VALUES ('TKDF', 'jorg', 'f', '2', 't')";
             ResultSet rs = st.executeQuery(sql);
+/*
             while(rs.next()) {
                String id = rs.getString("id");
                 System.out.println(id+" ");
@@ -95,8 +99,8 @@ public class Database {
             System.out.println(checkCourse("csc1015", 2017));
 
             addMarkToAssessment("2017_csc1015_pie", "id1", 69);
-
 */
+            //con.close();
         }catch(SQLException e){
             System.out.println("------------------------------------------------->  This connection is just like...no bruh  <----------------------------------------");
             System.out.println(e);
@@ -144,18 +148,19 @@ public class Database {
 
 
     /*   Adding stuff to the databases   */  // TODO
-    public void addUser(String id, String name, String role, String degree, String department) throws SQLException{    // works
+    public void addUser(String id, String name, String role, String degree, String department){    // works
         // Check if user already exists
         try{
             Statement st = con.createStatement();
-            String sql = "INSERT INTO users.user_info VALUES ('"+id+"', '"+name+"', '"+role+"', '"+degree+"', '"+department+"')";     // TODO: distinguish between users
+            String sql = "INSERT INTO users.user_info VALUES ('"+id+"', '"+name+"', '"+role+"', '"+degree+"', '"+department+"');";     // TODO: distinguish between users
             ResultSet rs = st.executeQuery(sql);
             System.out.println(sql);        //
         }catch(SQLException e){ System.out.println("An error has occurred "+e); }
     }
 
     public void addCourse(String id, String[] args){
-        String arg = " (" + args[0] +" NVARCHAR(50), ";                                    // remember this
+        String arg = " (" + args[0] +" NVARCHAR(50), ";
+        String[] tmp = id.split("_");                                   // remember this
         for (int i = 1; i < args.length; i++){
             if (i == args.length - 1){
                 arg += "" +args[i]+" INT)";
@@ -163,33 +168,34 @@ public class Database {
             else{
                 arg += "" +args[i]+ " INT, ";
             }
+            this.addAssessment(args[i], tmp[1], Integer.parseInt(tmp[0]), 0, 0, 100, "");
+
         }
         try{
             Statement st = con.createStatement();
             String sql = "CREATE TABLE courses."+id+arg;
             ResultSet rs = st.executeQuery(sql);
 
-            String[] tmp = args[0].split("_");
             st = con.createStatement();
-            sql = "INSERT INTO courses.courses_info VALUES ('"+tmp[0]+"', "+tmp[1]+")";
+            sql = "INSERT INTO courses.courses_info VALUES ('"+tmp[1]+"', "+tmp[0]+", "+args.length+")";
             rs = st.executeQuery(sql);
 
         }catch(SQLException e){ System.out.println("An error has occured: "+e); }
     }
 
-    public void addAssessment(String course_id, int year, int upload, int published, int mark_cap, String cal){               // string or int?               // done
+    public void addAssessment(String name, String course_id, int year, int upload, int published, int mark_cap, String cal){               // string or int?               // done
         try{
             int id = 0;
             if(!this.tableIsEmpty()){
                 Statement st = con.createStatement();
-                String sql = "SELECT max(ass_id) FROM assessments.assessments";
+                String sql = "SELECT ass_id FROM assessments.assessments ORDER BY ass_id DESC";
                 ResultSet rs = st.executeQuery(sql);
                 if(rs.next()){
                     id = rs.getInt("ass_id")+1;
                 }
             }
             Statement st = con.createStatement();
-            String sql = "INSERT INTO assessments.assessments VALUES ("+id+", "+upload+", "+published+", "+mark_cap+", '"+cal+"')";   // TODO: test
+            String sql = "INSERT INTO assessments.assessments VALUES ("+id+", '"+name+"', '"+course_id+"', "+year+", "+upload+", "+published+", "+mark_cap+", '"+cal+"')";   // TODO: test
             ResultSet rs = st.executeQuery(sql);
         }catch(SQLException e){ System.out.println("An error has occured: "+e); }
     }
@@ -226,7 +232,7 @@ public class Database {
             }else { System.out.println("The role which the user has is undefined"); return; } // testing purpose
 
             st = con.createStatement();
-            sql = "INSERT INTO users.user_courses VALUES ('"+user_id+"', '"+course_id+"', "+year+", "+role+")";
+            sql = "INSERT INTO users.user_courses VALUES ('"+user_id+"', '"+course_id+"', "+year+", '"+role+"')";
             rs = st.executeQuery(sql);
         }catch(SQLException e){ System.out.println(e); }
     }
