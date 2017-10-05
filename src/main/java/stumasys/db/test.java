@@ -93,12 +93,17 @@ public class test{
             a.setStudentMark((Student)users.get(0), 50+i);
             if (i%2 == 0){
                 a.setCalculation("12 + 15");
-                
+
             }
             a.setUpload(true);
 
             a.setMarkCap(60+i);
         }
+
+        User admin = db.getUser("200001");
+        AdminStaff ad= (AdminStaff)admin;
+        ad.updateRecentlyVeiwedCourses(c);
+        ad.updateRecentlyVeiwedCourses(db.getCourse("CSC1015F", 2016));
     }
 
     public static void delete(Connection con) throws SQLException{

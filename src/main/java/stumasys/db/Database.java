@@ -65,7 +65,7 @@ public class Database {
             System.out.println("#SmokeWeedEveryday #420 #ConnectionMake");
             con.setAutoCommit(true);
 
-            //test.delete(con);
+            test.delete(con);
             test.create(con, this);
             //String query = "INSERT INTO testing (id, Acedemic program, fname, surname, emplid, subject, class nbr, Term, Final grade, Catalog nbr) VALUES (dude, woof, swag, mlg, 420, smoke weed, bewbs, gone, gg, 18);";
 

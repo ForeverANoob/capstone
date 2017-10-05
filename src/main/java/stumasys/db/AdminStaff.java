@@ -35,6 +35,18 @@ public class AdminStaff extends User {
 
     public void updateRecentlyVeiwedCourses(Course course){ // TODO: sql
          // TODO: is this a logical constraint? (list of admin staff's recent courses is never more than 10)
+         try{
+            Statement st = con.createStatement();
+            String sql = "SELECT * FROM users.user_courses WHERE user_id = '"+id+"' AND course_id = '"+course.getCode()+"' AND year = "+course.getYear()+"";
+            ResultSet rs = st.executeQuery(sql);
+            if(rs.next()){
+                return;     // the course already exists
+            }
+            st = con.createStatement();
+            sql = "INSERT INTO users.user_courses VALUES ('"+id+"', '"+course.getCode()+"', "+course.getYear()+", 'admin')";
+            rs = st.executeQuery(sql);
+
+         }catch(SQLException e){ System.out.println(e); }
 
     }
     public List<Course> getRecentlyViewedCourses() {

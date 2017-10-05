@@ -237,7 +237,7 @@ public class Course {
         }catch(SQLException e){ System.out.println(e); }
     }
 
-    public void batchUpdateRegistrationStatus(Map<String,Boolean> regStatus) {  // TODO
+    //public void batchUpdateRegistrationStatus(Map<String,Boolean> regStatus) {  // TODO
 
-    }
+    //}
 }
