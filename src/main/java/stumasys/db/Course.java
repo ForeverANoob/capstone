@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 
 import java.sql.Connection;
 import java.sql.Statement;
@@ -163,7 +164,7 @@ public class Course {
     public void deregisterStudent(Student stu){ // TODO: sql
         try{
             Statement st = con.createStatement();
-            String sql = "UPDATE users.user_courses SET role = 'deregister' WHERE user_id = '"+stu.getId()+"' AND course_id = '"+this.getId()+"'"; // remember
+            String sql = "UPDATE users.user_courses SET role = 'deregistered' WHERE user_id = '"+stu.getId()+"' AND course_id = '"+this.getId()+"' AND year = "+this.year+""; // remember
             ResultSet rs = st.executeQuery(sql);
 
         }catch(SQLException e){ System.out.println("Error: is registered " + e); }
@@ -204,6 +205,21 @@ public class Course {
     }
 
     public void batchUpdateRegistrationStatus(Map<String,Boolean> regStatus) {
+        try{
+            Statement st = con.createStatement();
+            Iterator<Map.Entry<String, Boolean>> it = regStatus.entrySet().iterator();
+
+            while(it.hasNext()){
+                Map.Entry<String, Boolean> e = it.next();
+                if(e.getValue()){
+                    st.addBatch("UPDATE users.user_courses SET role = 'registered' WHERE user_id = '"+e.getKey()+"' AND course_id = '"+this.code+"' AND year = "+this.year+"");
+                }else{
+                    st.addBatch("UPDATE users.user_courses SET role = 'deregistered' WHERE user_id = '"+e.getKey()+"' AND course_id = '"+this.code+"' AND year = "+this.year+"");
+                }
+            }
+            int[] rs = st.executeBatch();
+
+        }catch(SQLException e){ System.out.println(e); }
         return;
     }
 
