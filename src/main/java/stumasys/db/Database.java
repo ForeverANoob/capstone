@@ -177,12 +177,34 @@ public class Database {
         }catch(SQLException e){ System.out.println("An error has occured: "+e); }
     }
 
-    public void addAssessment(String id, int upload, int published, int mark_cap, String cal){               // string or int?               // done
+    public void addAssessment(String course_id, int year, int upload, int published, int mark_cap, String cal){               // string or int?               // done
         try{
+            int id = 0;
+            if(!this.tableIsEmpty()){
+                Statement st = con.createStatement();
+                String sql = "SELECT max(ass_id) FROM assessments.assessments";
+                ResultSet rs = st.executeQuery(sql);
+                if(rs.next()){
+                    id = rs.getInt("ass_id")+1;
+                }
+            }
             Statement st = con.createStatement();
-            String sql = "INSERT INTO assessments.assessments VALUES ('"+id+"', "+upload+", "+published+", "+mark_cap+", '"+cal+"')";   // TODO: test
+            String sql = "INSERT INTO assessments.assessments VALUES ("+id+", "+upload+", "+published+", "+mark_cap+", '"+cal+"')";   // TODO: test
             ResultSet rs = st.executeQuery(sql);
         }catch(SQLException e){ System.out.println("An error has occured: "+e); }
+    }
+
+    /*   this is for the unique id of the assessments  */
+    public boolean tableIsEmpty() {
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT * FROM assessments.assessments";
+            ResultSet rs = st.executeQuery(sql);
+            if (rs.next()){
+                return false;
+            }
+        }catch(SQLException e){ System.out.println(e); }
+        return true;
     }
 
     /*  these next two normally go together but don't have to  */

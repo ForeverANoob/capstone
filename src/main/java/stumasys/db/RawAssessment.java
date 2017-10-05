@@ -91,7 +91,17 @@ public class RawAssessment implements Assessment {      //
     }
 
     public Map<String, Integer> getWholeTable() {       // TODO: actually implement this
-        return null;
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT * FROM courses."+year+"_"+cc+"";     // TODO: make more efficient
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                map.put(rs.getString("id"), rs.getInt(this.getName()));   // TODO: name or id
+            }
+        }catch(SQLException e){ System.out.println(e); }
+
+        return map;
     }
 
     public boolean isPublished(){   // TODO: sql
@@ -143,6 +153,7 @@ public class RawAssessment implements Assessment {      //
 
         }catch(SQLException e){ System.out.println(e); }
     }
+    
 
 //    public String toString(){
 //        return ""+this.id+" "+this.markCap;
