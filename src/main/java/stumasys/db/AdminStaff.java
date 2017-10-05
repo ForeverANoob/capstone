@@ -37,7 +37,7 @@ public class AdminStaff extends User {
          // TODO: is this a logical constraint? (list of admin staff's recent courses is never more than 10)
 
     }
-    public List<Course> getRecentlyViewedCourses(String id){ //TODO: sql
+    public List<Course> getRecentlyViewedCourses() {
         try{
             List<Course> courses = new ArrayList<Course>();
 

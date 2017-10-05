@@ -1,7 +1,9 @@
 package stumasys;
 
+import java.security.Principal;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,8 +22,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Iterator;
 
-import stumasys.db.Database;
-import stumasys.db.Course;
+import stumasys.db.*;
 
 @Controller         // response functionality
 public class CourseController {
@@ -51,7 +52,9 @@ public class CourseController {
             @PathVariable String year,
             @PathVariable String courseCode,
             Model model,
-            HttpServletResponse servletRes
+            HttpServletResponse servletRes,
+            HttpServletRequest servletReq,
+            Principal p
     ){
 
         /*
@@ -62,16 +65,47 @@ public class CourseController {
          * 4. client page then requests columns via REST api calls in the JS
          * */
 
+        final String uId = p.getName();
+        final User user = db.getUser(uId);
+
         Course c = db.getCourse(courseCode.toLowerCase(), Integer.parseInt(year));
 
         if (c == null) {
-            return "nope";// TODO: respond with a proper error page when course doesnt exist
+            return "404";// TODO: respond with a proper error page when course doesnt exist
         }
+
 
         model.addAttribute("courseCode", courseCode.toUpperCase());
         model.addAttribute("year", year);
 
-        return "course";    // course?
+        if (servletReq.isUserInRole("ADMIN_STAFF")) {
+            ((AdminStaff) user).updateRecentlyVeiwedCourses(c);
+
+            // preparing some Javascript that determines what columns are visible when the page first loads:
+            String configJs = "var visibleCols = {";
+
+            Map<Assessment, Boolean> visibleCols = c.getPrevVisibleColumns((AdminStaff) user);
+            Iterator<Map.Entry<Assessment, Boolean>> it = visibleCols.entrySet().iterator();
+
+            if (it.hasNext()) {
+                Map.Entry<Assessment, Boolean> e = it.next();
+                configJs += "\"" + e.getKey().getId() + "\":[" + e.getValue() + ",\"" + e.getKey().getName() + "\"]";
+
+                while (it.hasNext()) {
+                    e = it.next();
+                    configJs += ",\"" + e.getKey().getId() + "\":[" + e.getValue() + ",\"" + e.getKey().getName() + "\"]";
+                }
+            }
+            configJs += "};\nvar courseCode = \""+courseCode+"\";\nvar courseYear = "+year+";";
+
+            model.addAttribute("configJs", configJs);
+
+            return "course";    // course?
+        } else {
+            // TODO: show appropriate page for student users, and lecturers/coordinator
+        return "course";
+        }
+
     }
 
     @RequestMapping(value = "/api/get_assessment/{code}/{year}/{aId}", produces = "application/json")

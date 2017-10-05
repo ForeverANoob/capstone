@@ -14,16 +14,14 @@
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
     <!--script src="/js/bootstrap.js"></script-->
     <script src="/js/FilterTable.js"></script>
+  <script src="/js/common.js"></script>
 
 </head>
 
 <body>
-
-  <a href = "/">
-    <div id="logoutButton">
-      <input class="btn btn-lg btn-primary btn-block btn-signin" type="button" onclick="logout()" value="logout"></input>
-    </div>
-  </a>
+  <div id="logoutButton">
+    <button class="btn btn-lg btn-primary btn-block btn-signin" type="button" onclick="logout()">Logout</input>
+  </div>
 
   <div id="contentWrapper">
     <h1>
@@ -39,10 +37,10 @@
             <td th:text="${course.key}">keyvalue</td><!-- TODO: link from the name of the course to the appropriate course page -->
             <td>
               <table>
-                <td th:each="anews : ${course.value}">
+                <td th:each="ass : ${course.value}">
                   <table>
-                    <tr><td th:text="${anews.getId()}">Some name</td></tr>
-                    <tr><td th:text="${anews.getStudentMark(username)}">Some name</td></tr> 
+                    <tr><td th:text="${ass.getName()}">Some name</td></tr>
+                    <tr><td th:text="${ass.getStudentMark(student)}+'/'+${ass.getMarkCap()}">Some name</td></tr> 
                   </table>
                 </td>
               </table>
