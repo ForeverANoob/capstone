@@ -187,6 +187,10 @@ public class Course {
         return null;
     }
 
+    public void batchUpdateRegistrationStatus(Map<String,Boolean> regStatus) {
+        return;
+    }
+
     public void setCourseCoordinator(Lecturer c){
         try{
             Statement st = con.createStatement();

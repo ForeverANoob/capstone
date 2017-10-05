@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +22,6 @@
 <body>
   <div id="topRightContainer">
     <button class="btn btn-lg btn-primary btn-block btn-signin" type="button" onclick="logout()">Logout</input>
-    <button class="btn btn-lg btn-primary btn-block" type="button">Change password</button>
   </div>
 
   <div id="contentWrapper">
@@ -31,23 +31,16 @@
 
     <h1>2017</h1>
     <div class="container">
-      <div class="card-deck">
-        <table>              <!-- TODO: The formatting of this thing is way of, but this doesn't display the course info of the student -->
-          <tr th:each="course : ${courses}">
-            <td ><a th:href="'/course/'+${course.getYear()}+'/'+${course.getCode()}" th:text="${course.getCode().toUpperCase()}+', '+${course.getYear()}"></a></td><!-- TODO: link from the name of the course to the appropriate course page -->
-            <td>
-              <table>
-                <td th:each="ass : ${subnmarks.get(course)}">
-                  <table>
-                    <tr><td th:text="${ass.getName()}">Some name</td></tr>
-                    <tr><td th:text="${ass.getStudentMark(student)}+'/'+${ass.getMarkCap()}">Some name</td></tr> 
-                  </table>
-                </td>
-              </table>
-            </td>
+      <table>
+        <thead>
+          <tr>
+            <th th:each="ass : ${assessments}" th:text="${ass.getName()}"></th>
           </tr>
-        </table>
-      </div>
+        </thead>
+        <tbody>
+          <td th:each="ass : ${assessments}" th:text="${ass.getUncappedStudentMark(student)} +'/' + ${ass.getMarkCap()}"></td>
+        </tbody>
+      </table>
     </div>
   </div>
 </body>

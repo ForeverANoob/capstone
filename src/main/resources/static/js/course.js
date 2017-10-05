@@ -1,6 +1,19 @@
 $(document).ready(function() {
 
-  $('#importPplsoftButton').click(function(){ $('#imgupload').trigger('click'); });
+  $('#importPplsoftButton').click(function(){
+    $.ajax({
+      url: '/api/upload_pplsoft/'+ courseYear +'/'+ courseCode,
+      type: 'POST',
+      data: new FormData($('#pplsoftFileForm')[0]),
+      // Tell jQuery not to process data or worry about content-type
+      // You *must* include these options!
+      cache: false,
+      contentType: false,
+      processData: false,
+    }).done(function() {
+      $("#importPplsoftModal").modal("toggle");
+    });
+  });
 
   $("input[name$='assType']").click(function() {
     $("div.newass_options").hide();

@@ -22,7 +22,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Hashtable;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Iterator;
+
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 
 import stumasys.db.*;
 
@@ -104,10 +108,49 @@ public class CourseController {
 
             return "course";    // course?
         } else {
-            // TODO: show appropriate page for student users, and lecturers/coordinator
-        return "course";
+            if (!c.isRegistered((Student)user)) {
+                return "404"; // TODO: more appropriate error page
+            }
+
+            model.addAttribute("username", uId);
+            System.out.println("-------------------------------------------------------------------");
+            System.out.println("-------------------------------------------------------------------");
+            System.out.println("-------------------------------------------------------------------");
+            System.out.println("-------------------------------------------------------------------");
+            System.out.println("-------------------------------------------------------------------");
+            System.out.println("-------------------------------------------------------------------");
+            System.out.println(c.getAssessments());
+            model.addAttribute("assessments", c.getAssessments());
+            model.addAttribute("student", (Student)user);
+            return "stuview_course"; // TODO: show appropriate page for student users, and lecturers/coordinator
         }
 
+    }
+
+    @RequestMapping(value ="/course/{year}/{code}/{assId}")
+    public String assessmentPageHandler( // TODO: this
+            @PathVariable String year,
+            @PathVariable String code,
+            @PathVariable String assId
+    ){
+        /*
+        Course c = db.getCourse(code, year);
+        if (c == null) {
+            return "You just got rekt, bro"; // in the spirit of andre's helpful error messages
+        }
+
+        Assessment a = c.getAssessment(assId);
+        if (a == null) {
+            return "I'm just a poor boy from a poor family";
+        }
+        */
+
+        return "assessment";
+    }
+
+    @RequestMapping(value="/create")
+    public String courseCreationHandler() {
+        return "CreateCourse";
     }
 
     @RequestMapping(value = "/api/get_assessment/{code}/{year}/{aId}", produces = "application/json")
@@ -145,6 +188,7 @@ public class CourseController {
     }
 
     @RequestMapping(value = "/api/upload_pplsoft/{year}/{courseCode}", method=RequestMethod.POST)
+    @ResponseBody
     public String pplsoftHandler(
             @PathVariable String year,
             @PathVariable String courseCode,
@@ -153,29 +197,42 @@ public class CourseController {
         // TODO: get InputStream from the MultipartFile, do CSV parsing from it,
         // use that to update registration status of the students. also need to
         // export this type of file at some point...
-        System.out.println("?AYATAWDFSADFASDFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
-        return "redirect:/";
-    }
+        //System.out.println("?AYATAWDFSADFASDFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
 
-    @RequestMapping(value ="/course/{year}/{code}/{assId}")
-    public String assessmentPageHandler(
-            @PathVariable String year,
-            @PathVariable String code,
-            @PathVariable String assId
-    ){
-        /*
-        Course c = db.getCourse(code, year);
-        if (c == null) {
-            return "You just got rekt, bro"; // in the spirit of andre's helpful error messages
+        HashMap<String,Boolean> regStatus = new HashMap<String,Boolean>();
+
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                // there are nine columns:
+                // Emplid CampusID Name Term ClassNbr Subject CatalogNbr AcadProg FinalGrade
+                //        ^stunum       ^ middle 2 digits are the year            ^ a status thing
+                //                 ^ full name        {^      ^} together make the course code
+                // The six with the little carots pointing to their first letters
+                // are the only ones that matter to us.
+                //
+                // this code needs to examine which people are inthe course, so it
+                // looks at the student numbers and updates the registration status 
+                // depending on if their "FinalGrade" column is INC
+                String[] vals = line.split(",");
+
+                if (vals.length != 9) {
+                    return "Format error.";
+                }
+
+                regStatus.put(vals[1], Boolean.valueOf(!vals[8].equals("INC")));
+            }
+        } catch (Exception e) {
+            System.err.println("An exception occured while attempting to parse a Peoplesoft CSV file.");
         }
 
-        Assessment a = c.getAssessment(assId);
-        if (a == null) {
-            return "I'm just a poor boy from a poor family";
-        }
-        */
+        Course c = db.getCourse(courseCode, Integer.parseInt(year));
+        c.batchUpdateRegistrationStatus(regStatus);
 
-        return "assessment";
+        return "success";
     }
+
     
 }

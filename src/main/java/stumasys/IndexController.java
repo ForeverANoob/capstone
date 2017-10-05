@@ -63,7 +63,7 @@ public class IndexController {
             return "AdminHome";
 
         } else if (servletReq.isUserInRole("STUDENT")) {
-            HashMap<String, List<Assessment>> subjectsAndMarks = new HashMap<String, List<Assessment>>();
+            HashMap<Course, List<Assessment>> subjectsAndMarks = new HashMap<Course, List<Assessment>>();
 
             Student stu = (Student) db.getUser(id);
             List<Course> courses = stu.getInvolvedCourses();
@@ -81,12 +81,13 @@ public class IndexController {
                     }
                 }
 
-                subjectsAndMarks.put(c.getCode().toUpperCase() + ", " + c.getYear(), fas);
+                subjectsAndMarks.put(c, fas);
             }
 
             model.addAttribute("username", id);
             model.addAttribute("student", (Student)db.getUser(id));
             model.addAttribute("subnmarks", subjectsAndMarks);
+            model.addAttribute("courses", courses);
 
             return "StudentHome";
         } else {
