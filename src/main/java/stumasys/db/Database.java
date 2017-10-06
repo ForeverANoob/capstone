@@ -9,10 +9,34 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+// a hard-coded dummy that is supposed to be replaced by one that uses SQL, as
+// is the case with all the classes in the db package. We couldn't finish
+// the SQL backend in time for the GUI to function in it's fullest state,
+// so we are submitting this. You can checkout the SQL version under the branch
+// sql_backend.
+
 @Component
 public class Database {
     private Map<String, Course> courses = new HashMap<String, Course>();
     private Map<String, User> users = new HashMap<String, User>();
+
+
+    public List<Course> getLikeCourse(String name){
+        return null;            // TODO: implement SQL search query for courses with similar name
+    }
+    public List<Course> getLikeYear(String year){
+        return null;            // TODO: implement SQL search for courses in this year
+    }
+
+    public Course getCourse(String code, int year) {
+        System.out.println("getting " + Integer.toString(year) +"_"+ code.toLowerCase());
+        System.out.println(courses.get(Integer.toString(year) +"_"+ code.toLowerCase()));
+        return courses.get(Integer.toString(year) +"_"+ code.toLowerCase());
+    }
+
+    public User getUser(String id) {
+        return users.get(id);
+    }
 
     public Database() {
         // Creating some sample users
@@ -157,22 +181,5 @@ public class Database {
         courses.put("2017_csc1016s", crs2);
         courses.put("2016_csc1015f", crs3);
         courses.put("2016_csc1016s", crs4);
-    }
-
-    public List<Course> getLikeCourse(String name){
-        return null;            // TODO: implement SQL search query for courses with similar name
-    }
-    public List<Course> getLikeYear(String year){
-        return null;            // TODO: implement SQL search for courses in this year
-    }
-
-    public Course getCourse(String code, int year) {
-        System.out.println("getting " + Integer.toString(year) +"_"+ code.toLowerCase());
-        System.out.println(courses.get(Integer.toString(year) +"_"+ code.toLowerCase()));
-        return courses.get(Integer.toString(year) +"_"+ code.toLowerCase());
-    }
-
-    public User getUser(String id) {
-        return users.get(id);
     }
 }

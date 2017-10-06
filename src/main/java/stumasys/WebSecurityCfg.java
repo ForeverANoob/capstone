@@ -48,6 +48,7 @@ public class WebSecurityCfg extends WebSecurityConfigurerAdapter {
 
     }
 
+    // configures the basic in-memory authentication service
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth

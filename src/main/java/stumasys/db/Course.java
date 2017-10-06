@@ -40,6 +40,7 @@ public class Course {
             registrationStatus.put(stu, Boolean.TRUE);
         }
     }
+
     public Course(
             String code, int year,
             Lecturer coordinator, List<Lecturer> lecturers,
@@ -54,7 +55,6 @@ public class Course {
         this.lecturers = lecturers;
 
         this.teachingAssistants = teachingAssistants;
-        //this.students = students;
         this.registrationStatus = registrationStatus;
     }
 
@@ -78,9 +78,12 @@ public class Course {
         return year;
     }
 
-    // assessments things
     public Assessment getAssessment(int id) {
         return assessments.get(id);
+    }
+
+    public List<Assessment> getAssessments(){
+        return Collections.unmodifiableList(this.assessments);
     }
 
     public int createNewRawAssessment(String name, int markCap, Map<String,Integer> markTable) {
@@ -108,9 +111,6 @@ public class Course {
         return assessments.size()-1;
     }
 
-    public List<Assessment> getAssessments(){
-        return Collections.unmodifiableList(this.assessments);
-    }
 
     public boolean isRegistered(Student stu) {
         if (registrationStatus.get(stu) != null) {
@@ -129,7 +129,7 @@ public class Course {
     }
 
     public void batchUpdateRegistrationStatus(Map<String,Boolean> regStatus) {
-        return;
+        return; // TODO: update the registration status of student in a single large batch (used when uploading Peoplesoft CSV files)
     }
 
     public Lecturer getCourseConviner(){

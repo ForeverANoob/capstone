@@ -23,7 +23,7 @@ public class Lecturer extends User {
         this.department = d;
     }
 
-    public boolean addCourse(Course c) { // returns a success status
+    public void addCourse(Course c) {
         if(involvedIn.contains(c)){
             return false;
         }
@@ -31,7 +31,7 @@ public class Lecturer extends User {
         return true;
     }
 
-    public boolean removeCourse(Course c) { // returns success status
+    public void removeCourse(Course c) {
         return involvedIn.remove(c);
     }
 

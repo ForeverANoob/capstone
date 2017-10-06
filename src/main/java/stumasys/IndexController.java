@@ -42,11 +42,13 @@ public class IndexController {
 
     private Database db;
 
+    // injects the Database singleton
     @Autowired
     public void setDatabase(Database db) {
         this.db = db;
     }
 
+    // controller for home pages
     @RequestMapping(value = "/")
     public String indexHandler(
             Model model,
@@ -57,7 +59,6 @@ public class IndexController {
         final String id = p.getName();
 
         if (servletReq.isUserInRole("ADMIN_STAFF")) {
-            // NEW:TODO: Put recently viewed courses into this page as exemplified by the static HTML (currently DOING:)
             AdminStaff u = (AdminStaff) db.getUser(id);
             model.addAttribute("recentlyViewed", u.getRecentlyViewedCourses());
             return "AdminHome";
@@ -88,10 +89,11 @@ public class IndexController {
 
             return "StudentHome";
         } else {
-            return null;
+            return null; // TODO: FIXME: if this ever occurs, things will crash/burn..
         }
     }
 
+    // tells Spring which template to use for the login page
     @RequestMapping(value = "/login")
     public String re(
         Model model,
@@ -99,23 +101,4 @@ public class IndexController {
     ){
         return "login";
     }
-/*
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView login(
-            @RequestParam(value = "error", required = false) String error,
-            @RequestParam(value = "logout", required = false) String logout) {
-
-        ModelAndView model = new ModelAndView();
-        if (error != null) {
-            model.addObject("error", "Invalid username and password!");
-        }
-
-        if (logout != null) {
-            model.addObject("msg", "You've been logged out successfully.");
-        }
-        model.setViewName("login");
-
-        return model;
-
-    }*/
 }

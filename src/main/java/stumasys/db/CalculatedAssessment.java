@@ -6,12 +6,14 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Collections;
 
+
+
 public class CalculatedAssessment implements Assessment {
-    // TODO: stage 4: extend this class to allow arbitrary calculations
+    // TODO: xtend this class to allow arbitrary calculations
     // including min/max, branching, etc, since weighted averages are not the
     // only computations commonly done.
 
-    // TODO: stage 4: write something along the lines of a "rational number"
+    // TODO: write something along the lines of a "rational number"
     // class for weighting in these calculations, rather than using int's.
     // (Normal float/double aren't appropriate for various reasons.)
 
@@ -58,6 +60,10 @@ public class CalculatedAssessment implements Assessment {
 
     }
 
+    public int getId() {
+        return this.id;
+    }
+
     public String getName() {
         return name;
     }
@@ -97,19 +103,21 @@ public class CalculatedAssessment implements Assessment {
         return mark;
     }
 
-    public Map<String, Integer> getWholeTable() { // TODO: store in DB and update when underlying RawAssessments are updated, rather than calculate each time
+    // calculates entire mark table from the source assessments and returns it
+    public Map<String, Integer> getWholeTable() {
         HashMap<String, Integer> markTbl = new HashMap<String, Integer>();
 
+        // we co-iterate through the src and weight
         Iterator<Assessment> aIter = src.iterator();
         Iterator<Integer> wIter = weight.iterator();
         while (aIter.hasNext()) {
             Assessment a = aIter.next();
             Integer w = wIter.next();
 
-            System.out.println("0-------------------------------------------------- 000000000000000000");
             Map<String,Integer> src_markTbl = a.getWholeTable();
             for (Map.Entry<String,Integer> e : src_markTbl.entrySet()) {
                 Integer cm = markTbl.get(e.getKey());
+
                 if (cm != null) {
                     markTbl.put(e.getKey(), cm + w*e.getValue());
                 } else {
@@ -121,9 +129,6 @@ public class CalculatedAssessment implements Assessment {
         return markTbl;
     }
 
-    public int getId() {
-        return this.id;
-    }
 
     public boolean isPublished(){
         return this.published;

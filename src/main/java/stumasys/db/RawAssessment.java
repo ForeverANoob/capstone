@@ -35,12 +35,11 @@ public class RawAssessment implements Assessment {
     }
 
     public int getStudentMark(Student s) {
-        int rm = getUncappedStudentMark(s);
-        return ((markCap <= rm) ? markCap : rm);
+        int m = getUncappedStudentMark(s);
+        return ((markCap <= m) ? markCap : m);
     }
 
     public int getUncappedStudentMark(Student s) {
-        System.out.println(" ============= " + markTbl);
         return markTbl.get(
                 s.getId());
     }
@@ -61,8 +60,8 @@ public class RawAssessment implements Assessment {
     public boolean isPublished(){
         return this.published;
     }
-    public void setPublishState(boolean v){
-        this.published = v;
+    public void setPublishState(boolean published){
+        this.published = published;
     }
 
     public boolean isAvailableFromStudentHome() {
