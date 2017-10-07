@@ -8,14 +8,7 @@ import stumasys.db.Database;
 
 @SpringBootApplication
 public class Application {
-/*
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-*/
-    public static void main(String[] args){
-        Database db = new Database();
-        //while(true){}
-    }
-
 }

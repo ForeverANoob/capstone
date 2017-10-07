@@ -31,7 +31,7 @@ public class Database {
     private Connection con;
     private final String portNumber = "3306";
     private final String userName = "root";
-    private final String password = "j9bct840s";
+    private final String password = "123";
     private final String dbms = "mysql";
     private final String serverName = "localhost";
     private final String dbName = "testing";
@@ -135,7 +135,7 @@ public class Database {
 
     /* --------   Adding stuff to the databases  ---------  */
 
-    public void addUser(String id, String name, String role, String degree, String department, String password) {
+    private void addUser(String id, String name, String role, String degree, String department, String password) {
         // Check if user already exists
         try {
             Statement st = con.createStatement();
@@ -269,6 +269,7 @@ public class Database {
         String role = user.findRole();
 
         if (role.equals("admin")) {
+            System.out.println("------------------------- Got a new admin!");
             user = new AdminStaff(id, this.con);
         } else if (role.equals("lecturer")) {
             user = new Lecturer(id, this.con);

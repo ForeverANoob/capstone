@@ -72,7 +72,7 @@ public class test{
         users.add(db.getUser("xyzmlg420"));
 
         System.out.println("ffew");
-        c.setParticipants(users);
+        //c.setParticipants(users); //TODO: replace with relevant stuff now?
 
         for (int i = 0; i < users.size(); i++){
             db.addCourseToUser(c.getYear(), c.getCode(), users.get(i).getId());
@@ -82,14 +82,8 @@ public class test{
             Assessment a = c.getAssessment(i);
             if (a == null){continue;}
             System.out.println(a);
-            if(a.getCalculation() == null){ System.out.println("something went wrong"); }
-            if (a.getCalculation().equals("")){
-                a = (RawAssessment)a;
-                System.out.println("rar");
-            }else{
-                a = (CalculatedAssessment)a;
-                System.out.println("meow");
-
+            if (a instanceof CalculatedAssessment) {
+                a.setCalculation("12 + 15");
             }
             a.setStudentMark((Student)users.get(0), 50+i);
             if (i%2 == 0){
@@ -105,6 +99,7 @@ public class test{
         AdminStaff ad= (AdminStaff)admin;
         ad.updateRecentlyVeiwedCourses(c);
         ad.updateRecentlyVeiwedCourses(db.getCourse("CSC1015F", 2016));
+        */
     }
 
     public static void delete(Connection con) throws SQLException{
@@ -139,7 +134,6 @@ public class test{
         st = con.createStatement();
         sql = "TRUNCATE TABLE assessments.assessments";
         rs = st.executeQuery(sql);
-        */
     }
 
 }
