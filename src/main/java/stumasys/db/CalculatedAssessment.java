@@ -12,11 +12,11 @@ import java.sql.Statement;
 import java.sql.SQLException;
 
 public class CalculatedAssessment implements Assessment {
-    // TODO: stage 4: extend this class to allow arbitrary calculations
+    // TODO: xtend this class to allow arbitrary calculations
     // including min/max, branching, etc, since weighted averages are not the
     // only computations commonly done.
 
-    // TODO: stage 4: write something along the lines of a "rational number"
+    // TODO: write something along the lines of a "rational number"
     // class for weighting in these calculations, rather than using int's.
     // (Normal float/double aren't appropriate for various reasons.)
 
@@ -51,49 +51,58 @@ public class CalculatedAssessment implements Assessment {
             String sql = "SELECT name FROM assessments.assessments WHERE ass_id = "+this.id+" AND year = "+year+" AND course_code = '"+cc+"'";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
-
                 return rs.getString("name");
             }
-        }catch(SQLException e){ System.out.println("Error: getting name " + e); }
+        } catch (SQLException e) {
+            System.out.println("Error: getting name " + e);
+        }
         return null;
     }
 
-    public void setName(String n) { // TODO: sql
-        try{
+    public void setName(String n) {
+        try {
             Statement st = con.createStatement();
             String sql = "UPDATE assessments.assessments SET name = '"+n+"' WHERE ass_id = '"+id+"' AND course_code = '"+cc+"' AND year = "+year+"";
-            ResultSet rs  =st.executeQuery(sql);
+            ResultSet rs = st.executeQuery(sql);
 
-        }catch(SQLException e){ System.out.println(e); }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
-    public void setMarkCap(int mc){
-        try{
+    public void setMarkCap(int mc) {
+        try {
             Statement st = con.createStatement();
             String sql = "UPDATE assessments.assessments SET mark_cap = "+mc+" WHERE ass_id = "+id+" AND year = "+year+" AND course_code = '"+cc+"'";
             ResultSet rs = st.executeQuery(sql);
-        }catch(SQLException e){ System.out.println(e); }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
-    public int getMarkCap() { // sql
-        try{
+
+    public int getMarkCap() {
+        try {
             Statement st = con.createStatement();
             String sql = "SELECT mark_cap FROM assessments.assessments WHERE ass_id = "+this.id+" WHERE course_code = '"+this.cc+"' AND year = "+this.year+"";
             ResultSet rs = st.executeQuery(sql);
-            if (rs.next()){
+            if (rs.next()) {
                 return rs.getInt("mark_cap");
             }
-        }catch(SQLException e){ System.out.println("Error: getting mark_cap " + e); }
+        } catch (SQLException e) {
+            System.out.println("Error: getting mark_cap " + e);
+        }
         return -1;
     }
 
-    public void setStudentMark(Student s, int mark){}
+    //public void setStudentMark(Student s, int mark){} // This doesn't apply here: calculation determines mark, can only directly modify RawAssessments'
+
     public int getStudentMark(Student stu) {
         int um = getUncappedStudentMark(stu);
         int mc = getMarkCap();
         return (um > mc ? mc : um);
     }
 
-    public int getUncappedStudentMark(Student stu) { // TODO: convert this old hardcoded stuff into SQL (basically just
+    public int getUncappedStudentMark(Student stu) { // TODO: convert this old hardcoded stuff into SQL
         //             HOW TO DO THE CONVERSION:
         // these two lists should have the weights and the source assessments
         // (source assessments are those used to calculcate the result from,
@@ -126,58 +135,71 @@ public class CalculatedAssessment implements Assessment {
         return mark;
     }
 
-    public Map<String, Integer> getWholeTable() { // TODO: sql. store whole calculated mark table in DB, then update it when underlying RawAssessments are updated.
-        Map<String, Integer> map = new HashMap<String, Integer>();
-        try{
-            Statement st = con.createStatement();
-            String sql = "SELECT * FROM courses."+year+"_"+cc+"";     // TODO: make more efficient
-            ResultSet rs = st.executeQuery(sql);
-            while(rs.next()){
-                map.put(rs.getString("id"), rs.getInt(this.getName()));   // TODO: name or id
-            }
-        }catch(SQLException e){ System.out.println(e); }
+    public Map<String, Integer> getWholeTable() { // TODO: figure out how to update the calculated assessments when a change is made to the raw assessments!
+        try {
 
-        return map;
+            Statement st = con.createStatement();
+            String sql = "SELECT * FROM courses."+year+"_"+cc+"";
+            ResultSet rs = st.executeQuery(sql);
+
+            Map<String, Integer> map = new HashMap<String, Integer>();
+            while(rs.next()){
+                map.put(rs.getString("id"), rs.getInt(this.getName()));
+            }
+            return map;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return null;
+        }
     }
 
-    public boolean isPublished(){ //  sql
-        try{
+    public boolean isPublished() { //  sql
+        try {
             Statement st = con.createStatement();
             String sql = "SELECT published FROM assessments.assessments WHERE ass_id = "+id+" AND course_code = '"+cc+"' AND year = "+year+"";
             ResultSet rs = st.executeQuery(sql);
-            if (rs.next()){
+            if (rs.next()) {
                 return 1 == rs.getInt("published");
             }
-        }catch(SQLException e){ System.out.println("Error: getting mark_cap " + e); }
+        } catch (SQLException e) {
+            System.out.println("Error: getting mark_cap " + e);
+        }
         return false;
     }
 
-    public boolean isAvailableOnStudentHome(){
-        return isPublished();
+    public boolean isAvailableOnStudentHome() { // TODO: SQL
+        return false;
     }
 
-    public void setPublishState(boolean v){ //  sql
-        int t = 0;
-        if (v){ t = 1; }
-        try{
+    public void setStudentHomeAvailability(boolean available) { // TODO: SQL
+    }
+
+    public void setPublishState(boolean v) {
+        int t = (v ? 1 : 0);
+
+        try {
             Statement st = con.createStatement();
             String sql = "UPDATE assessments.assessments SET published = "+t+" WHERE ass_id = "+id+" AND course_code = '"+cc+"' AND year = "+year+"";
-            ResultSet rs  =st.executeQuery(sql);
+            ResultSet rs = st.executeQuery(sql);
 
-        }catch(SQLException e){ System.out.println(e); }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
+    /* NOTE: These two methods are not applicable to CalculatedAssessment's, because they are never uploaded: only RawAssessments are uploaded. We might need something similar though, for the use case of a person uploading a mark CSV with multiple columns of marks, then making a calculation using those seperate columns
     public boolean isUploaded() {       //  this method used to be called "isUploaded", which we have determined was not the desired thing
-        try{
+        try {
             Statement st = con.createStatement();
             String sql = "SELECT uploaded FROM assessments.assessments WHERE ass_id = "+id+" AND course_code = '"+cc+"' AND year = "+year+"";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
                 return 1 == rs.getInt("uploaded");
             }
-        }catch(SQLException e){ System.out.println("Error: getting mark_cap " + e); }
+        } catch (SQLException e){ System.out.println("Error: getting mark_cap " + e); }
         return false;
     }
+
 
     public void setUpload(boolean v) { //
         int t = 0;
@@ -189,24 +211,29 @@ public class CalculatedAssessment implements Assessment {
 
         }catch(SQLException e){ System.out.println(e); }
     }
+    */
 
-    public void setCalculation(String a){
-        try{
+    public void setCalculation(String a) {
+        try {
             Statement st = con.createStatement();
             String sql = "UPDATE assessments.assessments SET calculation = '"+a+"' WHERE ass_id = "+id+" AND year = "+year+" AND course_code = '"+cc+"'";
             ResultSet rs  =st.executeQuery(sql);
 
-        }catch(SQLException e){ System.out.println(e); }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
     public String getCalculation(){
-        try{
+        try {
             Statement st = con.createStatement();
             String sql = "SELECT calculation FROM assessments.assessments WHERE ass_id = "+id+" AND year = "+year+" AND course_code = '"+cc+"'";
             ResultSet rs = st.executeQuery(sql);
             if(rs.next()){
                 return rs.getString("calculation");
             }
-        }catch(SQLException e){ System.out.println(e); }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
         return null;
     }
 }

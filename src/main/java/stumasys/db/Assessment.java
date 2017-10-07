@@ -2,30 +2,29 @@ package stumasys.db;
 
 import java.util.Map;
 
-// TODO:NEW: seriously need to think about how the ID happens. the whole
-// "get id from the name" necessitates that we create a new columns every
-// time the name changes. it makes far more sense to just create a unique
-// ID that we know never changes, and allow its name to change arbitrarily.
+// All grades are stored by Assessments.
 
 public interface Assessment {
+    // unique identifier for this assessment under the context of the course it belongs to
     public int getId();
 
     public String getName();
 
-    public void setMarkCap(int mark);
+    // the maximum mark awarded for this assessment
     public int getMarkCap();
-    public int getStudentMark(Student stu);
-    public void setStudentMark(Student stu, int mark);
+    
+    // marks can be higher than the cap, in some cases
     public int getUncappedStudentMark(Student stu);
+    public int getStudentMark(Student stu);
+
+    // returns the entire table of marks from this assessment
     public Map<String, Integer> getWholeTable();
 
+    // assessments are not visible to students until they are publushed
     public boolean isPublished();
     public void setPublishState(boolean v);
 
-    public boolean isUploaded();
-    public void setUpload(boolean v);
-
+    // some assessments need not be seen directly on the student homepage (e.g. subsections of tests)
     public boolean isAvailableOnStudentHome();
-    public String getCalculation();
-    public void setCalculation(String cal);
+    public void setStudentHomeAvailability(boolean v);
 }

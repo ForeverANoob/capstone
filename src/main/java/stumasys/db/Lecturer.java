@@ -11,49 +11,52 @@ import java.sql.SQLException;
 
 public class Lecturer extends User {
 
-
-    public Lecturer(String id, Connection con){
+    public Lecturer(String id, Connection con) {
         super(id, con);
-
     }
 
-    public String getDepartment() {         // TODO: sql
+    public String getDepartment() {
         String department = "";
-        try{
-
+        try {
             Statement st = con.createStatement();
             String sql = "SELECT department FROM users.user_info WHERE id = '" + this.id + "'";
             ResultSet rs = st.executeQuery(sql);
-            if (rs.next()){
+            if (rs.next()) {
                 department = rs.getString("department");
-            }else{
+            } else {
                 department = "";
             }
-        }catch(SQLException e){ System.out.println("Could not get admin staff department " + e); }
+        } catch(SQLException e) {
+            System.out.println("Could not get admin staff department " + e);
+        }
         return department;
     }
-    public void setDepartment(String d){    // TODO: sql
-        try{
+
+    public void setDepartment(String d) {
+        try {
             Statement st = con.createStatement();
             String sql = "UPDATE users.user_info SET department = '"+d+"' WHERE id = '"+this.id+"'";
             ResultSet rs = st.executeQuery(sql);
-        }catch(SQLException e){ System.out.println(e); }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
-    public void addCourse(Course c) {    // TODO: sql
-        try{
+    public void addCourse(Course c) {
+        try {
             Statement st = con.createStatement();
             String sql = "INSERT INTO users.user_courses VALUES ('"+this.id+"', '"+c.getCode()+"', "+c.getYear()+", 'lecturer')";
             ResultSet rs = st.executeQuery(sql);
-        }catch(SQLException e){ System.out.println(e); }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
-    public boolean removeCourse(Course c) { // TODO: sql
-        return true;
+    public void removeCourse(Course c) { // TODO: sql
     }
 
-    public List<Course> getCourses(){       // TODO: sql
-        try{
+    public List<Course> getCourses() {
+        try {
             List<Course> courses = new ArrayList<Course>();
             Statement st = con.createStatement();
             String sql = "SELECT * FROM users.user_courses WHERE user_id = '" + this.id + "'";
@@ -65,7 +68,10 @@ public class Lecturer extends User {
             }
 
             return courses;
-        }catch(SQLException e){ System.out.println("Error in getting involved courses " + e); return null; }    // not sure about this
+        } catch (SQLException e) {
+            System.out.println("Error in getting involved courses " + e);
+            return null;
+        }    // not sure about this
 
     }
 

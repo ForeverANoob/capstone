@@ -8,6 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 //import java.security.MessageDigest;
 
+// this class is effectively empty because it is a dummy that is eventually
+// supposed to wrap SQL behind an API
+
 public class User {
     String id;
     Connection con;

@@ -20,6 +20,7 @@ import java.sql.DatabaseMetaData;
 public class test{
 
     public static void create(Connection con, Database db) throws SQLException{
+        /*
         // Creating some sample users
         System.out.println(db.checkUser("brrand016"));
 
@@ -138,6 +139,7 @@ public class test{
         st = con.createStatement();
         sql = "TRUNCATE TABLE assessments.assessments";
         rs = st.executeQuery(sql);
+        */
     }
 
 }

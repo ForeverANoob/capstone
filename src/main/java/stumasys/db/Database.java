@@ -18,6 +18,12 @@ import java.sql.DatabaseMetaData;
 
 import org.springframework.stereotype.Component;
 
+// a hard-coded dummy that is supposed to be replaced by one that uses SQL, as
+// is the case with all the classes in the db package. We couldn't finish
+// the SQL backend in time for the GUI to function in it's fullest state,
+// so we are submitting this. You can checkout the SQL version under the branch
+// sql_backend.
+
 @Component
 public class Database {
 
@@ -31,77 +37,44 @@ public class Database {
     private final String dbName = "testing";
 
     /*   Establishing a connection  */
-    public Connection getConnection() throws SQLException{
+    public Connection getConnection() throws SQLException {
         Connection conn = null;
         Properties connectionProps = new Properties();
         connectionProps.put("user", this.userName);
         connectionProps.put("password", this.password);
 
-        if(this.dbms.equals("mysql")){
+        if(this.dbms.equals("mysql")) {
             conn = DriverManager.getConnection(
                    "jdbc:" + this.dbms + "://" +
                    this.serverName +
                    ":" + this.portNumber + "/",
                    connectionProps);
-                   System.out.println("jdbc:" + this.dbms + "://" +  this.serverName + ":" + this.portNumber + "/" + connectionProps);
-        }
-        else if (this.dbms.equals("derby")){
+           System.out.println("jdbc:" + this.dbms + "://" +  this.serverName + ":" + this.portNumber + "/" + connectionProps);
+        } else if (this.dbms.equals("derby")){
             conn = DriverManager.getConnection(
                    "jdbc:" + this.dbms + ":" +
                    this.dbName +
                    ";create=true",
                    connectionProps);
-
-
         }
         System.out.println();
         return conn;
     }
 
     /*   constructor   */
-    public Database(){              // TODO: sql
-        try{
+    public Database() {
+        try {
             this.con = this.getConnection();
             System.out.println("#SmokeWeedEveryday #420 #ConnectionMake");
             con.setAutoCommit(true);
 
-            test.delete(con);
+            //test.delete(con); // TODO(Danny): uncomment this line after the first run of this program !!!
             test.create(con, this);
-            //String query = "INSERT INTO testing (id, Acedemic program, fname, surname, emplid, subject, class nbr, Term, Final grade, Catalog nbr) VALUES (dude, woof, swag, mlg, 420, smoke weed, bewbs, gone, gg, 18);";
 
             Statement st = con.createStatement();
-            //String sql = "INSERT INTO /Unnamed/mysql/testing (id, Acedemic program, fname, surname, emplid, subject, class nbr, Term, Final grade, Catalog nbr) VALUES (dude, woof, swag, mlg, 420, smoke weed, bewbs, gone, gg, 18);";
             String sql = "INSERT INTO users.user_info VALUES ('TKDF', 'jorg', 'f', '2', 't', qwe)";
             ResultSet rs = st.executeQuery(sql);
-/*
-            while(rs.next()) {
-               String id = rs.getString("id");
-                System.out.println(id+" ");
-            }
-
-            st = con.createStatement();
-            sql = "CREATE TABLE assessments."+ "ass1" +" (id NVARCHAR(50), mark INT)";
-            //rs = st.executeQuery(sql);
-
-            System.out.println(this.checkUser("id1"));
-            System.out.println(this.checkUser("id1"));
-            this.addUser("id1", "brt", "admin", "vra", "com sci");
-            System.out.println(this.checkUser("id1"));
-            System.out.println(this.getUser("id1"));
-
-            System.out.println(checkAssessment("2017_csc1015_pie"));
-            addAssessment("2017_csc1015_pie", 2, 2, 2, "a + b");
-            System.out.println(checkAssessment("2017_csc1015_pie"));
-
-            System.out.println(checkCourse("csc1015", 2017));
-            String n = "id vqvr vqe rtv pie";
-            addCourse("2017_csc1015", n.split(" "));
-            System.out.println(checkCourse("csc1015", 2017));
-
-            addMarkToAssessment("2017_csc1015_pie", "id1", 69);
-*/
-            //con.close();
-        }catch(SQLException e){
+        } catch(SQLException e) {
             System.out.println("------------------------------------------------->  This connection is just like...no bruh  <----------------------------------------");
             System.out.println(e);
         }
@@ -109,58 +82,73 @@ public class Database {
 
 
     /*   Checking if the info exists in the database   */
-    public boolean checkUser(String id){    // works
-        try{
+    public boolean checkUser(String id) {
+        try {
             Statement st = con.createStatement();
             String sql = "SELECT id FROM users.user_info WHERE id = '"+id+"'";
+
             ResultSet rs = st.executeQuery(sql);
-            if (rs.next()){
+            if (rs.next()) {
                 return true;
             }
 
-        }catch(SQLException e){ System.out.println("An error has occured: "+e); return true;}
+        } catch (SQLException e){
+            System.out.println("Database error: " + e);
+            return false;
+        }
         return false;
     }
 
-    public boolean checkCourse(String name, int year){
-        try{
+    public boolean checkCourse(String name, int year) {
+        try {
             DatabaseMetaData meta = con.getMetaData();
             String id = year + "_"+name;
+
             ResultSet rs = meta.getTables(null, null, id, new String[] {"TABLE"});
-            if (rs.next()){
+            if (rs.next()) {
                 return true;
+            } else {
+                return false;
             }
-            return false;
-        }catch(SQLException e){ System.out.println("An error has occured: "+e); return true;}
+
+        } catch(SQLException e) {
+            System.out.println("An error has occured: "+e);
+            return true;
+        }
     }
 
-    public boolean checkAssessment(int id, String code, int year){
-        try{
+    public boolean checkAssessment(int id, String code, int year) {
+        try {
             Statement st = con.createStatement();
-            String sql = "SELECT * FROM assessments.assessments WHERE ass_id = " + id + " AND year = "+year+" AND course_code = '"+code+"'";
+            String sql = "SELECT * FROM assessments.assessments WHERE ass_id = " + id + " AND year = " + year + " AND course_code = '" + code + "'";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()){
                 return true;
             }
             return false;
-        }catch(SQLException e){ System.out.println("An error has occured: "+e); return true;}
+        } catch(SQLException e) {
+            System.out.println("An error has occured: " + e);
+            return true;
+        }
     }
 
 
-    /*   Adding stuff to the databases   */  // TODO
-    public void addUser(String id, String name, String role, String degree, String department, String password){    // works
+    /* --------   Adding stuff to the databases  ---------  */
+
+    public void addUser(String id, String name, String role, String degree, String department, String password) {
         // Check if user already exists
-        try{
+        try {
             Statement st = con.createStatement();
-            String sql = "INSERT INTO users.user_info VALUES ('"+id+"', '"+name+"', '"+role+"', '"+degree+"', '"+department+"', '"+password+"');";     // TODO: distinguish between users
+            String sql = "INSERT INTO users.user_info VALUES ('"+id+"', '"+name+"', '"+role+"', '"+degree+"', '"+department+"', '"+password+"');";
             ResultSet rs = st.executeQuery(sql);
-            //System.out.println(sql);        //
-        }catch(SQLException e){ System.out.println("An error has occurred "+e); }
+        } catch(SQLException e) {
+            System.out.println("An error has occurred "+e);
+        }
     }
 
     public void addCourse(String id, String[] args){
         String arg = " (" + args[0] +" NVARCHAR(50), ";
-        String[] tmp = id.split("_");                                   // remember this
+        String[] tmp = id.split("_");
         for (int i = 1; i < args.length; i++){
             if (i == args.length - 1){
                 arg += "" +args[i]+" INT)";
@@ -169,9 +157,9 @@ public class Database {
                 arg += "" +args[i]+ " INT, ";
             }
             this.addAssessment(args[i], tmp[1], Integer.parseInt(tmp[0]), 0, 0, 100, "");
-
         }
-        try{
+
+        try {
             Statement st = con.createStatement();
             String sql = "CREATE TABLE courses."+id+arg;
             ResultSet rs = st.executeQuery(sql);
@@ -180,42 +168,48 @@ public class Database {
             sql = "INSERT INTO courses.courses_info VALUES ('"+tmp[1]+"', "+tmp[0]+", "+args.length+")";
             rs = st.executeQuery(sql);
 
-        }catch(SQLException e){ System.out.println("An error has occured: "+e); }
+        } catch(SQLException e) {
+            System.out.println("An error has occured: "+e);
+        }
     }
 
-    public void addAssessment(String name, String course_id, int year, int upload, int published, int mark_cap, String cal){               // string or int?               // done
-        try{
+    public void addAssessment(String name, String course_id, int year, int upload, int published, int mark_cap, String cal) {
+        try {
             int id = 0;
-            if(!this.tableIsEmpty()){
+            if (!this.tableIsEmpty()) {
                 Statement st = con.createStatement();
                 String sql = "SELECT ass_id FROM assessments.assessments ORDER BY ass_id DESC";
                 ResultSet rs = st.executeQuery(sql);
-                if(rs.next()){
-                    id = rs.getInt("ass_id")+1;
+                if (rs.next()) {
+                    id = rs.getInt("ass_id") + 1;
                 }
             }
             Statement st = con.createStatement();
-            String sql = "INSERT INTO assessments.assessments VALUES ("+id+", '"+name+"', '"+course_id+"', "+year+", "+upload+", "+published+", "+mark_cap+", '"+cal+"')";   // TODO: test
+            String sql = "INSERT INTO assessments.assessments VALUES ("+id+", '"+name+"', '"+course_id+"', "+year+", "+upload+", "+published+", "+mark_cap+", '"+cal+"')";
             ResultSet rs = st.executeQuery(sql);
-        }catch(SQLException e){ System.out.println("An error has occured: "+e); }
+        } catch (SQLException e) {
+            System.out.println("An error has occured: "+e);
+        }
     }
 
     /*   this is for the unique id of the assessments  */
     public boolean tableIsEmpty() {
-        try{
+        try {
             Statement st = con.createStatement();
             String sql = "SELECT * FROM assessments.assessments";
             ResultSet rs = st.executeQuery(sql);
-            if (rs.next()){
+            if (rs.next()) {
                 return false;
             }
-        }catch(SQLException e){ System.out.println(e); }
+        } catch(SQLException e) {
+            System.out.println(e);
+        }
         return true;
     }
 
     /*  these next two normally go together but don't have to  */
     public void addCourseToUser(int year, String course_id, String user_id){
-        try{
+        try {
             String role = "";
             Statement st = con.createStatement();
             String sql = "SELECT role FROM users.user_info WHERE id = '"+user_id+"'";
@@ -234,105 +228,101 @@ public class Database {
             st = con.createStatement();
             sql = "INSERT INTO users.user_courses VALUES ('"+user_id+"', '"+course_id+"', "+year+", '"+role+"')";
             rs = st.executeQuery(sql);
-        }catch(SQLException e){ System.out.println(e); }
+        } catch(SQLException e) {
+            System.out.println(e);
+        }
     }
 
-    public void addUserToCourse(int year, String course_id, String user_id){
-        try{
+    public void addUserToCourse(int year, String course_id, String user_id) {
+        try {
             String values = "";
             Statement st = con.createStatement();
             String sql = "SELECT num_ass FROM courses.courses_info WHERE course_code = '"+course_id+"' AND year = "+year+"";
             ResultSet rs = st.executeQuery(sql);
-            for (int i = 0; i < rs.getInt("num_ass"); i++){
-                values += ", 0";                // TODO: chack if right default
-            }
-            st = con.createStatement();
-            sql = "INSERT INTO courses."+year+"_"+course_id + " VALUES ('"+user_id+"'"+values+")"; //
-            rs = st.executeQuery(sql);
-        }catch(SQLException e){ System.out.println(e); }
+            if (rs.next()) {
+                for (int i = 0; i < rs.getInt("num_ass"); i++) {
+                    values += ", 0"; // TODO: change this default value to a negative that makes sense. TODO: agree on a set of values that mean different thigns when the mark is negative
+                }
+                st = con.createStatement();
+                sql = "INSERT INTO courses."+year+"_"+course_id + " VALUES ('"+user_id+"'"+values+")"; //
+                rs = st.executeQuery(sql);
+            } // if not, there are no assessments in this course so dont need to modify the assessment table 
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
-    public void addMarkToAssessment(String ass_id, String user_id, int mark){   // assumes assessment exists
+    public void addMarkToAssessment(String ass_id, String user_id, int mark) {   // assumes assessment exists
         String[] args = ass_id.split("_");
-        try{
+        try {
             Statement st = con.createStatement();
             String sql = "UPDATE courses."+args[0]+"_"+args[1]+" SET "+args[2]+" = "+mark+" WHERE id = '"+user_id+"'";
             ResultSet rs = st.executeQuery(sql);
-        }catch(SQLException e){ System.out.println(e); }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
-
 
     /*   Getting info from the database   */
     public User getUser(String id){
-
         User user = new User(id, con);
         String role = user.findRole();
 
-        if(role.equals("admin")){
+        if (role.equals("admin")) {
             user = new AdminStaff(id, this.con);
-
-        }else if (role.equals("lecturer")){
+        } else if (role.equals("lecturer")) {
             user = new Lecturer(id, this.con);
-
-        }else if(role.equals("student")){
+        } else if(role.equals("student")) {
             user = new Student(id, this.con);
-
-        }else{ System.out.println("User has no defined role: " + role); }
+        } else {
+            System.out.println("User has no defined role: " + role);
+        }
         return user;
-
     }
 
-    public Course getCourse(String code, int year) {    // TODO: check if correct
+    public Course getCourse(String code, int year) {
         return new Course(code, year, con);
     }
 
-    public Assessment getAssessment(int id, String code, int year){     // TODO: sql, assumes Assessment exists and check if correct
-        try{
+    public Assessment getAssessment(int id, String code, int year) {
+        try {
             Statement st = con.createStatement();
-            String sql = "SELECT calculation FROM assessments.assessments WHERE ass_id = "+id+" AND course_id = '"+code+"' AND year = "+year+"";
+            String sql = "SELECT calculation FROM assessments.assessments WHERE ass_id = "+id+" AND course_id = '"+code+"' AND year = "+year;
             ResultSet rs = st.executeQuery(sql);
-            if (rs.next()){
+            if (rs.next()) {
                 String tmp = rs.getString("calculation");
-                if (tmp.equals("")){
+                if (tmp.equals("")) {
                     return new RawAssessment(id, code, year, con);
-                }else{
+                } else {
                     return new CalculatedAssessment(id, code, year, con);
                 }
             }
-        }catch(SQLException e){ System.out.println(e); }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
         return null;
-    }
-
-    public String getStudentAssMark(String ass_id, String stu_id){  // TODO
-        try{
-            Statement st = con.createStatement();
-            String sql = "SELECT * FROM assessments." + ass_id + "WHERE id ='" + stu_id + "'";
-            ResultSet rs = st.executeQuery(sql);
-            if (rs.next()){
-                return rs.getString("id") + " " + rs.getInt("mark");    // TODO: standardize
-            }
-            return "No data";
-        }catch(SQLException e){ System.out.println(e); return "";}
     }
 
     /*    Get similar objects   */
     public List<Course> getLikeCourse(String name){ // TODO: implement SQL search for courses with this name
-        try{
+        try {
             List<Course> tmp = new ArrayList<Course>();
             Statement st = con.createStatement();
             String sql = "SELECT * FROM courses.courses_info WHERE course_code = '"+name+"'";
+
             ResultSet rs = st.executeQuery(sql);
-            while(rs.next()){
+            while (rs.next()) {
                 tmp.add(new Course(rs.getString("course_code"), rs.getInt("year"), con));
             }
-
             return tmp;
-        }catch (SQLException e){ System.out.println("An error has occured "+e); return null;}
-
+        } catch (SQLException e) {
+            System.out.println("An error has occured "+e);
+            return null;
+        }
     }
 
     public List<Course> getLikeYear(String year){ // TODO: implement SQL search for courses in this year
-        try{
+        try {
             List<Course> tmp = new ArrayList<Course>();
             Statement st = con.createStatement();
             String sql = "SELECT * FROM courses.courses_info WHERE year = "+year+"";
@@ -342,6 +332,9 @@ public class Database {
             }
 
             return tmp;
-        }catch (SQLException e){ System.out.println("An error has occured "+e); return null;}
+        } catch (SQLException e) {
+            System.out.println("An error has occured "+e);
+            return null;
+        }
     }
 }
