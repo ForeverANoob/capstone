@@ -23,18 +23,18 @@ public class test{
         // Creating some sample users
         System.out.println(db.checkUser("brrand016"));
 
-        db.addUser("brrand016", "Andre", "student", "Bsc", "");
-        db.addUser("grncla007", "Claudia", "student", "Bsc", "");
-        db.addUser("krydan003", "Danny", "student", "Bsc", "");
-        db.addUser("xyzmlg420", "Hugh, Janos", "student", "BA", "");
+        db.addUser("brrand016", "Andre", "student", "Bsc", "", "qwe");
+        db.addUser("grncla007", "Claudia", "student", "Bsc", "", "qwe");
+        db.addUser("krydan003", "Danny", "student", "Bsc", "", "qwe");
+        db.addUser("xyzmlg420", "Hugh, Janos", "student", "BA", "", "qwe");
 
-        db.addUser("100001", "Violet, Janos", "lecturer", "", "Gender");
-        db.addUser("100002", "Sans, Janos", "lecturer", "", "cs");
-        db.addUser("100003", "Vict, Janos", "lecturer", "", "cs");
-        db.addUser("100004", "Leo, Janos", "lecturer", "", "swiss cheese");
+        db.addUser("100001", "Violet, Janos", "lecturer", "", "Gender", "qwe");
+        db.addUser("100002", "Sans, Janos", "lecturer", "", "cs", "qwe");
+        db.addUser("100003", "Vict, Janos", "lecturer", "", "cs", "qwe");
+        db.addUser("100004", "Leo, Janos", "lecturer", "", "swiss cheese", "qwe");
 
-        db.addUser("200001", "phil, mahooters", "admin", "", "cs");
-        db.addUser("200002", "Hugh, Janos", "admin", "", "cs");
+        db.addUser("200001", "phil, mahooters", "admin", "", "cs", "qwe");
+        db.addUser("200002", "Hugh, Janos", "admin", "", "cs", "qwe");
 
         System.out.println(db.checkUser("brrand016"));
         System.out.println(db.getUser("brrand016").getId());

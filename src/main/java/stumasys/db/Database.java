@@ -71,7 +71,7 @@ public class Database {
 
             Statement st = con.createStatement();
             //String sql = "INSERT INTO /Unnamed/mysql/testing (id, Acedemic program, fname, surname, emplid, subject, class nbr, Term, Final grade, Catalog nbr) VALUES (dude, woof, swag, mlg, 420, smoke weed, bewbs, gone, gg, 18);";
-            String sql = "INSERT INTO users.user_info VALUES ('TKDF', 'jorg', 'f', '2', 't')";
+            String sql = "INSERT INTO users.user_info VALUES ('TKDF', 'jorg', 'f', '2', 't', qwe)";
             ResultSet rs = st.executeQuery(sql);
 /*
             while(rs.next()) {
@@ -148,13 +148,13 @@ public class Database {
 
 
     /*   Adding stuff to the databases   */  // TODO
-    public void addUser(String id, String name, String role, String degree, String department){    // works
+    public void addUser(String id, String name, String role, String degree, String department, String password){    // works
         // Check if user already exists
         try{
             Statement st = con.createStatement();
-            String sql = "INSERT INTO users.user_info VALUES ('"+id+"', '"+name+"', '"+role+"', '"+degree+"', '"+department+"');";     // TODO: distinguish between users
+            String sql = "INSERT INTO users.user_info VALUES ('"+id+"', '"+name+"', '"+role+"', '"+degree+"', '"+department+"', '"+password+"');";     // TODO: distinguish between users
             ResultSet rs = st.executeQuery(sql);
-            System.out.println(sql);        //
+            //System.out.println(sql);        //
         }catch(SQLException e){ System.out.println("An error has occurred "+e); }
     }
 
