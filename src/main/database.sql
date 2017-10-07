@@ -16,13 +16,6 @@
 CREATE DATABASE IF NOT EXISTS `assessments` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `assessments`;
 
--- Dumping structure for table assessments.ass1
-CREATE TABLE IF NOT EXISTS `ass1` (
-  `id` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
-  `mark` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- Data exporting was unselected.
 -- Dumping structure for table assessments.assessments
 CREATE TABLE IF NOT EXISTS `assessments` (
   `ass_id` int(11) NOT NULL,
@@ -33,13 +26,6 @@ CREATE TABLE IF NOT EXISTS `assessments` (
   `published` int(11) DEFAULT NULL,
   `mark_cap` int(10) DEFAULT NULL,
   `calculation` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- Data exporting was unselected.
--- Dumping structure for table assessments.pie
-CREATE TABLE IF NOT EXISTS `pie` (
-  `id` varchar(50) CHARACTER SET utf8 DEFAULT NULL,
-  `mark` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
