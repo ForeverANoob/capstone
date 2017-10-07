@@ -75,10 +75,10 @@ public class CourseController {
         model.addAttribute("courseCode", courseCode.toUpperCase());
         model.addAttribute("year", year);
 
-        if (servletReq.isUserInRole("ADMIN_STAFF", "LECTURER")) {
+        if (servletReq.isUserInRole("ADMIN_STAFF") || servletReq.isUserInRole("LECTURER")) {
             ((AdminStaff) user).updateRecentlyVeiwedCourses(course);
 
-            Map<Assessment, Boolean> visibleCols = c.getPrevVisibleColumns((AdminStaff) user); // visibility of the columns, 
+            Map<Assessment, Boolean> visibleCols = course.getPrevVisibleColumns((AdminStaff) user); // visibility of the columns, 
             Iterator<Map.Entry<Assessment, Boolean>> it = visibleCols.entrySet().iterator();
 
             // preparing some Javascript that determines what columns are visible when the page first loads:
@@ -97,14 +97,18 @@ public class CourseController {
             model.addAttribute("configJs", configJs);
 
             return "course";    // course?
-        } else {
-            if (!c.isRegistered((Student)user)) {
+        } else if (servletReq.isUserInRole("STUDENT")) {
+            if (!course.isRegistered((Student)user)) {
                 return "404"; // TODO: more appropriate error page
             }
 
-            model.addAttribute("assessments", c.getAssessments());
+            model.addAttribute("assessments", course.getAssessments());
             model.addAttribute("student", (Student)user);
             return "stuview_course";
+        } else {
+            // This should never happen, since the WebSecurityCfg specifies this page requires authentication, implying the user has some role
+            System.err.println("ERROR: User without recognised role attempted to access course page.");
+            return "500";
         }
 
     }
@@ -116,12 +120,12 @@ public class CourseController {
             @PathVariable String assId,
             Model model
     ){
-        Course course = db.getCourse(code, year);
+        Course course = db.getCourse(code, Integer.parseInt(year));
         if (course == null) {
             return "404";
         }
 
-        Assessment assessment = c.getAssessment(assId);
+        Assessment assessment = course.getAssessment(Integer.parseInt(assId));
         if (assessment == null) {
             return "404";
         }

@@ -24,15 +24,11 @@ public class Lecturer extends User {
     }
 
     public void addCourse(Course c) {
-        if(involvedIn.contains(c)){
-            return false;
-        }
         involvedIn.add(c);
-        return true;
     }
 
     public void removeCourse(Course c) {
-        return involvedIn.remove(c);
+        involvedIn.remove(c);
     }
 
     public List<Course> getCourses(){
