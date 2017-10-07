@@ -72,7 +72,7 @@ public class Database {
             test.create(con, this);
 
             Statement st = con.createStatement();
-            String sql = "INSERT INTO users.user_info VALUES ('TKDF', 'jorg', 'f', '2', 't', qwe)";
+            String sql = "INSERT INTO users.user_info VALUES ('TKDF', 'jorg', 'f', '2', 't', 'qwe')";
             ResultSet rs = st.executeQuery(sql);
         } catch(SQLException e) {
             System.out.println("------------------------------------------------->  This connection is just like...no bruh  <----------------------------------------");
@@ -246,7 +246,7 @@ public class Database {
                 st = con.createStatement();
                 sql = "INSERT INTO courses."+year+"_"+course_id + " VALUES ('"+user_id+"'"+values+")"; //
                 rs = st.executeQuery(sql);
-            } // if not, there are no assessments in this course so dont need to modify the assessment table 
+            } // if not, there are no assessments in this course so dont need to modify the assessment table
         } catch (SQLException e) {
             System.out.println(e);
         }

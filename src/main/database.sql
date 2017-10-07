@@ -144,7 +144,8 @@ CREATE TABLE IF NOT EXISTS `user_info` (
   `name` varchar(50) NOT NULL,
   `role` varchar(10) NOT NULL,
   `degree` varchar(10) DEFAULT NULL,
-  `department` varchar(64) DEFAULT NULL
+  `department` varchar(64) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
