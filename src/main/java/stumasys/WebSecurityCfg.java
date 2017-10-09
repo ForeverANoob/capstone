@@ -49,7 +49,7 @@ public class WebSecurityCfg extends WebSecurityConfigurerAdapter {
     }
 
     // configures the basic in-memory authentication service
-    @Autowired
+    /*@Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
             .inMemoryAuthentication()
@@ -66,4 +66,17 @@ public class WebSecurityCfg extends WebSecurityConfigurerAdapter {
             .withUser("200001").password("qwe").roles("ADMIN_STAFF").and()
             .withUser("200002").password("qwe").roles("ADMIN_STAFF");
     }
+    /*  new stuff  */
+    @Autowired
+    DataSource dataSource;
+
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+
+       auth.jdbcAuthentication().dataSource(dataSource)
+    		.usersByUsernameQuery(
+    		    "select id,password, enabled from users where username=?")
+    		.authoritiesByUsernameQuery(
+            	"select id, role from users.user_info where username=?");
+    	}
 }

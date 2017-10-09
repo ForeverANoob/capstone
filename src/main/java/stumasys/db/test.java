@@ -20,7 +20,7 @@ import java.sql.DatabaseMetaData;
 public class test{
 
     public static void create(Connection con, Database db) throws SQLException{
-        /*
+
         // Creating some sample users
         System.out.println(db.checkUser("brrand016"));
 
@@ -72,7 +72,7 @@ public class test{
         users.add(db.getUser("xyzmlg420"));
 
         System.out.println("ffew");
-        //c.setParticipants(users); //TODO: replace with relevant stuff now?
+/*        c.setParticipants(users);
 
         for (int i = 0; i < users.size(); i++){
             db.addCourseToUser(c.getYear(), c.getCode(), users.get(i).getId());
@@ -135,5 +135,4 @@ public class test{
         sql = "TRUNCATE TABLE assessments.assessments";
         rs = st.executeQuery(sql);
     }
-
 }
