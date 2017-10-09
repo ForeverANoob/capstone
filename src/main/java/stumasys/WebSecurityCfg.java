@@ -49,7 +49,7 @@ public class WebSecurityCfg extends WebSecurityConfigurerAdapter {
     }
 
     // configures the basic in-memory authentication service
-    @Autowired
+    /*@Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
             .inMemoryAuthentication()
@@ -67,33 +67,18 @@ public class WebSecurityCfg extends WebSecurityConfigurerAdapter {
             .withUser("200002").password("qwe").roles("ADMIN_STAFF");
     }
 
+    /*  new stuff  */
     @Autowired
-    	DataSource dataSource;
+    DataSource dataSource;
 
-    	@Autowired
-    	public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
 
-    	  auth.jdbcAuthentication().dataSource(dataSource)
+       auth.jdbcAuthentication().dataSource(dataSource)
     		.usersByUsernameQuery(
-    			"select username,password, enabled from users where username=?")
+    		      "select id,password, enabled from users where username=?")
     		.authoritiesByUsernameQuery(
-    			"select username, role from user_roles where username=?");
-    	}
-
-    	@Override
-    	protected void configure(HttpSecurity http) throws Exception {
-
-    	  http.authorizeRequests()
-    		.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-    		.and()
-    		  .formLogin().loginPage("/login").failureUrl("/login?error")
-    		  .usernameParameter("username").passwordParameter("password")
-    		.and()
-    		  .logout().logoutSuccessUrl("/login?logout")
-    		.and()
-    		  .exceptionHandling().accessDeniedPage("/403")
-    		.and()
-    		  .csrf();
+        			"select id, role from users.user_info where username=?");
     	}
 
 

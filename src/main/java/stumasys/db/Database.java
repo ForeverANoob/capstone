@@ -56,6 +56,7 @@ public class Database {
                    this.dbName +
                    ";create=true",
                    connectionProps);
+                   System.out.println("Give up");
         }
         System.out.println();
         return conn;
@@ -64,11 +65,11 @@ public class Database {
     /*   constructor   */
     public Database() {
         try {
-            this.con = this.getConnection();
+            this.con = serverInfo.getConnection();
             System.out.println("#SmokeWeedEveryday #420 #ConnectionMake");
             con.setAutoCommit(true);
 
-            //test.delete(con); // TODO(Danny): uncomment this line after the first run of this program !!!
+            test.delete(con); // TODO(Danny): uncomment this line after the first run of this program !!!
             test.create(con, this);
 
             Statement st = con.createStatement();
