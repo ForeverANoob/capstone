@@ -16,6 +16,14 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.DatabaseMetaData;
 
+import javax.sql.DataSource;
+import javax.annotation.PostConstruct;
+
+import org.mariadb.jdbc.MariaDbDataSource; // the alternative to: import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Component;
 
 // a hard-coded dummy that is supposed to be replaced by one that uses SQL, as
@@ -27,16 +35,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class Database {
 
+    @Autowired
+    DriverManagerDataSource dataSource;
+
     /*  variables  */
     private Connection con;
     private final String portNumber = "3306";
     private final String userName = "root";
-    private final String password = "123";
+    private final String password = "dogzrool";
     private final String dbms = "mysql";
     private final String serverName = "localhost";
     private final String dbName = "testing";
 
-    /*   Establishing a connection  */
+    /*   Establishing a connection  
     public Connection getConnection() throws SQLException {
         Connection conn = null;
         Properties connectionProps = new Properties();
@@ -60,16 +71,22 @@ public class Database {
         }
         System.out.println();
         return conn;
-    }
+    }*/
+
 
     /*   constructor   */
-    public Database() {
+    public Database() { }
+
+    @PostConstruct
+    public void openConnection() {
         try {
-            this.con = serverInfo.getConnection();
+            System.out.println("--------------->>>>>>>>>>>>>>>>>>> ");
+            System.out.println(dataSource);
+            this.con = dataSource.getConnection();
             System.out.println("#SmokeWeedEveryday #420 #ConnectionMake");
             con.setAutoCommit(true);
 
-            test.delete(con); // TODO(Danny): uncomment this line after the first run of this program !!!
+            //test.delete(con); // TODO(Danny): uncomment this line after the first run of this program !!!
             test.create(con, this);
 
             Statement st = con.createStatement();

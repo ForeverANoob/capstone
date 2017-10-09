@@ -67,12 +67,16 @@ public class WebSecurityCfg extends WebSecurityConfigurerAdapter {
             .withUser("200002").password("qwe").roles("ADMIN_STAFF");
     }
     /*  new stuff  */
-    @Autowired
     DataSource dataSource;
 
     @Autowired
-    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
+
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
        auth.jdbcAuthentication().dataSource(dataSource)
     		.usersByUsernameQuery(
     		    "select id,password, enabled from users where username=?")

@@ -20,7 +20,7 @@ import java.sql.DatabaseMetaData;
 public class test{
 
     public static void create(Connection con, Database db) throws SQLException{
-
+/*
         // Creating some sample users
         System.out.println(db.checkUser("brrand016"));
 

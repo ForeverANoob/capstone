@@ -28,6 +28,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("org.springframework.boot:spring-boot-devtools")
     compile("org.springframework.boot:spring-boot-starter-security")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.springframework:spring-jdbc")
     compile("org.mariadb.jdbc:mariadb-java-client")
     compile group: 'net.sourceforge.nekohtml', name: 'nekohtml', version: '1.9.22'
     testCompile("junit:junit")
