@@ -20,6 +20,10 @@ import java.sql.DatabaseMetaData;
 public class test{
 
     public static void create(Connection con, Database db) throws SQLException{
+        db.addUser("brrand016", "Andre", "student", "Bsc", "", "qwe");
+        db.addUser("grncla007", "Claudia", "student", "Bsc", "", "qwe");
+        db.addUser("krydan003", "Danny", "student", "Bsc", "", "qwe");
+        db.addUser("xyzmlg420", "Hugh, Janos", "student", "BA", "", "qwe");
 /*
         // Creating some sample users
         System.out.println(db.checkUser("brrand016"));

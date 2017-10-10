@@ -87,11 +87,8 @@ public class Database {
             con.setAutoCommit(true);
 
             //test.delete(con); // TODO(Danny): uncomment this line after the first run of this program !!!
-            test.create(con, this);
+            //test.create(con, this);
 
-            Statement st = con.createStatement();
-            String sql = "INSERT INTO users.user_info VALUES ('TKDF', 'jorg', 'f', '2', 't', 'qwe')";
-            ResultSet rs = st.executeQuery(sql);
         } catch(SQLException e) {
             System.out.println("------------------------------------------------->  This connection is just like...no bruh  <----------------------------------------");
             System.out.println(e);
@@ -153,11 +150,11 @@ public class Database {
 
     /* --------   Adding stuff to the databases  ---------  */
 
-    private void addUser(String id, String name, String role, String degree, String department, String password) {
-        // Check if user already exists
+    public void addUser(String id, String name, String role, String degree, String department, String password) {
+        // FIRST Check if user already exists before calling this method
         try {
             Statement st = con.createStatement();
-            String sql = "INSERT INTO users.user_info VALUES ('"+id+"', '"+name+"', '"+role+"', '"+degree+"', '"+department+"', '"+password+"');";
+            String sql = "INSERT INTO users.user_info VALUES ('"+id+"', '"+name+"', '"+role+"', '"+degree+"', '"+department+"', '"+password+"', 1);";
             ResultSet rs = st.executeQuery(sql);
         } catch(SQLException e) {
             System.out.println("An error has occurred "+e);

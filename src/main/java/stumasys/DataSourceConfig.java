@@ -21,7 +21,7 @@ public class DataSourceConfig {
     private static String serverName = "localhost";
 
     @Bean(name = "dataSource")
-    public DriverManagerDataSource dataSource() {
+    public static DriverManagerDataSource dataSource() {
         DriverManagerDataSource dmds = null;
 
         try {
@@ -29,7 +29,7 @@ public class DataSourceConfig {
             dmds = new DriverManagerDataSource();
 
             dmds.setDriverClassName("org.mariadb.jdbc.Driver");
-            dmds.setUrl("jdbc:" + dbms + "://" + serverName + ":" + "/");
+            dmds.setUrl("jdbc:" + dbms + "://" + serverName + ":" + portNumber + "/");
             dmds.setUsername(userName);
             dmds.setPassword(password);
             System.out.println("-><--><--><--><--><--><--><--><-");

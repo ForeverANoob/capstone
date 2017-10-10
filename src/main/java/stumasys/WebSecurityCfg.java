@@ -48,25 +48,6 @@ public class WebSecurityCfg extends WebSecurityConfigurerAdapter {
 
     }
 
-    // configures the basic in-memory authentication service
-    /*@Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-            .inMemoryAuthentication()
-            .withUser("brrand016").password("qwe").roles("STUDENT").and()
-            .withUser("grncla007").password("qwe").roles("STUDENT").and()
-            .withUser("krydan003").password("qwe").roles("STUDENT").and()
-            .withUser("xyzmlg420").password("qwe").roles("STUDENT").and()
-
-            .withUser("100001").password("qwe").roles("LECTURER").and()
-            .withUser("100002").password("qwe").roles("LECTURER").and()
-            .withUser("100003").password("qwe").roles("LECTURER").and()
-            .withUser("100004").password("qwe").roles("LECTURER").and()
-
-            .withUser("200001").password("qwe").roles("ADMIN_STAFF").and()
-            .withUser("200002").password("qwe").roles("ADMIN_STAFF");
-    }
-    /*  new stuff  */
     DataSource dataSource;
 
     @Autowired
@@ -79,8 +60,8 @@ public class WebSecurityCfg extends WebSecurityConfigurerAdapter {
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
        auth.jdbcAuthentication().dataSource(dataSource)
     		.usersByUsernameQuery(
-    		    "select id,password, enabled from users where username=?")
+    		    "select id,password,enabled from users.user_info where id=?")
     		.authoritiesByUsernameQuery(
-            	"select id, role from users.user_info where username=?");
+            	"select id,role from users.user_info where id=?");
     	}
 }

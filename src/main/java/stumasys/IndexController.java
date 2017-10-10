@@ -8,6 +8,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
@@ -21,6 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import org.apache.catalina.realm.GenericPrincipal;
+
 
 
 
@@ -54,16 +60,33 @@ public class IndexController {
             Model model,
             HttpServletResponse servletRes,
             HttpServletRequest servletReq,
-            Principal p
+            Authentication auth
     ){
-        final String id = p.getName();
+        final String id = auth.getName();
 
-        if (servletReq.isUserInRole("ADMIN_STAFF")) {
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        System.out.println(auth.getAuthorities());
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+
+
+        // lord please forgive us, Spring is cancer and doesnt have any internal consistency. (unlike actual cancer which is consistently monogenetic)
+        boolean isAdmin = false;
+        boolean isStudent = false;
+        for (GrantedAuthority ga : auth.getAuthorities()) {
+            if (ga.getAuthority().equals("student"))
+                isStudent = true;
+            if (ga.getAuthority().equals("admin"))
+                isAdmin = true;
+        }
+
+        //if (servletReq.isUserInRole("admin")) {
+        if (isAdmin) {
             AdminStaff u = (AdminStaff) db.getUser(id);
             model.addAttribute("recentlyViewed", u.getRecentlyViewedCourses());
             return "AdminHome";
 
-        } else if (servletReq.isUserInRole("STUDENT")) {
+        //} else if (servletReq.isUserInRole("ROLE_student")) {
+        } else if (isStudent) {
             HashMap<Course, List<Assessment>> subjectsAndMarks = new HashMap<Course, List<Assessment>>();
 
             Student stu = (Student) db.getUser(id);
@@ -92,6 +115,7 @@ public class IndexController {
 
             return "StudentHome";
         } else {
+            System.out.println("=========================================================================================== XHELO");
             return null; // TODO: FIXME: if this ever occurs, things will crash/burn..
         }
     }
