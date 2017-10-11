@@ -96,7 +96,7 @@ public class Course {
             int id = rs.getInt("num_ass");
 
             con.createStatement().executeQuery(
-                    "UPDATE courses.courses_info SET num_ass = " + (id+1)
+                    "UPDATE courses.courses_info SET num_ass = " + (id+1)   // this +1 might be why the numbers start at 3
                   + " WHERE course_code = '" + code + "'"
                   + " AND year = " + year + ";"
                 );
@@ -109,8 +109,15 @@ public class Course {
             String sql = "INSERT INTO assessments.assessments VALUES ("+id+", '', '"+ code+"', "+year+", 0, 0, "+markCap+", '', 0)";
             rs = con.createStatement().executeQuery(sql);
 
+            Iterator<Map.Entry<String,Integer>> entryItr = markTable.entrySet().iterator();
+            Map.Entry<String,Integer> entry = null;
             Statement st = con.createStatement();
-            st.addBatch("");            // TODO: complete this batch statement
+
+            for (entryItr.hasNext()){ // #shouldWork
+                entry = entryItr.next();
+                st.addBatch("INSERT INTO courses."+year+"_"+code+" SET a"+id+" = " +entry.getValue()+" WHERE id = '"+entry.getKey()+"'");            // TODO: complete this batch statement
+            }
+            st.executeBatch();  // return nothing?
             con.setAutoCommit(true);
         } catch (Exception e) {
             System.out.println("An error has occured: "+e);
