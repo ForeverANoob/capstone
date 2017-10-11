@@ -87,7 +87,7 @@ public class Database {
             con.setAutoCommit(true);
 
             //test.delete(con); // TODO(Danny): uncomment this line after the first run of this program !!!
-            //test.create(con, this);
+            test.create(con, this);
 
         } catch(SQLException e) {
             System.out.println("------------------------------------------------->  This connection is just like...no bruh  <----------------------------------------");
@@ -161,7 +161,9 @@ public class Database {
         }
     }
 
-    public void addCourse(String id, String[] args){
+    /* andre this is just one of the examples of why you are to blame for everything, ever, everywhere. */
+    public void createCourse(String id) {//, String[] args){
+        /*
         String arg = " (" + args[0] +" NVARCHAR(50), ";
         String[] tmp = id.split("_");
         for (int i = 1; i < args.length; i++){
@@ -173,36 +175,20 @@ public class Database {
             }
             this.addAssessment(args[i], tmp[1], Integer.parseInt(tmp[0]), 0, 0, 100, "");
         }
+        */
 
         try {
             Statement st = con.createStatement();
-            String sql = "CREATE TABLE courses."+id+arg;
+            String sql = "CREATE TABLE courses."+id.toLowerCase()+";";
             ResultSet rs = st.executeQuery(sql);
 
+            /*
             st = con.createStatement();
             sql = "INSERT INTO courses.courses_info VALUES ('"+tmp[1]+"', "+tmp[0]+", "+args.length+")";
             rs = st.executeQuery(sql);
+            */
 
         } catch(SQLException e) {
-            System.out.println("An error has occured: "+e);
-        }
-    }
-
-    public void addAssessment(String name, String course_id, int year, int upload, int published, int mark_cap, String cal) {
-        try {
-            int id = 0;
-            if (!this.tableIsEmpty()) {
-                Statement st = con.createStatement();
-                String sql = "SELECT ass_id FROM assessments.assessments ORDER BY ass_id DESC";
-                ResultSet rs = st.executeQuery(sql);
-                if (rs.next()) {
-                    id = rs.getInt("ass_id") + 1;
-                }
-            }
-            Statement st = con.createStatement();
-            String sql = "INSERT INTO assessments.assessments VALUES ("+id+", '"+name+"', '"+course_id+"', "+year+", "+upload+", "+published+", "+mark_cap+", '"+cal+"')";
-            ResultSet rs = st.executeQuery(sql);
-        } catch (SQLException e) {
             System.out.println("An error has occured: "+e);
         }
     }
@@ -243,8 +229,11 @@ public class Database {
             st = con.createStatement();
             sql = "INSERT INTO users.user_courses VALUES ('"+user_id+"', '"+course_id+"', "+year+", '"+role+"')";
             rs = st.executeQuery(sql);
+
+            System.out.println("-------------------------1-123-12-3-123-12-3");
         } catch(SQLException e) {
             System.out.println(e);
+            e.printStackTrace();
         }
     }
 

@@ -43,7 +43,12 @@ public class Course {
         // ordering on the IDs that will never get invalidated)
 
         */
-        return null;
+
+        HashMap<Assessment, Boolean> vis = new HashMap<Assessment, Boolean>();
+        for(Assessment a : getAssessments()) {
+            vis.put(a, Boolean.TRUE);
+        }
+        return vis;
     }
 
     public String getId(){
@@ -64,6 +69,7 @@ public class Course {
             String sql = "SELECT calculation FROM assessments.assessments WHERE ass_id = " + id + " AND year = "+year +" AND  course_code = '"+code+"'";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()) {
+                System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                 if (rs.getString("calculation").equals("")) {
                     return new RawAssessment(id, code, year, this.con);
                 } else {
@@ -77,6 +83,41 @@ public class Course {
     }
 
     public int createNewRawAssessment(String name, int markCap, Map<String,Integer> markTable) { // TODO: this entire thing
+        try {
+            con.setAutoCommit(false);
+            con.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+
+            ResultSet rs = con.createStatement().executeQuery(
+                    "SELECT num_ass FROM courses.courses_info "
+                  + "WHERE course_code = '" + code + "' AND year = " + year
+                );
+
+            rs.next();
+            int id = rs.getInt("num_ass");
+
+            con.createStatement().executeQuery(
+                    "UPDATE courses.courses_info SET num_ass = " + (id+1)
+                  + " WHERE course_code = '" + code + "'"
+                  + " AND year = " + year + ";"
+                );
+
+            con.createStatement().executeQuery(
+                      "ALTER TABLE courses." + year + "_" + code+ " "
+                    + "ADD a" + id + " INT;"
+                );
+
+            String sql = "INSERT INTO assessments.assessments VALUES ("+id+", '', '"+ code+"', "+year+", 0, 0, "+markCap+", '', 0)";
+            rs = con.createStatement().executeQuery(sql);
+
+            Statement st = con.createStatement();
+            st.addBatch("");            // TODO: complete this batch statement
+            con.setAutoCommit(true);
+        } catch (Exception e) {
+            System.out.println("An error has occured: "+e);
+            e.printStackTrace();
+        } finally {
+        }
+
         return -1;
     }
 

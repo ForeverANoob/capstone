@@ -29,7 +29,7 @@ public class AdminStaff extends User {
         return department;
     }
 
-    public void updateRecentlyVeiwedCourses(Course course) { // TODO: sql
+    public void updateRecentlyViewedCourses(Course course) { // TODO: sql
          // TODO: impose limit on number of "recently viewed" in list?
          try {
             Statement st = con.createStatement();

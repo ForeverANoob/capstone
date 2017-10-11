@@ -19,6 +19,9 @@ import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+
 import java.util.Hashtable;
 import java.util.ArrayList;
 import java.util.Map;
@@ -49,7 +52,7 @@ public class CourseController {
             HttpServletResponse servletRes,
             HttpServletRequest servletReq,
             Model model,
-            Principal p
+            Authentication auth
     ){
 
         /* 1. Check if this course exists with the DB:
@@ -62,8 +65,20 @@ public class CourseController {
          *      2. Generate a page with all assessments visible
          * */
 
-        final String userId = p.getName();
+        final String userId = auth.getName();
         final User user = db.getUser(userId);
+
+        // apparently GrantedAuthority's and "hasRole" dont work with eachother.. because, Spring. So this is necessary:
+        boolean isAdmin = false;
+        boolean isStudent = false;
+        boolean isLecturer = false;
+
+        for (GrantedAuthority ga : auth.getAuthorities()) {
+            if (ga.getAuthority().equals("student"))
+                isStudent = true;
+            if (ga.getAuthority().equals("admin"))
+                isAdmin = true;
+        }
 
         Course course = db.getCourse(courseCode.toLowerCase(), Integer.parseInt(year));
 
@@ -75,8 +90,8 @@ public class CourseController {
         model.addAttribute("courseCode", courseCode.toUpperCase());
         model.addAttribute("year", year);
 
-        if (servletReq.isUserInRole("ADMIN_STAFF") || servletReq.isUserInRole("LECTURER")) {
-            ((AdminStaff) user).updateRecentlyVeiwedCourses(course);
+        if (isAdmin || isLecturer) {
+            ((AdminStaff) user).updateRecentlyViewedCourses(course);
 
             Map<Assessment, Boolean> visibleCols = course.getPrevVisibleColumns((AdminStaff) user); // visibility of the columns, 
             Iterator<Map.Entry<Assessment, Boolean>> it = visibleCols.entrySet().iterator();
@@ -84,6 +99,7 @@ public class CourseController {
             // preparing some Javascript that determines what columns are visible when the page first loads:
             String configJs = "var visibleCols = {";
                 if (it.hasNext()) {
+                    System.out.println("==========================================235435345345345+++++++");
                     Map.Entry<Assessment, Boolean> e = it.next();
                     configJs += "\"" + e.getKey().getId() + "\":[" + e.getValue() + ",\"" + e.getKey().getName() + "\"]";
 
@@ -97,7 +113,7 @@ public class CourseController {
             model.addAttribute("configJs", configJs);
 
             return "course";    // course?
-        } else if (servletReq.isUserInRole("STUDENT")) {
+        } else if (isStudent) {
             if (!course.isRegistered((Student)user)) {
                 return "404"; // TODO: more appropriate error page
             }

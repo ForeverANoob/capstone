@@ -20,10 +20,57 @@ import java.sql.DatabaseMetaData;
 public class test{
 
     public static void create(Connection con, Database db) throws SQLException{
+
+        db.createCourse("2017_CSC1015F");
+        db.createCourse("2017_CSC1016S");
+
         db.addUser("brrand016", "Andre", "student", "Bsc", "", "qwe");
+            db.addCourseToUser(2017, "CSC1015F", "brrand016");
+            db.addUserToCourse(2016, "CSC1015F", "brrand016");
+            db.addCourseToUser(2017, "CSC1016S", "brrand016");
+            db.addUserToCourse(2016, "CSC1016S", "brrand016");
+
         db.addUser("grncla007", "Claudia", "student", "Bsc", "", "qwe");
+            db.addCourseToUser(2017, "CSC1015F", "grncla007");
+            db.addUserToCourse(2016, "CSC1015F", "grncla007");
+            db.addCourseToUser(2017, "CSC1016S", "grncla007");
+            db.addUserToCourse(2016, "CSC1016S", "grncla007");
+
         db.addUser("krydan003", "Danny", "student", "Bsc", "", "qwe");
-        db.addUser("xyzmlg420", "Hugh, Janos", "student", "BA", "", "qwe");
+            db.addCourseToUser(2017, "CSC1015F", "krydan003");
+            db.addUserToCourse(2016, "CSC1015F", "krydan003");
+            db.addCourseToUser(2017, "CSC1016S", "krydan003");
+            db.addUserToCourse(2016, "CSC1016S", "krydan003");
+
+        db.addUser("xyzmlg420", "Janos, Hugh", "student", "BA", "", "qwe");
+            db.addCourseToUser(2017, "CSC1015F", "xyzmlg420");
+            db.addUserToCourse(2016, "CSC1015F", "xyzmlg420");
+            db.addCourseToUser(2017, "CSC1016S", "xyzmlg420");
+            db.addUserToCourse(2016, "CSC1016S", "xyzmlg420");
+
+        HashMap<String, Boolean> reg = new HashMap<String,Boolean>();
+            reg.put("brrand016", true);
+            reg.put("grncla007", true);
+            reg.put("krydan003", true);
+            reg.put("xyzmlg420", true);
+
+        db.getCourse("csc1015f", 2017).batchUpdateRegistrationStatus(reg);
+
+        db.addUser("200001", "phil, mahooters", "admin", "", "cs", "qwe");
+        db.addUser("200002", "Hugh, Janos", "admin", "", "cs", "qwe");
+
+        AdminStaff as = (AdminStaff) db.getUser("200001");
+        as.updateRecentlyViewedCourses(db.getCourse("csc1015f", 2017));
+
+        HashMap<String, Integer> marktable = new HashMap<String,Integer>();
+            marktable.put("brrand016", 10);
+            marktable.put("grncla007", 10);
+            marktable.put("krydan003", 10);
+            marktable.put("xyzmlg420", 10);
+
+        Course c = db.getCourse("csc1015f", 2017);
+        int id = c.createNewRawAssessment("test", 80, marktable);
+
 /*
         // Creating some sample users
         System.out.println(db.checkUser("brrand016"));

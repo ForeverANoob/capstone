@@ -12,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,9 +25,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.apache.catalina.realm.GenericPrincipal;
-
-
-
 
 import stumasys.db.User;
 import stumasys.db.AdminStaff;
@@ -91,6 +87,8 @@ public class IndexController {
 
             Student stu = (Student) db.getUser(id);
             List<Course> courses = stu.getInvolvedCourses();
+            System.out.println("---------------------------------------- >< ------------");
+            System.out.println(courses);
 
             for (Course c : courses) {
                 List<Assessment> al = c.getAssessments();
@@ -116,7 +114,7 @@ public class IndexController {
             return "StudentHome";
         } else {
             System.out.println("=========================================================================================== XHELO");
-            return null; // TODO: FIXME: if this ever occurs, things will crash/burn..
+            return null; // TODO: FIXME: if this ever occurs, things will crash/burn.. ACTUALLY: it turns out it just generates an empty page, because.... because Spring.
         }
     }
 
