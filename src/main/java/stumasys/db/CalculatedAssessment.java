@@ -167,11 +167,24 @@ public class CalculatedAssessment implements Assessment {
         return false;
     }
 
-    public boolean isAvailableOnStudentHome() { // TODO: SQL
+    public boolean isAvailableOnStudentHome() { // : SQL
+        try{
+            Statement st = con.createStatement();
+            String sql = "SELECT stu_home_availability FROM assessments.assessments WHERE ass_id = "+this.id +" AND year = "+this.year+" AND course_code = '"+cc+"'";
+            ResultSet rs = st.executeQuery(sql);
+            if(rs.next()){
+                return rs.getInt("stu_home_availability") == 1;
+            }
+        }catch(SQLException e){ System.out.println(e); }
         return false;
     }
 
-    public void setStudentHomeAvailability(boolean available) { // TODO: SQL
+    public void setStudentHomeAvailability(boolean available) { // : SQL
+        try{
+            Statement st = con.createStatement();
+            String sql = "UPDATE assessments.assessments SET stu_home_availability = "+available+" WHERE ass_id = "+this.id +" AND year = "+this.year+" AND course_code = '"+cc+"'";
+            st.executeQuery(sql);
+        }catch(SQLException e){ System.out.println(e); }
     }
 
     public void setPublishState(boolean v) {
