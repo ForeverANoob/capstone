@@ -155,19 +155,11 @@ public class test{
 
     public static void delete(Connection con) throws SQLException{
         Statement st = con.createStatement();
-        String sql = "DROP TABLE courses.2017_CSC1015F";
+        String sql = "DROP TABLE courses.2017_csc1015f";
         ResultSet rs = st.executeQuery(sql);
 
         st = con.createStatement();
-        sql = "DROP TABLE courses.2017_CSC1016S";
-        rs = st.executeQuery(sql);
-
-        st = con.createStatement();
-        sql = "DROP TABLE courses.2016_CSC1015F";
-        rs = st.executeQuery(sql);
-
-        st = con.createStatement();
-        sql = "DROP TABLE courses.2016_CSC1016S";
+        sql = "DROP TABLE courses.2017_csc1016s";
         rs = st.executeQuery(sql);
 
         st = con.createStatement();

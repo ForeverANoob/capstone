@@ -153,7 +153,8 @@ public class CourseController {
 
     // controls course creation page
     @RequestMapping(value="/create")
-    public String courseCreationHandler() {
+    public String courseCreationHandler(Model model) {
+        //model.addAtribute("ame", value);
         return "CreateCourse"; // TODO: create another handler for the form action on this page.
     }
 

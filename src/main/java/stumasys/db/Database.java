@@ -86,7 +86,7 @@ public class Database {
             System.out.println("#SmokeWeedEveryday #420 #ConnectionMake");
             con.setAutoCommit(true);
 
-            //test.delete(con); // TODO(Danny): uncomment this line after the first run of this program !!!
+            test.delete(con);
             test.create(con, this);
 
         } catch(SQLException e) {
@@ -183,11 +183,9 @@ public class Database {
             System.out.printf("------------------1231312312312312---------------------------------------- %s\n", year+"_"+id.toLowerCase());
             ResultSet rs = st.executeQuery(sql);
 
-            /*
             st = con.createStatement();
-            sql = "INSERT INTO courses.courses_info VALUES ('"+tmp[1]+"', "+tmp[0]+", "+args.length+")";
+            sql = "INSERT INTO courses.courses_info VALUES ("+ id +", "+year+", 0);";
             rs = st.executeQuery(sql);
-            */
 
         } catch(SQLException e) {
             System.out.println("An error has occured: "+e);
