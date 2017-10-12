@@ -71,10 +71,10 @@ public class test{
         Course c = db.getCourse("csc1015f", 2017);
         int id = c.createNewRawAssessment("test", 80, marktable);
 
-        System.out.println(db.checkAssessment(2, "csc1015f", 2017));
+        System.out.println(db.checkAssessment(0, "csc1015f", 2017));
         int idc = c.createNewCalculatedAssessment("cal", 75, "[1] + [1]");
-        System.out.println(db.checkAssessment(2, "csc1015f", 2017));
-        System.out.println(c.getAssessment(2));
+        System.out.println(db.checkAssessment(0, "csc1015f", 2017));
+        System.out.println(c.getAssessment(0));
 
         System.out.println(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,fdf,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,");
 
