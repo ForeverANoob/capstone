@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -230,7 +231,44 @@ public class Course {
         return null;
     }
 
-    public void batchUpdateRegistrationStatus(Map<String,Boolean> regStatus) {
+    public void batchUpdateRegistrationStatus(Map<String,String> regStatus) {
+        try {
+            con.setAutoCommit(false);
+            PreparedStatement upd_user_courses = con.prepareStatement(
+                      "INSERT INTO users.user_courses VALUES (?, ?, ?, 'student') "
+                    + "ON DUPLICATE KEY UPDATE role = role;"
+                );
+            PreparedStatement upd_course_status = con.prepareStatement(
+                      "INSERT INTO courses." + year+"_"+code + "(id, status) VALUES (?, ?)"
+                    + "ON DUPLICATE KEY UPDATE status = ?;"
+                );
+
+            Iterator<Map.Entry<String, String>> it = regStatus.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry<String, String> e = it.next();
+                upd_user_courses.setString(1, e.getKey());
+                upd_user_courses.setString(2, this.code);
+                upd_user_courses.setInt(3, this.year);
+                upd_user_courses.addBatch();
+
+                upd_course_status.setString(1, e.getKey());
+                upd_course_status.setString(2, e.getValue());
+                upd_course_status.setString(3, e.getValue());
+                upd_course_status.addBatch();
+            }
+            upd_user_courses.executeBatch();
+            upd_course_status.executeBatch();
+
+            con.commit();
+            con.setAutoCommit(false);
+        } catch (SQLException e) {
+            System.out.println("");
+            System.out.println("");
+            System.out.println("------------------------------>>>" + e);
+            System.out.println("");
+            System.out.println("");
+        }
+        /*
         try {
             Statement st = con.createStatement();
             Iterator<Map.Entry<String, Boolean>> it = regStatus.entrySet().iterator();
@@ -248,6 +286,7 @@ public class Course {
         } catch (SQLException e) {
             System.out.println(e);
         }
+        */
     }
 
     public void setCourseCoordinator(Lecturer c) {

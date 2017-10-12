@@ -180,7 +180,7 @@ public class Database {
 
         try {
             Statement st = con.createStatement();
-            String sql = "CREATE TABLE courses."+ year +"_"+ id.toLowerCase()+" (id VARCHAR(12), status VARCHAR(11));";
+            String sql = "CREATE TABLE courses."+ year +"_"+ id.toLowerCase()+" (id VARCHAR(12), status VARCHAR(11), PRIMARY KEY (id));";
             System.out.printf("------------------1231312312312312---------------------------------------- %s\n", year+"_"+id.toLowerCase());
             ResultSet rs = st.executeQuery(sql);
 

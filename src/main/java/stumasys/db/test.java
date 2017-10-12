@@ -48,11 +48,11 @@ public class test{
             db.addCourseToUser(2017, "CSC1016S", "xyzmlg420");
             db.addUserToCourse(2016, "CSC1016S", "xyzmlg420");
 
-        HashMap<String, Boolean> reg = new HashMap<String,Boolean>();
-            reg.put("brrand016", true);
-            reg.put("grncla007", true);
-            reg.put("krydan003", true);
-            reg.put("xyzmlg420", true);
+        HashMap<String, String> reg = new HashMap<String,String>();
+            reg.put("brrand016", "GIP");
+            reg.put("grncla007", "GIP");
+            reg.put("krydan003", "GIP");
+            reg.put("xyzmlg420", "GIP");
 
         db.getCourse("csc1015f", 2017).batchUpdateRegistrationStatus(reg);
 

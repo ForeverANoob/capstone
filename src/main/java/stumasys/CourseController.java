@@ -201,7 +201,7 @@ public class CourseController {
             @PathVariable String courseCode,
             @RequestParam("file") MultipartFile file
     ){
-        HashMap<String,Boolean> regStatus = new HashMap<String,Boolean>();
+        HashMap<String,String> regStatus = new HashMap<String,String>();
 
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()));
@@ -222,7 +222,7 @@ public class CourseController {
                     return "Format error.";
                 }
 
-                regStatus.put(vals[1], Boolean.valueOf(!vals[8].equals("INC")));
+                regStatus.put(vals[1], vals[8]);
             }
         } catch (Exception e) {
             System.err.println("An exception occured while attempting to parse a Peoplesoft CSV file.");
