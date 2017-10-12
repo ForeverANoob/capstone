@@ -97,11 +97,16 @@ public class CourseController {
             Iterator<Map.Entry<Assessment, Boolean>> it = visibleCols.entrySet().iterator();
 
             // preparing some Javascript that determines what columns are visible when the page first loads:
+            System.out.println("");
+            System.out.println("");
+            System.out.println("");
+
+            System.out.println("GEtting the columns for a course");
             String configJs = "var visibleCols = {";
                 if (it.hasNext()) {
-                    System.out.println("==========================================235435345345345+++++++");
                     Map.Entry<Assessment, Boolean> e = it.next();
                     configJs += "\"" + e.getKey().getId() + "\":[" + e.getValue() + ",\"" + e.getKey().getName() + "\"]";
+                    System.out.println("\"" + e.getKey().getId() + "\":[" + e.getValue() + ",\"" + e.getKey().getName() + "\"]");
 
                     while (it.hasNext()) {
                         e = it.next();
@@ -109,6 +114,9 @@ public class CourseController {
                     }
                 }
             configJs += "};\nvar courseCode = \""+courseCode+"\";\nvar courseYear = "+year+";";
+            System.out.println("");
+            System.out.println("");
+            System.out.println("");
 
             model.addAttribute("configJs", configJs);
 
