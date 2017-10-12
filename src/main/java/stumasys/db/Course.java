@@ -129,6 +129,36 @@ public class Course {
     }
 
     public int createNewCalculatedAssessment() { // TODO: figure this entire thing out
+        try{
+
+            con.setAutoCommit(false);
+            con.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+
+            ResultSet rs = con.createStatement().executeQuery(
+                    "SELECT num_ass FROM courses.courses_info "
+                  + "WHERE course_code = '" + code + "' AND year = " + year
+                );
+
+            rs.next();
+            int id = rs.getInt("num_ass");
+
+            con.createStatement().executeQuery(
+                    "UPDATE courses.courses_info SET num_ass = " + (id+1)   // this +1 might be why the numbers start at 3
+                  + " WHERE course_code = '" + code + "'"
+                  + " AND year = " + year + ";"
+                );
+
+            con.createStatement().executeQuery(
+                      "ALTER TABLE courses." + year + "_" + code+ " "
+                    + "ADD a" + id + " INT;"
+                );
+
+            String sql = "INSERT INTO assessments.assessments VALUES ("+id+", '', '"+ code+"', "+year+", 0, 0, "+markCap+", '', 0)";
+            rs = con.createStatement().executeQuery(sql);
+
+            con.setAutoCommit(true);
+
+        }catch(SQLException e){ System.out.println(e); }
         return -1;
     }
 
