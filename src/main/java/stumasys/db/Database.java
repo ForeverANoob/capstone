@@ -40,12 +40,6 @@ public class Database {
 
     /*  variables  */
     private Connection con;
-    private final String portNumber = "3306";
-    private final String userName = "root";
-    private final String password = "j9bct840s";
-    private final String dbms = "mysql";
-    private final String serverName = "localhost";
-    private final String dbName = "testing";
 
     /*   Establishing a connection
     public Connection getConnection() throws SQLException {
@@ -86,12 +80,19 @@ public class Database {
             System.out.println("#SmokeWeedEveryday #420 #ConnectionMake");
             con.setAutoCommit(true);
 
-            test.delete(con);
-            test.create(con, this);
-
         } catch(SQLException e) {
             System.out.println("------------------------------------------------->  This connection is just like...no bruh  <----------------------------------------");
             System.out.println(e);
+        }
+        try {
+            test.delete(con);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            test.create(con, this);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -179,16 +180,39 @@ public class Database {
 
         try {
             Statement st = con.createStatement();
-            String sql = "CREATE TABLE courses."+ year +"_"+ id.toLowerCase()+" (id VARCHAR, status VARCHAR);";
+            String sql = "CREATE TABLE courses."+ year +"_"+ id.toLowerCase()+" (id VARCHAR(12), status VARCHAR(11));";
             System.out.printf("------------------1231312312312312---------------------------------------- %s\n", year+"_"+id.toLowerCase());
             ResultSet rs = st.executeQuery(sql);
 
             st = con.createStatement();
-            sql = "INSERT INTO courses.courses_info VALUES ("+ id +", "+year+", 0);";
+            sql = "INSERT INTO courses.courses_info VALUES ('"+ id +"', "+year+", 0);";
             rs = st.executeQuery(sql);
+
+            System.out.println("-=");
+            System.out.println("-=");
+            System.out.println("-=");
+            System.out.println("-=");
+            System.out.println("-=");
+            System.out.println("-=");
+            System.out.println("-=");
+            System.out.println("-=");
+            System.out.println("-");
 
         } catch(SQLException e) {
             System.out.println("An error has occured: "+e);
+            System.out.println("-");
+            System.out.println("-");
+            System.out.println("-");
+            System.out.println("-");
+            System.out.println("-");
+            System.out.println("-");
+            System.out.println("-");
+            System.out.println("-");
+            System.out.println("-");
+            System.out.println("-");
+            System.out.println("-");
+            System.out.println("-");
+            System.out.println("-");
         }
     }
 
