@@ -76,6 +76,8 @@ public class test{
         System.out.println(db.checkAssessment(2, "csc1015f", 2017));
         System.out.println(c.getAssessment(2));
 
+        System.out.println(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,fdf,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,");
+
 /*
         // Creating some sample users
         System.out.println(db.checkUser("brrand016"));

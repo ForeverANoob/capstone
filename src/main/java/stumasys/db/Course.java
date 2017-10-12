@@ -107,7 +107,7 @@ public class Course {
                     + "ADD COLUMN a" + id + " INT;"
                 );
 
-            String sql = "INSERT INTO assessments.assessments VALUES ("+id+", '', '"+ code+"', "+year+", 0, 0, "+markCap+", '', 0)";
+            String sql = "INSERT INTO assessments.assessments VALUES ("+id+", '"+name+"', '"+ code+"', "+year+", 0, 0, "+markCap+", '', 0)";
             rs = con.createStatement().executeQuery(sql);
 
             Iterator<Map.Entry<String,Integer>> entryItr = markTable.entrySet().iterator();
@@ -154,11 +154,14 @@ public class Course {
                     + "ADD COLUMN a" + id + " INT;"
                 );
 
-            String sql = "INSERT INTO assessments.assessments VALUES ("+id+", '', '"+ code+"', "+year+", 0, 0, "+markCap+", '"+cal+"', 0)";
+            //System.out.println("..........................................................................................................");
+            String sql = "INSERT INTO assessments.assessments VALUES ("+id+", '"+name+"', '"+ code+"', "+year+", 0, 0, "+markCap+", '"+cal+"', 0)";
             rs = con.createStatement().executeQuery(sql);
+            //System.out.println("....................................mmmmmmmmmmmmmmmmmmmmmmmm...................................................");
+
 
             Statement st = con.createStatement();
-            String[] cals = cal.split("+");
+            String[] cals = cal.split("\\+");
             for (int i = 0; i < cals.length; i++){    // strips the whitespaces
                 cals[i].replaceAll("\\s+","");
             }
@@ -197,6 +200,7 @@ public class Course {
             //    st.addBatch("UPDATE courses."+year+"_"+code+" SET a"+id+" = " +entry.getValue()+" WHERE id = '"+entry.getKey()+"';");
             //}
             st.executeBatch();  // return nothing?
+            con.commit();
             con.setAutoCommit(true);
         } catch (Exception e) {
             System.out.println("An error has occured: "+e);
