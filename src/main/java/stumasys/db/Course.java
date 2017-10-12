@@ -120,6 +120,7 @@ public class Course {
                 st.addBatch("UPDATE courses."+year+"_"+code+" SET a"+id+" = " +entry.getValue()+" WHERE id = '"+entry.getKey()+"';");
             }
             st.executeBatch();  // return nothing?
+            con.commit();
             con.setAutoCommit(true);
         } catch (Exception e) {
             System.out.println("An error has occured: "+e);
