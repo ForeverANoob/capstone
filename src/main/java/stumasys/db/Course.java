@@ -93,9 +93,9 @@ public class Course {
                   + "WHERE course_code = '" + code + "' AND year = " + year
                 );
 
-            rs.next();
-            id = rs.getInt("num_ass");
-
+            if (rs.next()){
+                id = rs.getInt("num_ass"); System.out.println("ghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+            }
             con.createStatement().executeQuery(
                     "UPDATE courses.courses_info SET num_ass = " + (id+1)   // this +1 might be why the numbers start at 3
                   + " WHERE course_code = '" + code + "'"
@@ -130,6 +130,7 @@ public class Course {
     }
 
     public int createNewCalculatedAssessment() { // TODO: figure this entire thing out
+
         return -1;
     }
 
@@ -158,7 +159,12 @@ public class Course {
             System.out.println(e);
         }
     }
-    public void removeTeachingAssistant(Student ta) { // TODO: sql
+    public void removeTeachingAssistant(Student ta) { // TODO: show be fine
+        try{
+            Statement st = con.createStatement();
+            String sql = "DELETE FROM users.user_courses WHERE user_id = '"+ta.getId()+"' AND course_id = '"+this.code+"' AND year "+this.year+"";
+            ResultSet rs = st.executeQuery(sql);
+        }catch(SQLException e){ System.out.println(e); }
     }
 
     public List<Assessment> getAssessments() {

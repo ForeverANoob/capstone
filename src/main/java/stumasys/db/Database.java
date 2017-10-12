@@ -42,12 +42,12 @@ public class Database {
     private Connection con;
     private final String portNumber = "3306";
     private final String userName = "root";
-    private final String password = "dogzrool";
+    private final String password = "j9bct840s";
     private final String dbms = "mysql";
     private final String serverName = "localhost";
     private final String dbName = "testing";
 
-    /*   Establishing a connection  
+    /*   Establishing a connection
     public Connection getConnection() throws SQLException {
         Connection conn = null;
         Properties connectionProps = new Properties();
