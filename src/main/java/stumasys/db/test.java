@@ -21,8 +21,8 @@ public class test{
 
     public static void create(Connection con, Database db) throws SQLException{
 
-        db.createCourse("2017_CSC1015F");
-        db.createCourse("2017_CSC1016S");
+        db.createCourse("csc1015f", 2017);
+        db.createCourse("csc1016s", 2017);
 
         db.addUser("brrand016", "Andre", "student", "Bsc", "", "qwe");
             db.addCourseToUser(2017, "CSC1015F", "brrand016");

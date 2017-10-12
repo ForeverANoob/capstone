@@ -83,6 +83,7 @@ public class Course {
     }
 
     public int createNewRawAssessment(String name, int markCap, Map<String,Integer> markTable) { // TODO: this entire thing
+        int id = -1;
         try {
             con.setAutoCommit(false);
             con.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
@@ -93,7 +94,7 @@ public class Course {
                 );
 
             rs.next();
-            int id = rs.getInt("num_ass");
+            id = rs.getInt("num_ass");
 
             con.createStatement().executeQuery(
                     "UPDATE courses.courses_info SET num_ass = " + (id+1)   // this +1 might be why the numbers start at 3
@@ -103,7 +104,7 @@ public class Course {
 
             con.createStatement().executeQuery(
                       "ALTER TABLE courses." + year + "_" + code+ " "
-                    + "ADD a" + id + " INT;"
+                    + "ADD COLUMN a" + id + " INT;"
                 );
 
             String sql = "INSERT INTO assessments.assessments VALUES ("+id+", '', '"+ code+"', "+year+", 0, 0, "+markCap+", '', 0)";
@@ -113,9 +114,9 @@ public class Course {
             Map.Entry<String,Integer> entry = null;
             Statement st = con.createStatement();
 
-            for (entryItr.hasNext()){ // #shouldWork
+            while (entryItr.hasNext()){ // #shouldWork
                 entry = entryItr.next();
-                st.addBatch("INSERT INTO courses."+year+"_"+code+" SET a"+id+" = " +entry.getValue()+" WHERE id = '"+entry.getKey()+"'");            // TODO: complete this batch statement
+                st.addBatch("UPDATE courses."+year+"_"+code+" SET a"+id+" = " +entry.getValue()+" WHERE id = '"+entry.getKey()+"';");
             }
             st.executeBatch();  // return nothing?
             con.setAutoCommit(true);
@@ -125,7 +126,7 @@ public class Course {
         } finally {
         }
 
-        return -1;
+        return id;
     }
 
     public int createNewCalculatedAssessment() { // TODO: figure this entire thing out
