@@ -104,7 +104,7 @@ public class Course {
 
             con.createStatement().executeQuery(
                       "ALTER TABLE courses." + year + "_" + code+ " "
-                    + "ADD a" + id + " INT;"
+                    + "ADD COLUMN a" + id + " INT;"
                 );
 
             String sql = "INSERT INTO assessments.assessments VALUES ("+id+", '', '"+ code+"', "+year+", 0, 0, "+markCap+", '', 0)";
@@ -116,7 +116,7 @@ public class Course {
 
             while (entryItr.hasNext()){ // #shouldWork
                 entry = entryItr.next();
-                st.addBatch("INSERT INTO courses."+year+"_"+code+" SET a"+id+" = " +entry.getValue()+" WHERE id = '"+entry.getKey()+"'");
+                st.addBatch("UPDATE courses."+year+"_"+code+" SET a"+id+" = " +entry.getValue()+" WHERE id = '"+entry.getKey()+"';");
             }
             st.executeBatch();  // return nothing?
             con.setAutoCommit(true);

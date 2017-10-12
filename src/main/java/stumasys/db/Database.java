@@ -162,7 +162,7 @@ public class Database {
     }
 
     /* andre this is just one of the examples of why you are to blame for everything, ever, everywhere. */
-    public void createCourse(String id) {//, String[] args){
+    public void createCourse(String id, int year) {//, String[] args){
         /*
         String arg = " (" + args[0] +" NVARCHAR(50), ";
         String[] tmp = id.split("_");
@@ -179,7 +179,8 @@ public class Database {
 
         try {
             Statement st = con.createStatement();
-            String sql = "CREATE TABLE courses."+id.toLowerCase()+";";
+            String sql = "CREATE TABLE courses."+ year +"_"+ id.toLowerCase()+" (id VARCHAR, status VARCHAR);";
+            System.out.printf("------------------1231312312312312---------------------------------------- %s\n", year+"_"+id.toLowerCase());
             ResultSet rs = st.executeQuery(sql);
 
             /*
@@ -227,7 +228,7 @@ public class Database {
             }else { System.out.println("The role which the user has is undefined"); return; } // testing purpose
 
             st = con.createStatement();
-            sql = "INSERT INTO users.user_courses VALUES ('"+user_id+"', '"+course_id+"', "+year+", '"+role+"')";
+            sql = "INSERT INTO users.user_courses VALUES ('"+user_id+"', '"+course_id.toLowerCase()+"', "+year+", '"+role+"')";
             rs = st.executeQuery(sql);
 
             System.out.println("-------------------------1-123-12-3-123-12-3");
@@ -241,14 +242,14 @@ public class Database {
         try {
             String values = "";
             Statement st = con.createStatement();
-            String sql = "SELECT num_ass FROM courses.courses_info WHERE course_code = '"+course_id+"' AND year = "+year+"";
+            String sql = "SELECT num_ass FROM courses.courses_info WHERE course_code = '"+course_id.toLowerCase()+"' AND year = "+year+"";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()) {
                 for (int i = 0; i < rs.getInt("num_ass"); i++) {
                     values += ", 0"; // TODO: change this default value to a negative that makes sense. TODO: agree on a set of values that mean different thigns when the mark is negative
                 }
                 st = con.createStatement();
-                sql = "INSERT INTO courses."+year+"_"+course_id + " VALUES ('"+user_id+"'"+values+")"; //
+                sql = "INSERT INTO courses."+year+"_"+course_id.toLowerCase() + " VALUES ('"+user_id+"'"+values+")"; //
                 rs = st.executeQuery(sql);
             } // if not, there are no assessments in this course so dont need to modify the assessment table
         } catch (SQLException e) {
