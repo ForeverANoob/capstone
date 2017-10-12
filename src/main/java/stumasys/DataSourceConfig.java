@@ -18,7 +18,7 @@ public class DataSourceConfig {
     private static String userName = "root";
     private static String password = "dogzrool";
     private static String dbms = "mysql";
-    private static String serverName = "localhost";
+    private static String serverName = "danny.ydns.eu";
 
     @Bean(name = "dataSource")
     public static DriverManagerDataSource dataSource() {

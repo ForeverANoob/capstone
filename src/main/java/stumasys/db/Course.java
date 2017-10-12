@@ -108,7 +108,7 @@ public class Course {
                     + "ADD COLUMN a" + id + " INT;"
                 );
 
-            String sql = "INSERT INTO assessments.assessments VALUES ("+id+", '', '"+ code+"', "+year+", 0, 0, "+markCap+", '', 0)";
+            String sql = "INSERT INTO assessments.assessments VALUES ("+id+", '"+name+"', '"+ code+"', "+year+", 0, 0, "+markCap+", '', 0)";
             rs = con.createStatement().executeQuery(sql);
 
             Iterator<Map.Entry<String,Integer>> entryItr = markTable.entrySet().iterator();
@@ -130,9 +130,86 @@ public class Course {
         return id;
     }
 
-    public int createNewCalculatedAssessment() { // TODO: figure this entire thing out
+    public int createNewCalculatedAssessment(String name, int markCap, String cal) { // TODO: figure this entire thing out
+        int id = -1;
+        try {
+            con.setAutoCommit(false);
+            con.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
 
-        return -1;
+            ResultSet rs = con.createStatement().executeQuery(
+                    "SELECT num_ass FROM courses.courses_info "
+                  + "WHERE course_code = '" + code + "' AND year = " + year
+                );
+
+            if (rs.next()){
+                id = rs.getInt("num_ass");
+            }
+            con.createStatement().executeQuery(
+                    "UPDATE courses.courses_info SET num_ass = " + (id+1)   // this +1 might be why the numbers start at 3
+                  + " WHERE course_code = '" + code + "'"
+                  + " AND year = " + year + ";"
+                );
+
+            con.createStatement().executeQuery(
+                      "ALTER TABLE courses." + year + "_" + code+ " "
+                    + "ADD COLUMN a" + id + " INT;"
+                );
+
+            //System.out.println("..........................................................................................................");
+            String sql = "INSERT INTO assessments.assessments VALUES ("+id+", '"+name+"', '"+ code+"', "+year+", 0, 0, "+markCap+", '"+cal+"', 0)";
+            rs = con.createStatement().executeQuery(sql);
+            //System.out.println("....................................mmmmmmmmmmmmmmmmmmmmmmmm...................................................");
+
+
+            Statement st = con.createStatement();
+            String[] cals = cal.split("\\+");
+            for (int i = 0; i < cals.length; i++){    // strips the whitespaces
+                cals[i].replaceAll("\\s+","");
+            }
+            sql = "SELECT * FROM courses."+year+"_"+code+";";
+            rs = st.executeQuery(sql);
+            while(rs.next()){   // iterates through students
+
+                ArrayList<String> tmp = new ArrayList<String>();
+
+                for (int i = 0; i < cals.length; i++){  // iterates through assignemnts. Deals with unweighted calculations
+                    String s = cals[i];
+                    s = s.substring(s.indexOf("[") + 1);
+                    s = s.substring(0, s.indexOf("]"));
+                    tmp.add(s); // adds the id of the assessment
+                    if(cals[i].indexOf("*") < 0){
+                        cals[i] = "";
+                    }else{
+                        cals[i] = cals[i].substring(cals[i].indexOf("*") + 1);   // should be "" if not weighted
+                    }
+                    //tmp.add(cals[i].substring(cals[i].indexOf("]") + 1));
+                }
+                double sum = 0;
+                for(int i = 0; i < tmp.size(); i++){
+                    double weight = 1;
+                    if(!cals[i].equals("")){
+                        weight = Double.parseDouble(cals[i]);
+                    }
+                    // TODO: How would we handle when students miss assessments
+                    sum += rs.getInt("a"+tmp.get(i))*weight;   // might be the source of bugs
+                }
+
+                st.addBatch("UPDATE courses."+year+"_"+code+" SET a"+id+" = " +sum+" WHERE id = '"+rs.getString("id")+"';");
+            }
+
+            //while (true){ // #shouldWork\
+            //    st.addBatch("UPDATE courses."+year+"_"+code+" SET a"+id+" = " +entry.getValue()+" WHERE id = '"+entry.getKey()+"';");
+            //}
+            st.executeBatch();  // return nothing?
+            con.commit();
+            con.setAutoCommit(true);
+        } catch (Exception e) {
+            System.out.println("An error has occured: "+e);
+            e.printStackTrace();
+        } finally {
+        }
+
+        return id;
     }
 
     public List<Student> getTeachingAssistants() {
