@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 public class DataSourceConfig {
     private static String portNumber = "3306";
     private static String userName = "root";
-    private static String password = "dogzrool";
+    private static String password = "j9bct840s";
     private static String dbms = "mysql";
     private static String serverName = "localhost";
 
