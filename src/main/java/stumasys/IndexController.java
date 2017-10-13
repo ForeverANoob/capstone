@@ -68,15 +68,31 @@ public class IndexController {
         // lord please forgive us, Spring is cancer and doesnt have any internal consistency. (unlike actual cancer which is consistently monogenetic)
         boolean isAdmin = false;
         boolean isStudent = false;
+        boolean isLecturer = false;
+        boolean isPal = false;
         for (GrantedAuthority ga : auth.getAuthorities()) {
             if (ga.getAuthority().equals("student"))
                 isStudent = true;
             if (ga.getAuthority().equals("admin"))
                 isAdmin = true;
+            if (ga.getAuthority().equals("lecturer"))
+                isLecturer = true;
+            if (ga.getAuthority().equals("passwordPal"))
+                isPal = true;
         }
 
+        if(isPal){
+            User u = db.getUser(id);
+            model.addAttribute("recentlyViewed", new ArrayList<Course>());
+            return "PalHome";
+
+        }else if(isLecturer){
+            Lecturer u = (Lecturer) db.getUser(id);
+            model.addAttribute("recentlyViewed", u.getRecentlyViewedCourses());
+            return "AdminHome";
+        }
         //if (servletReq.isUserInRole("admin")) {
-        if (isAdmin) {
+        else if (isAdmin) {
             AdminStaff u = (AdminStaff) db.getUser(id);
             model.addAttribute("recentlyViewed", u.getRecentlyViewedCourses());
             return "AdminHome";

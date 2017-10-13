@@ -172,24 +172,24 @@ public class Course {
             while(rs.next()){   // iterates through students
 
                 ArrayList<String> tmp = new ArrayList<String>();
-
+                ArrayList<String> extra = new ArrayList<String>();
                 for (int i = 0; i < cals.length; i++){  // iterates through assignemnts. Deals with unweighted calculations
                     String s = cals[i];
                     s = s.substring(s.indexOf("[") + 1);
                     s = s.substring(0, s.indexOf("]"));
                     tmp.add(s); // adds the id of the assessment
                     if(cals[i].indexOf("*") < 0){
-                        cals[i] = "";
+                        extra.add("");
                     }else{
-                        cals[i] = cals[i].substring(cals[i].indexOf("*") + 1);   // should be "" if not weighted
+                        extra.add(cals[i].substring(cals[i].indexOf("*") + 1));   // should be "" if not weighted
                     }
                     //tmp.add(cals[i].substring(cals[i].indexOf("]") + 1));
                 }
                 double sum = 0;
                 for(int i = 0; i < tmp.size(); i++){
                     double weight = 1;
-                    if(!cals[i].equals("")){
-                        weight = Double.parseDouble(cals[i]);
+                    if(!extra.get(i).equals("")){
+                        weight = Double.parseDouble(extra.get(i));
                     }
                     // TODO: How would we handle when students miss assessments
                     sum += rs.getInt("a"+tmp.get(i))*weight;   // might be the source of bugs

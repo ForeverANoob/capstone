@@ -21,6 +21,8 @@ public class test{
 
     public static void create(Connection con, Database db) throws SQLException{
 
+        db.addUser("300001", "Jack Hoffman". "passwordPal", "", "cs", "asd");
+
         db.createCourse("csc1015f", 2017);
         db.createCourse("csc1016s", 2017);
 

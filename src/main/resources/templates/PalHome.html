@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Admin home</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="/css/AdminHome.css"/>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+  <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+
+  <script src="/js/common.js"></script>
+</head>
+<body>
+  <div id="topRightContainer">
+    <button class="btn btn-lg btn-primary btn-block" type="button" onclick="logout()">Logout</button>
+    <button class="btn btn-lg btn-primary btn-block" type="button">Change password</button>
+  </div>
+
+ <a href = "create">
+  <div id="createCourseButton">
+      <input class="btn btn-lg btn-primary btn-block btn-signin" type="button" onclick="logout()" value="Create new course"></input>
+  </div>
+ </a>
+
+  <div id="searchWrapper" style="width: 35rem;">
+    <input type="text" class="form-control" id="searchBar" placeholder="Type course code here"></input>
+    <!-- <input type="button" class="btn-default" id="searchButton" text="Search"></input> -->
+  </div>
+
+  <div id="contentWrapper">
+    <form>
+        User id:<br>
+        <input type="text" name="user_id"></input><br>
+        Name:<br>
+        <input type="text" name="name"></input><br>
+        Role:<br>
+        <input type="text" name="role"></input><br>
+        Degree:<br>
+        <input type="text" name="degree"></input><br>
+        Department:<br>
+        <input type="text" name="department"></input><br>
+        Password:<br>
+        <input type="text" name="password"></input><br>
+
+    </form>
+  </div>
+
+</body>
+</html>
