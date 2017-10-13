@@ -80,6 +80,8 @@ public class Database {
             System.out.println("#SmokeWeedEveryday #420 #ConnectionMake");
             con.setAutoCommit(true);
 
+
+
         } catch(SQLException e) {
             System.out.println("------------------------------------------------->  This connection is just like...no bruh  <----------------------------------------");
             System.out.println(e);
@@ -281,7 +283,9 @@ public class Database {
             user = new Lecturer(id, this.con);
         } else if(role.equals("student")) {
             user = new Student(id, this.con);
-        } else {
+        } else if(role.equals("passwordPal")){
+            return user;
+        }else {
             System.out.println("User has no defined role: " + role);
         }
         return user;
