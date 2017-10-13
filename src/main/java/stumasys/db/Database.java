@@ -255,13 +255,29 @@ public class Database {
 
     /*   Getting info from the database   */
     public User getUser(String id){
+            System.out.println("");
+            System.out.println("");
+            System.out.println("");
+            System.out.println("HAI: " + id);
+            System.out.println("");
+            System.out.println("");
+            System.out.println("");
+        System.out.println("--------------------------------- " + id);
         User user = new User(id, con);
         String role = user.findRole();
+        System.out.println("role: " + role);
 
         if (role.equals("admin")) {
             System.out.println("------------------------- Got a new admin!");
             user = new AdminStaff(id, this.con);
         } else if (role.equals("lecturer")) {
+            System.out.println("");
+            System.out.println("");
+            System.out.println("");
+            System.out.println("HAI: " + id);
+            System.out.println("");
+            System.out.println("");
+            System.out.println("");
             user = new Lecturer(id, this.con);
         } else if(role.equals("student")) {
             user = new Student(id, this.con);

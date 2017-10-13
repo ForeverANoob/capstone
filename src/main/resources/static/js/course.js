@@ -22,7 +22,7 @@ $(document).ready(function() {
 
   $("#setCoordinatorButton").click(function() {
     $.ajax({
-      url: '/api/set_coord/'+ courseYear +'/'+ courseCode +'/'+ $("#coordinatorId"),
+      url: '/api/set_coord/'+ courseYear +'/'+ courseCode +'/'+ $("#coordinatorId").val(),
       type: 'POST',
       data: new FormData($('#pplsoftFileForm')[0]),
       // Tell jQuery not to process data or worry about content-type

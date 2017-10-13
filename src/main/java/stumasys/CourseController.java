@@ -193,15 +193,20 @@ public class CourseController {
         @PathVariable String code,
         @PathVariable String userId
     ){
+        System.out.println("::::::::: userId: " + userId);
         Course course = db.getCourse(code, Integer.parseInt(year));
         if (course == null) {
+            System.out.println("hai");
             return "fail";
         }
 
         User user = db.getUser(userId);
         if (user == null || !(user instanceof Lecturer)) {
+            System.out.println("hai2" + user);
             return "fail";
         }
+
+        System.out.println("hai3");
 
         course.setCourseCoordinator((Lecturer) user);
         return "success";

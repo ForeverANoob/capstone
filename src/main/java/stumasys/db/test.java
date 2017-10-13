@@ -59,8 +59,8 @@ public class test{
         db.addUser("200001", "phil, mahooters", "admin", "", "cs", "qwe");
         db.addUser("200002", "Hugh, Janos", "admin", "", "cs", "qwe");
 
-        db.addUser("200001", "phil, mahooters", "lecturer", "", "cs", "qwe");
-        db.addUser("200002", "Hugh, Janos", "lecturer", "", "cs", "qwe");
+        db.addUser("100001", "john waters", "lecturer", "", "cs", "qwe");
+        db.addUser("100002", "karl marx", "lecturer", "", "cs", "qwe");
 
         AdminStaff as = (AdminStaff) db.getUser("200001");
         as.updateRecentlyViewedCourses(db.getCourse("csc1015f", 2017));
