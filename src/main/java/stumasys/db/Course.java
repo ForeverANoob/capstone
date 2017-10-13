@@ -371,7 +371,7 @@ public class Course {
     public void setCourseCoordinator(Lecturer c) {
         try {
             Statement st = con.createStatement();
-            String sql = "UPDATE users.user_courses SET role = 'coord' WHERE user_id = '"+c.getId()+"' AND course_id = '"+this.getId()+"'";
+            String sql = "INSERT INTO users.user_courses VALUES ('"+c.getId()+"', '"+this.getId()+"', "+this.year+", 'coord')";
             ResultSet rs = st.executeQuery(sql);
         } catch (SQLException e) {
             System.out.println(e);

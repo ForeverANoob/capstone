@@ -32,6 +32,7 @@ import stumasys.db.Database;
 import stumasys.db.Course;
 import stumasys.db.Student;
 import stumasys.db.Assessment;
+import stumasys.db.Lecturer;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Map;
@@ -88,7 +89,7 @@ public class IndexController {
 
         }else if(isLecturer){
             Lecturer u = (Lecturer) db.getUser(id);
-            model.addAttribute("recentlyViewed", u.getRecentlyViewedCourses());
+            model.addAttribute("recentlyViewed", u.getCourses());
             return "AdminHome";
         }
         //if (servletReq.isUserInRole("admin")) {
