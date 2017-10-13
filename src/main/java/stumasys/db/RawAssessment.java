@@ -105,7 +105,7 @@ public class RawAssessment implements Assessment {      //
             String sql = "SELECT * FROM courses."+year+"_"+cc+"";     // TODO: make more efficient
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                map.put(rs.getString("id"), rs.getInt(this.getName()));   // TODO: name or id
+                map.put(rs.getString("id"), rs.getInt("a"+this.id));   // TODO: name or id
             }
         } catch (SQLException e) {
             System.out.println(e);

@@ -162,57 +162,20 @@ public class Database {
         }
     }
 
-    /* andre this is just one of the examples of why you are to blame for everything, ever, everywhere. */
-    public void createCourse(String id, int year) {//, String[] args){
-        /*
-        String arg = " (" + args[0] +" NVARCHAR(50), ";
-        String[] tmp = id.split("_");
-        for (int i = 1; i < args.length; i++){
-            if (i == args.length - 1){
-                arg += "" +args[i]+" INT)";
-            }
-            else{
-                arg += "" +args[i]+ " INT, ";
-            }
-            this.addAssessment(args[i], tmp[1], Integer.parseInt(tmp[0]), 0, 0, 100, "");
-        }
-        */
-
+    public void createCourse(String code, int year) {
         try {
             Statement st = con.createStatement();
-            String sql = "CREATE TABLE courses."+ year +"_"+ id.toLowerCase()+" (id VARCHAR(12), status VARCHAR(11), PRIMARY KEY (id));";
-            System.out.printf("------------------1231312312312312---------------------------------------- %s\n", year+"_"+id.toLowerCase());
+            String sql = "CREATE TABLE courses."+ year +"_"+ code.toLowerCase()+" (id VARCHAR(12), status VARCHAR(11), PRIMARY KEY (id));";
+            //System.out.printf("------------------1231312312312312---------------------------------------- %s\n", year+"_"+code.toLowerCase());
             ResultSet rs = st.executeQuery(sql);
 
             st = con.createStatement();
-            sql = "INSERT INTO courses.courses_info VALUES ('"+ id +"', "+year+", 0);";
+            sql = "INSERT INTO courses.courses_info VALUES ('"+ code +"', "+year+", 0);";
             rs = st.executeQuery(sql);
-
-            System.out.println("-=");
-            System.out.println("-=");
-            System.out.println("-=");
-            System.out.println("-=");
-            System.out.println("-=");
-            System.out.println("-=");
-            System.out.println("-=");
-            System.out.println("-=");
-            System.out.println("-");
 
         } catch(SQLException e) {
             System.out.println("An error has occured: "+e);
-            System.out.println("-");
-            System.out.println("-");
-            System.out.println("-");
-            System.out.println("-");
-            System.out.println("-");
-            System.out.println("-");
-            System.out.println("-");
-            System.out.println("-");
-            System.out.println("-");
-            System.out.println("-");
-            System.out.println("-");
-            System.out.println("-");
-            System.out.println("-");
+            e.printStackTrace();
         }
     }
 
@@ -241,7 +204,7 @@ public class Database {
             if (rs.next()){
                 role = rs.getString("role");
             }
-            if (role.equals("student")){    // TODO: this can be reduced
+            if (role.equals("student")){    // TODO(LP): this can be reduced
                 role = "student";
             }else if(role.equals("lecturer")){
                 role = "lecturer";
@@ -309,7 +272,20 @@ public class Database {
     }
 
     public Course getCourse(String code, int year) {
-        return new Course(code, year, con);
+        try {
+            ResultSet rs = con.createStatement().executeQuery(
+                      "SELECT * FROM courses.courses_info "
+                    + "WHERE course_code='"+code+"' AND year = "+year+";"
+                );
+            if (rs.next()) {
+                return new Course(code, year, con);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public Assessment getAssessment(int id, String code, int year) {

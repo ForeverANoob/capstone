@@ -95,7 +95,7 @@ public class Course {
                 );
 
             if (rs.next()){
-                id = rs.getInt("num_ass"); //System.out.println("ghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+                id = rs.getInt("num_ass"); System.out.println("ghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
             }
             con.createStatement().executeQuery(
                     "UPDATE courses.courses_info SET num_ass = " + (id+1)   // this +1 might be why the numbers start at 3
@@ -172,27 +172,24 @@ public class Course {
             while(rs.next()){   // iterates through students
 
                 ArrayList<String> tmp = new ArrayList<String>();
-                ArrayList<String> extra = new ArrayList<String>();
 
                 for (int i = 0; i < cals.length; i++){  // iterates through assignemnts. Deals with unweighted calculations
                     String s = cals[i];
-                    System.out.println("````````````````````````````````````````"+ cals[i]+ "`````````````````````````````````````````````````" + s.indexOf("]"));
-                    if(s.equals("")){ continue; }
                     s = s.substring(s.indexOf("[") + 1);
                     s = s.substring(0, s.indexOf("]"));
                     tmp.add(s); // adds the id of the assessment
                     if(cals[i].indexOf("*") < 0){
-                        extra.add("");
+                        cals[i] = "";
                     }else{
-                        extra.add(cals[i].substring(cals[i].indexOf("*") + 1));   // should be "" if not weighted
+                        cals[i] = cals[i].substring(cals[i].indexOf("*") + 1);   // should be "" if not weighted
                     }
                     //tmp.add(cals[i].substring(cals[i].indexOf("]") + 1));
                 }
                 double sum = 0;
                 for(int i = 0; i < tmp.size(); i++){
                     double weight = 1;
-                    if(!extra.get(i).equals("")){
-                        weight = Double.parseDouble(extra.get(i));
+                    if(!cals[i].equals("")){
+                        weight = Double.parseDouble(cals[i]);
                     }
                     // TODO: How would we handle when students miss assessments
                     sum += rs.getInt("a"+tmp.get(i))*weight;   // might be the source of bugs
@@ -252,9 +249,10 @@ public class Course {
     public List<Assessment> getAssessments() {
         List<Assessment> lst = new ArrayList<Assessment>();
         try {
-            Statement st = con.createStatement();
-            String sql = "SELECT * FROM assessments.assessments";
-            ResultSet rs = st.executeQuery(sql);
+            ResultSet rs = con.createStatement().executeQuery(
+                      "SELECT * FROM assessments.assessments WHERE "
+                    + "course_code = '"+this.code+"' AND year = "+this.year+";"
+                );
 
             while (rs.next()) {
                 if(rs.getString("calculation").equals("")) {

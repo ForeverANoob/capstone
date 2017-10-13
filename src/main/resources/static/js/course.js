@@ -20,6 +20,31 @@ $(document).ready(function() {
     $("#newass_options_" + $(this).val()).show();
   });
 
+  $("#setCoordinatorButton").click(function() {
+    $.ajax({
+      url: '/api/set_coord/'+ courseYear +'/'+ courseCode +'/'+ $("#coordinatorId"),
+      type: 'POST',
+      data: new FormData($('#pplsoftFileForm')[0]),
+      // Tell jQuery not to process data or worry about content-type
+      // You *must* include these options!
+      cache: false,
+      contentType: false,
+      processData: false,
+    }).done(function(response) {
+      if (response == "success") {
+        console.log("--0 hijab420");
+        $("#setCoordinatorModal").modal("toggle");
+      } else {
+
+        console.log("hkjsadf");
+        $("#couldntSetCoordinator").stop();
+        $("#couldntSetCoordinator").show();
+        $("#couldntSetCoordinator").delay(969).fadeOut(420);
+      }
+    });
+    
+  });
+
   function update_check_marks_and_header() {
     var col_sel = "";
     for (var aId in visibleCols ) {

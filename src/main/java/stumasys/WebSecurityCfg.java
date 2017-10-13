@@ -17,15 +17,6 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class WebSecurityCfg extends WebSecurityConfigurerAdapter {
 
-/* TODO: JDBC authentication
-    @Autowired
-    private DataSource dataSource;
-
-    @Autowired
-    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource);
-    }
-*/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
