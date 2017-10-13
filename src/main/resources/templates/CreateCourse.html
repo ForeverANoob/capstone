@@ -14,6 +14,38 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 
+    <script>
+      $(document).ready(function() {
+
+
+        $('#submitButton').click(function(){
+          var year = $("#Year").val();
+          var courseCode = $("#CourseCode").val();
+          $.ajax({
+            url: '/api/create/'+ year + "/" + courseCode,
+            type: 'POST',
+            data: new FormData($('#pplsoftFileForm')[0]),
+
+            // Tell jQuery not to process data or worry about content-type
+            // You *must* include these options!
+            cache: false,
+            contentType: false,
+            processData: false,
+          }).done(function(response) {
+            if (response == "success") {
+              console.log("succ");
+              window.location = window.location.origin + "/course/" + year + "/" + courseCode;
+            } else {
+              $("#courseAlreadyExistsMsg").stop();
+              $("#courseAlreadyExistsMsg").show();
+              $("#courseAlreadyExistsMsg").delay(969).fadeOut(420);
+              console.log("fail");
+            }
+          });
+        });
+      });
+    </script>
+
 </head>
 <body>
 
@@ -24,18 +56,13 @@
     </a>
 
     <div class = "container">
-        <div class="card card-container">
+      <div class="card card-container">
             <form class="form-signin">
 
                 <input type="CourseCode" id="CourseCode" class="form-control" style="margin-top: 0.4rem; margin-bottom: 0.4rem" placeholder="E.g. CSC2002F"></input>
                 <input type="Year" id="Year" class="form-control" style="margin-top: 0.4rem; margin-bottom: 0.4rem" placeholder="e.g. 2017"></input>
-
-                <input type="file" name="increase" style="margin-top: 0.2rem; margin-bottom: 0.2rem" value="Import file" onclick="importFile()">Import Participants</input>
-
-                <input type="Course coordinator" id="CourseCood" class="form-control" style="margin-top: 0.4rem; margin-bottom: 0.4rem" placeholder="Assign course coordinator"></input>
-                <input type="add TA" id="TA" class="form-control" style="margin-top: 0.4rem; margin-bottom: 0.4rem" placeholder="add teaching assistant"></input>
-
-                <input class="btn btn-lg btn-primary btn-block btn-signin" type="submit" onclick="addCourse" value="Add course"></input>
+                <input id="submitButton" class="btn btn-lg btn-primary btn-block btn-signin" type="button" value="Add course"></input>
+                <center><div><span id="courseAlreadyExistsMsg" style="color: #cc0000; display: none;">That already exists.</span></div></center>
 
             </form>
         </div>

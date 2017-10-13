@@ -144,10 +144,29 @@ public class CalculatedAssessment implements Assessment {
 
             Map<String, Integer> map = new HashMap<String, Integer>();
             while(rs.next()){
-                map.put(rs.getString("id"), rs.getInt(this.getName()));
+                map.put(rs.getString("id"), rs.getInt("a"+this.id));
             }
             return map;
         } catch (SQLException e) {
+            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
+            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
+            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
+            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
+            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
+            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
+            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
+            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
+            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
+            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
+            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
+            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
+            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
+            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
+            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
+            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
+            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
+            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
+            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
             System.out.println(e);
             return null;
         }

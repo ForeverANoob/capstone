@@ -59,6 +59,9 @@ public class test{
         db.addUser("200001", "phil, mahooters", "admin", "", "cs", "qwe");
         db.addUser("200002", "Hugh, Janos", "admin", "", "cs", "qwe");
 
+        db.addUser("200001", "phil, mahooters", "lecturer", "", "cs", "qwe");
+        db.addUser("200002", "Hugh, Janos", "lecturer", "", "cs", "qwe");
+
         AdminStaff as = (AdminStaff) db.getUser("200001");
         as.updateRecentlyViewedCourses(db.getCourse("csc1015f", 2017));
 
@@ -71,10 +74,10 @@ public class test{
         Course c = db.getCourse("csc1015f", 2017);
         int id = c.createNewRawAssessment("test", 80, marktable);
 
-        System.out.println(db.checkAssessment(1, "csc1015f", 2017));
-        int idc = c.createNewCalculatedAssessment("cal", 75, "[1] + [1]");
-        System.out.println(db.checkAssessment(1, "csc1015f", 2017));
-        System.out.println(c.getAssessment(1));
+        System.out.println(db.checkAssessment(0, "csc1015f", 2017));
+        int idc = c.createNewCalculatedAssessment("cal", 75, "[0] + [0]");
+        System.out.println(db.checkAssessment(0, "csc1015f", 2017));
+        System.out.println(c.getAssessment(0));
 
         System.out.println(",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,fdf,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,");
 

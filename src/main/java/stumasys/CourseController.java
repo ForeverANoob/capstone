@@ -89,6 +89,7 @@ public class CourseController {
 
         model.addAttribute("courseCode", courseCode.toUpperCase());
         model.addAttribute("year", year);
+        model.addAttribute("isAdmin", isAdmin);
 
         if (isAdmin || isLecturer) {
             ((AdminStaff) user).updateRecentlyViewedCourses(course);
@@ -161,9 +162,49 @@ public class CourseController {
 
     // controls course creation page
     @RequestMapping(value="/create")
-    public String courseCreationHandler(Model model) {
-        //model.addAtribute("ame", value);
-        return "CreateCourse"; // TODO: create another handler for the form action on this page.
+    public String courseCreationPageHandler(Model model) {
+        return "CreateCourse";
+    }
+
+    @RequestMapping(value="/api/create/{year}/{code}", method=RequestMethod.POST)
+    @ResponseBody
+    public String courseCreationApiHandler(
+            @PathVariable String year,
+            @PathVariable String code
+    ){
+        Course course = db.getCourse(code, Integer.parseInt(year));
+        System.out.println("helelo");
+        if (course == null) {
+            // good
+            db.createCourse(code, Integer.parseInt(year));
+            course = db.getCourse(code, Integer.parseInt(year));
+            return "success";
+
+        } else {
+            // not gonna happen, sista
+            return "exists";
+        }
+    }
+
+    @RequestMapping(value="/api/set_coord/{year}/{code}/{userId}", method=RequestMethod.POST)
+    @ResponseBody
+    public String setCourseCoordinator(
+        @PathVariable String year,
+        @PathVariable String code,
+        @PathVariable String userId
+    ){
+        Course course = db.getCourse(code, Integer.parseInt(year));
+        if (course == null) {
+            return "fail";
+        }
+
+        User user = db.getUser(userId);
+        if (user == null || !(user instanceof Lecturer)) {
+            return "fail";
+        }
+
+        course.setCourseCoordinator((Lecturer) user);
+        return "success";
     }
 
     // REST api, returns mark table of a given assessment as JSON
@@ -210,6 +251,8 @@ public class CourseController {
             @RequestParam("file") MultipartFile file
     ){
         HashMap<String,String> regStatus = new HashMap<String,String>();
+        
+        System.out.println("At least this small event is actualy aoccuring");
 
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()));
@@ -227,6 +270,7 @@ public class CourseController {
                 String[] vals = line.split(",");
 
                 if (vals.length != 9) {
+                    System.out.println("Invalid csv format");
                     return "Format error.";
                 }
 
