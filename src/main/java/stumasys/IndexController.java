@@ -78,7 +78,7 @@ public class IndexController {
                 isAdmin = true;
             if (ga.getAuthority().equals("lecturer"))
                 isLecturer = true;
-            if (ga.getAuthority().equals("passwordPal"))
+            if (ga.getAuthority().equals("pal"))
                 isPal = true;
         }
 

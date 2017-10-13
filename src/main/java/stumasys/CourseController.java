@@ -94,7 +94,7 @@ public class CourseController {
         if (isAdmin || isLecturer) {
             ((AdminStaff) user).updateRecentlyViewedCourses(course);
 
-            Map<Assessment, Boolean> visibleCols = course.getPrevVisibleColumns((AdminStaff) user); // visibility of the columns, 
+            Map<Assessment, Boolean> visibleCols = course.getPrevVisibleColumns((AdminStaff) user); // visibility of the columns,
             Iterator<Map.Entry<Assessment, Boolean>> it = visibleCols.entrySet().iterator();
 
             // preparing some Javascript that determines what columns are visible when the page first loads:
@@ -123,8 +123,9 @@ public class CourseController {
 
             return "course";    // course?
         } else if (isStudent) {
-            if (!course.isRegistered((Student)user)) {
+            if (!course.isRegistered((Student)user)){
                 return "404"; // TODO: more appropriate error page
+
             }
 
             model.addAttribute("assessments", course.getAssessments());
@@ -256,7 +257,7 @@ public class CourseController {
             @RequestParam("file") MultipartFile file
     ){
         HashMap<String,String> regStatus = new HashMap<String,String>();
-        
+
         System.out.println("At least this small event is actualy aoccuring");
 
         try {
@@ -290,5 +291,27 @@ public class CourseController {
         return "success";
     }
 
-    
+    @RequestMapping(value = "/api/new_user/{user_id}/{name}/{role}/{degree}/{department}/{password}", method=RequestMethod.POST)
+    @ResponseBody
+    public String newUser(
+        @PathVariable String user_id,
+        @PathVariable String name,
+        @PathVariable String role,
+        @PathVariable String degree,
+        @PathVariable String department,
+        @PathVariable String password
+    ){
+
+        if(!db.checkUser(user_id)){
+            if (degree.equals("_")){ degree = ""; }
+            if (department.equals("_")){ department = ""; }
+
+
+            db.addUser(user_id, name, role, degree, department, password);
+            return "Success";
+        }else{
+            return "The user already exists in the database";
+        }
+    }
+
 }

@@ -157,6 +157,7 @@ public class Database {
         // FIRST Check if user already exists before calling this method
         try {
             Statement st = con.createStatement();
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ "+role);
             String sql = "INSERT INTO users.user_info VALUES ('"+id+"', '"+name+"', '"+role+"', '"+degree+"', '"+department+"', '"+password+"', 1);";
             ResultSet rs = st.executeQuery(sql);
         } catch(SQLException e) {
@@ -283,7 +284,7 @@ public class Database {
             user = new Lecturer(id, this.con);
         } else if(role.equals("student")) {
             user = new Student(id, this.con);
-        } else if(role.equals("passwordPal")){
+        } else if(role.equals("pal")){
             return user;
         }else {
             System.out.println("User has no defined role: " + role);

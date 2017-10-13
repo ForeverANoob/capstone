@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Admin home</title>
+  <title>Pal home</title>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"/>
   <link rel="stylesheet" href="/css/AdminHome.css"/>
@@ -10,6 +10,31 @@
   <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 
   <script src="/js/common.js"></script>
+  <script>
+    $(document).ready(function(){
+        $("#newUser").click(function(){
+            console.log('/api/new_user/'+ $("#user_id").val() +'/'+ $("#name").val() + '/' + $("#role").val() + '/' + $("#degree").val() + '/' + $("#department").val() + '/' + $("#password").val());
+
+            var dep = "_";
+            var deg = "_";
+            if($("#department").val() != ""){ dep = $("#department").val() }
+            if($("#degree").val() != ""){ deg = $("#degree").val() }
+            $.ajax({
+              url: '/api/new_user/'+ $("#user_id").val() +'/'+ $("#name").val() + '/' + $("#role").val() + '/' + deg + '/' + dep + '/' + $("#password").val(),
+              type: 'POST',
+              // Tell jQuery not to process data or worry about content-type
+              // You *must* include these options!
+              cache: false,
+              contentType: false,
+              processData: false,
+          }).done(function(data){
+              console.log(data);
+          });
+        });
+
+    });
+
+  </script>
 </head>
 <body>
   <div id="topRightContainer">
@@ -31,17 +56,20 @@
   <div id="contentWrapper">
     <form>
         User id:<br>
-        <input type="text" name="user_id"></input><br>
+        <input type="text" id="user_id"></input><br>
         Name:<br>
-        <input type="text" name="name"></input><br>
+        <input type="text" id="name"></input><br>
         Role:<br>
-        <input type="text" name="role"></input><br>
+        <input type="text" id="role"></input><br>
         Degree:<br>
-        <input type="text" name="degree"></input><br>
+        <input type="text" id="degree"></input><br>
         Department:<br>
-        <input type="text" name="department"></input><br>
+        <input type="text" id="department"></input><br>
         Password:<br>
-        <input type="text" name="password"></input><br>
+        <input type="text" id="password"></input><br>
+
+        <input id="newUser" class="btn btn-lg btn-primary btn-block btn-signin" type="button" value="New user"></input>
+
 
     </form>
   </div>
