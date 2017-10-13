@@ -70,7 +70,6 @@ public class Course {
             String sql = "SELECT calculation FROM assessments.assessments WHERE ass_id = " + id + " AND year = "+year +" AND  course_code = '"+code+"'";
             ResultSet rs = st.executeQuery(sql);
             if (rs.next()) {
-                System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
                 if (rs.getString("calculation").equals("")) {
                     return new RawAssessment(id, code, year, this.con);
                 } else {
@@ -95,7 +94,7 @@ public class Course {
                 );
 
             if (rs.next()){
-                id = rs.getInt("num_ass"); System.out.println("ghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+                id = rs.getInt("num_ass");
             }
             con.createStatement().executeQuery(
                     "UPDATE courses.courses_info SET num_ass = " + (id+1)   // this +1 might be why the numbers start at 3
@@ -156,11 +155,8 @@ public class Course {
                     + "ADD COLUMN a" + id + " INT;"
                 );
 
-            //System.out.println("..........................................................................................................");
             String sql = "INSERT INTO assessments.assessments VALUES ("+id+", '"+name+"', '"+ code+"', "+year+", 0, 0, "+markCap+", '"+cal+"', 0)";
             rs = con.createStatement().executeQuery(sql);
-            //System.out.println("....................................mmmmmmmmmmmmmmmmmmmmmmmm...................................................");
-
 
             Statement st = con.createStatement();
             String[] cals = cal.split("\\+");
@@ -341,31 +337,9 @@ public class Course {
             con.commit();
             con.setAutoCommit(false);
         } catch (SQLException e) {
-            System.out.println("");
-            System.out.println("");
             System.out.println("------------------------------>>>" + e);
-            System.out.println("");
-            System.out.println("");
         }
-        /*
-        try {
-            Statement st = con.createStatement();
-            Iterator<Map.Entry<String, Boolean>> it = regStatus.entrySet().iterator();
 
-            while (it.hasNext()) {
-                Map.Entry<String, Boolean> e = it.next();
-                if (e.getValue()) {
-                    st.addBatch("UPDATE users.user_courses SET role = 'registered' WHERE user_id = '"+e.getKey()+"' AND course_id = '"+this.code+"' AND year = "+this.year+"");
-                } else {
-                    st.addBatch("UPDATE users.user_courses SET role = 'deregistered' WHERE user_id = '"+e.getKey()+"' AND course_id = '"+this.code+"' AND year = "+this.year+"");
-                }
-            }
-            int[] rs = st.executeBatch();
-
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        */
     }
 
     public void setCourseCoordinator(Lecturer c) {

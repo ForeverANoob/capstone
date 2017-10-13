@@ -148,25 +148,6 @@ public class CalculatedAssessment implements Assessment {
             }
             return map;
         } catch (SQLException e) {
-            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
-            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
-            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
-            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
-            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
-            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
-            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
-            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
-            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
-            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
-            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
-            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
-            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
-            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
-            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
-            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
-            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
-            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
-            System.out.println("~~~~~~~~~~~~>>>>>>>>>>>>>>>~~~~~~~~~~~~~~~~~>>>>>>>>>");
             System.out.println(e);
             return null;
         }
@@ -218,32 +199,6 @@ public class CalculatedAssessment implements Assessment {
             System.out.println(e);
         }
     }
-
-    /* NOTE: These two methods are not applicable to CalculatedAssessment's, because they are never uploaded: only RawAssessments are uploaded. We might need something similar though, for the use case of a person uploading a mark CSV with multiple columns of marks, then making a calculation using those seperate columns
-    public boolean isUploaded() {       //  this method used to be called "isUploaded", which we have determined was not the desired thing
-        try {
-            Statement st = con.createStatement();
-            String sql = "SELECT uploaded FROM assessments.assessments WHERE ass_id = "+id+" AND course_code = '"+cc+"' AND year = "+year+"";
-            ResultSet rs = st.executeQuery(sql);
-            if (rs.next()){
-                return 1 == rs.getInt("uploaded");
-            }
-        } catch (SQLException e){ System.out.println("Error: getting mark_cap " + e); }
-        return false;
-    }
-
-
-    public void setUpload(boolean v) { //
-        int t = 0;
-        if (v){ t = 1; }
-        try{
-            Statement st = con.createStatement();
-            String sql = "UPDATE assessments.assessments SET published = "+t+" WHERE ass_id = "+id+" AND course_code = '"+cc+"' AND year = "+year+"";
-            ResultSet rs  =st.executeQuery(sql);
-
-        }catch(SQLException e){ System.out.println(e); }
-    }
-    */
 
     public void setCalculation(String a) {
         try {

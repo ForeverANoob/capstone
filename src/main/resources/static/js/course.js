@@ -32,17 +32,15 @@ $(document).ready(function() {
       processData: false,
     }).done(function(response) {
       if (response == "success") {
-        console.log("--0 hijab420");
         $("#setCoordinatorModal").modal("toggle");
       } else {
 
-        console.log("hkjsadf");
         $("#couldntSetCoordinator").stop();
         $("#couldntSetCoordinator").show();
         $("#couldntSetCoordinator").delay(969).fadeOut(420);
       }
     });
-    
+
   });
 
   function update_check_marks_and_header() {
@@ -73,12 +71,9 @@ $(document).ready(function() {
         /* ---- Updating the header ---- */
         var aid_search_done = false;
         $("#header_row").children().each(function(i) {
-          console.log("----", $(this).attr("class"));
           if (!aid_search_done && !!$(this).attr("class")) {
             var thisAssId = parseInt( $(this).attr("class").substring(("markcol-").length) );
-            console.log("at least once");
             if (thisAssId >= aId) {
-              console.log("at least once");
               aid_search_done = true;
               if (thisAssId > aId) {
                 $(this).before("<th class=\"markcol-" + aId + "\">" + visibleCols[aId][1] + "</th>");
@@ -127,7 +122,6 @@ $(document).ready(function() {
           }
         }
       }).fail(function() {
-        console.log("Couldn't get assessment mark table! #RIP");
       });
   }
 

@@ -98,16 +98,11 @@ public class CourseController {
             Iterator<Map.Entry<Assessment, Boolean>> it = visibleCols.entrySet().iterator();
 
             // preparing some Javascript that determines what columns are visible when the page first loads:
-            System.out.println("");
-            System.out.println("");
-            System.out.println("");
 
-            System.out.println("GEtting the columns for a course");
             String configJs = "var visibleCols = {";
                 if (it.hasNext()) {
                     Map.Entry<Assessment, Boolean> e = it.next();
                     configJs += "\"" + e.getKey().getId() + "\":[" + e.getValue() + ",\"" + e.getKey().getName() + "\"]";
-                    System.out.println("\"" + e.getKey().getId() + "\":[" + e.getValue() + ",\"" + e.getKey().getName() + "\"]");
 
                     while (it.hasNext()) {
                         e = it.next();
@@ -115,9 +110,6 @@ public class CourseController {
                     }
                 }
             configJs += "};\nvar courseCode = \""+courseCode+"\";\nvar courseYear = "+year+";";
-            System.out.println("");
-            System.out.println("");
-            System.out.println("");
 
             model.addAttribute("configJs", configJs);
 
@@ -174,7 +166,6 @@ public class CourseController {
             @PathVariable String code
     ){
         Course course = db.getCourse(code, Integer.parseInt(year));
-        System.out.println("helelo");
         if (course == null) {
             // good
             db.createCourse(code, Integer.parseInt(year));
@@ -194,20 +185,15 @@ public class CourseController {
         @PathVariable String code,
         @PathVariable String userId
     ){
-        System.out.println("::::::::: userId: " + userId);
         Course course = db.getCourse(code, Integer.parseInt(year));
         if (course == null) {
-            System.out.println("hai");
             return "fail";
         }
 
         User user = db.getUser(userId);
         if (user == null || !(user instanceof Lecturer)) {
-            System.out.println("hai2" + user);
             return "fail";
         }
-
-        System.out.println("hai3");
 
         course.setCourseCoordinator((Lecturer) user);
         return "success";
@@ -257,8 +243,6 @@ public class CourseController {
             @RequestParam("file") MultipartFile file
     ){
         HashMap<String,String> regStatus = new HashMap<String,String>();
-
-        System.out.println("At least this small event is actualy aoccuring");
 
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()));

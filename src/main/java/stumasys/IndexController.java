@@ -61,12 +61,6 @@ public class IndexController {
     ){
         final String id = auth.getName();
 
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.out.println(auth.getAuthorities());
-        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-
-
-        // lord please forgive us, Spring is cancer and doesnt have any internal consistency. (unlike actual cancer which is consistently monogenetic)
         boolean isAdmin = false;
         boolean isStudent = false;
         boolean isLecturer = false;
@@ -92,30 +86,24 @@ public class IndexController {
             model.addAttribute("recentlyViewed", u.getCourses());
             return "AdminHome";
         }
-        //if (servletReq.isUserInRole("admin")) {
         else if (isAdmin) {
             AdminStaff u = (AdminStaff) db.getUser(id);
             model.addAttribute("recentlyViewed", u.getRecentlyViewedCourses());
             return "AdminHome";
 
-        //} else if (servletReq.isUserInRole("ROLE_student")) {
         } else if (isStudent) {
             HashMap<Course, List<Assessment>> subjectsAndMarks = new HashMap<Course, List<Assessment>>();
 
             Student stu = (Student) db.getUser(id);
             List<Course> courses = stu.getInvolvedCourses();
-            System.out.println("---------------------------------------- >< ------------");
-            System.out.println(courses);
 
             for (Course c : courses) {
                 List<Assessment> al = c.getAssessments();
                 LinkedList<Assessment> fas = new LinkedList<Assessment>(); // Filtered ASsessments
 
                 for (Assessment a : al) {
-                    System.out.println("ALOHA _--------------");
                     if (a.isPublished() && a.isAvailableOnStudentHome()) {
 
-                        System.out.println("PRETTT _--------------");
                         fas.add(a);
                     }
                 }
@@ -130,7 +118,6 @@ public class IndexController {
 
             return "StudentHome";
         } else {
-            System.out.println("=========================================================================================== XHELO");
             return null; // TODO: FIXME: if this ever occurs, things will crash/burn.. ACTUALLY: it turns out it just generates an empty page, because.... because Spring.
         }
     }

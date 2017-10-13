@@ -13,7 +13,6 @@
   <script>
     $(document).ready(function(){
         $("#newUser").click(function(){
-            console.log('/api/new_user/'+ $("#user_id").val() +'/'+ $("#name").val() + '/' + $("#role").val() + '/' + $("#degree").val() + '/' + $("#department").val() + '/' + $("#password").val());
 
             var dep = "_";
             var deg = "_";
@@ -28,7 +27,6 @@
               contentType: false,
               processData: false,
           }).done(function(data){
-              console.log(data);
           });
         });
 
